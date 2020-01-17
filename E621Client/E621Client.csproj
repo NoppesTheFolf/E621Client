@@ -7,4 +7,8 @@
     <AssemblyName>E621Client</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Flurl.Http" Version="2.4.2" />
+  </ItemGroup>
+
 </Project>
