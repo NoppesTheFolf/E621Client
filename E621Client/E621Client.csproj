@@ -5,6 +5,7 @@
     <LangVersion>8.0</LangVersion>
     <RootNamespace>Noppes.E621</RootNamespace>
     <AssemblyName>E621Client</AssemblyName>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
