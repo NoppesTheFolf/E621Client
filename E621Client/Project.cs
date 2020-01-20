@@ -14,5 +14,8 @@
         private const string Url = "https://github.com/NoppesTheFolf/E621Client";
 
         private const string Platform = "GitHub";
+
+        public static E621UserAgentPart AsUserAgentPart() =>
+            new E621UserAgentPart(Name, Version, DevelopedBy, Platform, Url);
     }
 }
