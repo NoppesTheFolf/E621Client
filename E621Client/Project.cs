@@ -1,0 +1,18 @@
+﻿namespace Noppes.E621
+{
+    /// <summary>
+    /// Contains info about this project.
+    /// </summary>
+    internal static class Project
+    {
+        private const string Name = "E621Client";
+
+        private const string Version = "Development";
+
+        private const string DevelopedBy = "NoppesTheFolf";
+
+        private const string Url = "https://github.com/NoppesTheFolf/E621Client";
+
+        private const string Platform = "GitHub";
+    }
+}
