@@ -30,6 +30,11 @@ namespace Noppes.E621
             }
         }
 
+        /// <summary>
+        /// Credentials used to authenticate requests with.
+        /// </summary>
+        internal E621Credentials? Credentials { get; set; }
+
         private IFlurlClient FlurlClient { get; }
 
         internal E621Client(string baseUrl, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
