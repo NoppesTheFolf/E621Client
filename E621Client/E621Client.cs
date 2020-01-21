@@ -10,6 +10,26 @@ namespace Noppes.E621
     /// </summary>
     public partial class E621Client : IDisposable
     {
+        /// <summary>
+        /// The base URL that is used to create requests with.
+        /// </summary>
+        public string BaseUrl => FlurlClient.BaseUrl;
+
+        private TimeSpan _timeout;
+        /// <summary>
+        /// The amount of time before a request is considered timed out.
+        /// </summary>
+        public TimeSpan Timeout
+        {
+            get => _timeout;
+            internal set
+            {
+                FlurlClient.WithTimeout(value);
+
+                _timeout = value;
+            }
+        }
+
         private IFlurlClient FlurlClient { get; }
 
         internal E621Client(string baseUrl, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
