@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Noppes.E621
 {
     /// <summary>
-    /// Handles all requests going to e621/e926. Ensures that requests
+    /// Handles all requests going to e621. Ensures that requests
     /// are not sent too quickly after one another.
     /// </summary>
     internal class E621ClientHandler : HttpClientHandler
@@ -17,6 +17,7 @@ namespace Noppes.E621
         {
             MaxConnectionsPerServer = maximumConnections;
             RateLimiter = new RateLimiter(requestInterval);
+            AllowAutoRedirect = false;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
