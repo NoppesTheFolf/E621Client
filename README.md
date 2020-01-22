@@ -11,8 +11,11 @@ E621Client is an unofficial .NET Standard 2.0 library for working asynchronously
 1. [Completeness](#completeness)
 2. [Installation](#installation)
 3. [Getting started](#getting-started)
-4. [Report a bug](#report-a-bug)
-5. [Contributing](#contributing)
+4. [Authentication](#authentication)
+   1. [Logging in](#logging-in)
+   2. [Logging out](#logging-out)
+5. [Report a bug](#report-a-bug)
+6. [Contributing](#contributing)
 
 ## Completeness
 
@@ -80,6 +83,38 @@ var e621Client = new E621ClientBuilder()
 ```
 
 `E621Client` instances can be disposed of, but you generally shouldn't do this. It uses a `HttpClient` behind the screens which gets disposed when you dispose the associated `E621Client`. You can read more about why that's bad at _[You're using HttpClient wrong and it is destabilizing your software](https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/)_ if you're interested.
+
+## Authentication
+
+Authentication will have to take place in order to be gain access to certain protected resources. E621Client makes this really easy and convenient by mimicking a login- and logout-based system.
+
+### Logging in
+
+Logging in can be easily done based on a username and password or a username and API key combination. An example of both can be seen below.
+
+_Log in using a password_
+
+```csharp
+bool success = await e621Client.LogInUsingPasswordAsync("MyUsername", "MyPassword");
+```
+
+_Log in using an API key_
+
+```csharp
+bool success = await e621Client.LogInUsingApiKeyAsync("MyUsername", "MyApiKey");
+```
+
+Both methods return a boolean that indicate whether not the login attempt was a success. In case of the `LogInUsingPasswordAsync` method, it may also mean that the user doesn't have API access enabled in their account. There is no way of determining if that's the case though.
+
+### Logging out
+
+You need to log out in order for another log in to be allowed to happen. You'll most likely don't need this this for most applications, but here is a method that does so anyway.
+
+_Log the currently logged-in user out_
+
+```csharp
+e621Client.Logout();
+```
 
 ## Report a bug
 
