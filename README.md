@@ -14,8 +14,12 @@ E621Client is an unofficial .NET Standard 2.0 library for working asynchronously
 4. [Authentication](#authentication)
    1. [Logging in](#logging-in)
    2. [Logging out](#logging-out)
-5. [Report a bug](#report-a-bug)
-6. [Contributing](#contributing)
+5. [Functionality per API area](#functionality-per-api-area)
+   1. [User](#user)
+      1. [Retrieving a user](#retrieving-a-user)
+      2. [Retrieving users](#retrieving-users)
+6. [Report a bug](#report-a-bug)
+7. [Contributing](#contributing)
 
 ## Completeness
 
@@ -114,6 +118,54 @@ _Log the currently logged-in user out_
 
 ```csharp
 e621Client.Logout();
+```
+
+## Functionality per API area
+
+The main point of this section is to show how the e621 API endpoints map to `E621Client` methods. The methods themselves are more elaborately documented than they are here. So don't worry if things may still seem kind off vague after reading this, check out the method documentation out too!
+
+### User
+
+#### Retrieving a user
+
+Retrieving a user their info is done with the `GetUserAsync` method. You can either retrieve the info of another user or the currently logged-in user.
+
+There are two ways of retrieving another user their info: by their user ID and by their username. We'll take the admin SnowWolf with user ID 11271 as an example here.
+
+_Retrieving a user by user ID_
+
+```csharp
+User? snowWolfById = await e621Client.GetUserAsync(11271);
+```
+
+_Retrieving a user by username_
+
+```csharp
+User? snowWolfByUsername = await e621Client.GetUserAsync("SnowWolf");
+```
+
+We can also get the information about the currently logged-in user by simply calling the method without any parameters.
+
+_Retrieving the currently logged-in user_
+
+```csharp
+User loggedInUser = await e621Client.GetUserAsync();
+```
+
+#### Retrieving users
+
+Retrieving a listing of users can be done using the `GetUsersAsync` method. All the parameters of this method are optional, meaning you can mix them in any way you like.
+
+_Retrieve a listing of all users with "snow" in their name, ordered by their record score_
+
+```csharp
+var users = await e621Client.GetUsersAsync("*snow*", UserSortOrder.RecordScore);
+```
+
+_Retrieve a listing of the most recently joined privileged users_
+
+```csharp
+var users = await e621Client.GetUsersAsync(sortOrder: UserSortOrder.JoinDate, permissionLevel: UserPermissionLevel.Privileged);
 ```
 
 ## Report a bug
