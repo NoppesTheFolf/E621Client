@@ -17,31 +17,31 @@ namespace Noppes.E621
         /// The total number of posts deleted which the user maintained.
         /// </summary>
         [JsonProperty("del_post_count")]
-        public int DeletedPostCount { get; set; }
+        public int DeletedPostsCount { get; set; }
 
         /// <summary>
         /// The total number of edits the user has made to the tags of posts.
         /// </summary>
         [JsonProperty("edit_count")]
-        public int TagEditCount { get; set; }
+        public int TagEditsCount { get; set; }
 
         /// <summary>
         /// The total number of favorite posts the user has.
         /// </summary>
         [JsonProperty("favorite_count")]
-        public int FavoriteCount { get; set; }
+        public int FavoritePostsCount { get; set; }
 
         /// <summary>
         /// The total number of edits the user has made on the wiki.
         /// </summary>
         [JsonProperty("wiki_count")]
-        public int WikiEditCount { get; set; }
+        public int WikiEditsCount { get; set; }
 
         /// <summary>
         /// The total number of forum posts created by the user.
         /// </summary>
         [JsonProperty("forum_post_count")]
-        public int ForumPostCount { get; set; }
+        public int ForumPostsCreatedCount { get; set; }
 
         /// <summary>
         /// The total number of note edits by the user.
@@ -53,25 +53,25 @@ namespace Noppes.E621
         /// The total number of comments placed by the user.
         /// </summary>
         [JsonProperty("comment_count")]
-        public int CommentsCount { get; set; }
+        public int CommentsPlacedCount { get; set; }
 
         /// <summary>
         /// The total number of blips posted by the user.
         /// </summary>
         [JsonProperty("blip_count")]
-        public int BlipsCount { get; set; }
+        public int BlipsPostedCount { get; set; }
 
         /// <summary>
         /// The total number of sets maintained by the user.
         /// </summary>
         [JsonProperty("set_count")]
-        public int SetCount { get; set; }
+        public int SetsMaintainedCount { get; set; }
 
         /// <summary>
         /// The total number of changes made to pools.
         /// </summary>
         [JsonProperty("pool_update_count")]
-        public int PoolUpdateCount { get; set; }
+        public int PoolChangesCount { get; set; }
 
         /// <summary>
         /// The total number of positive records the user has received.
