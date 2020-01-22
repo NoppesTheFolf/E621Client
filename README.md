@@ -10,8 +10,9 @@ E621Client is an unofficial .NET Standard 2.0 library for working asynchronously
 
 1. [Completeness](#completeness)
 2. [Installation](#installation)
-3. [Report a bug](#report-a-bug)
-4. [Contributing](#contributing)
+3. [Getting started](#getting-started)
+4. [Report a bug](#report-a-bug)
+5. [Contributing](#contributing)
 
 ## Completeness
 
@@ -53,6 +54,32 @@ _Cover per API area_
 ## Installation
 
 You'll have to use this repository as a [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) for now. It'll be published on NuGet soon.
+
+## Getting started
+
+You will need a `E621Client` instance in order to talk with the API. These instances can only be created using the `E621ClientBuilder` class. The builder will allow you to create your very own personalized `E621Client` instance in a fluent manner based on the specific needs of your application. Just make sure you at least specify User-Agent information, as e621 requires it. Not specifying it will cause an exception to be thrown.
+
+_Bare minimum example_
+
+```csharp
+var e621Client = new E621ClientBuilder()
+    .WithUserAgent("MyApplicationName", "MyApplicationVersion", "MyTwitterUsername", "Twitter")
+    .Build();
+```
+
+However, you might need something a little more suited for your application. The default `E621Client` instance built above uses settings tuned to make sure the load on e621's side is kept to a minimum. Maybe your developing an interactive tool and therefore want it to be as responsive as possible.
+
+_Example for an interactive application_
+
+```csharp
+var e621Client = new E621ClientBuilder()
+    .WithUserAgent("MyApplicationName", "MyApplicationVersion", "MyTwitterUsername", "Twitter")
+    .WithMaximumConnections(E621Client.MaximumConnectionsLimit)
+    .WithRequestInterval(E621Client.MinimumRequestInterval)
+    .Build();
+```
+
+`E621Client` instances can be disposed of, but you generally shouldn't do this. It uses a `HttpClient` behind the screens which gets disposed when you dispose the associated `E621Client`. You can read more about why that's bad at _[You're using HttpClient wrong and it is destabilizing your software](https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/)_ if you're interested.
 
 ## Report a bug
 
