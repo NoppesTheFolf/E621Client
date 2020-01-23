@@ -4,7 +4,7 @@
 
 # E621Client
 
-E621Client is an unofficial .NET Standard 2.0 library for working asynchronously with the [e621 and e926 API](https://e621.net/help/show/api). There wasn't a single API wrapper written in C# available for e621, which is the reason this project came to be. It uses the newest language version, which at the moment of writing this is C# 8.0, and has support for [nullable and non-nullable reference types](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references).
+E621Client is an unofficial .NET Standard 2.1 library for working asynchronously with the [e621 and e926 API](https://e621.net/help/show/api). There wasn't a single API wrapper written in C# available for e621, which is the reason this project came to be. It uses the newest language version, which at the moment of writing this is C# 8.0, and has support for [nullable and non-nullable reference types](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references).
 
 ## Table of Contents
 
