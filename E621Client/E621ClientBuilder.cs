@@ -1,4 +1,4 @@
-﻿using Noppes.E621.Extensions;
+﻿using Dawn;
 using System;
 
 namespace Noppes.E621
@@ -17,7 +17,8 @@ namespace Noppes.E621
             set
             {
                 Uri uri = new Uri(value, UriKind.Absolute);
-                uri.EnsureHttpOrHttps();
+
+                Guard.Argument(uri, nameof(value)).Http();
 
                 _baseUrl = value;
             }
@@ -41,6 +42,8 @@ namespace Noppes.E621
         /// <param name="platform">The name of the platform on which staff members of e621
         /// may contact you if your application is causing trouble.</param>
         /// <param name="location">A URL leading to your profile on the specified platform.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public E621ClientBuilder WithUserAgent(string productName, string productVersion, string username, string platform, string? location = null) =>
             Set(() => UserAgent = new E621UserAgent(productName, productVersion, username, platform, location));
 
@@ -56,15 +59,14 @@ namespace Noppes.E621
         /// <see cref="E621Client.MinimumRequestInterval"/>. Not specifying the request interval will
         /// make the client use <see cref="E621Client.RecommendedRequestInterval"/>.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public E621ClientBuilder WithRequestInterval(TimeSpan interval) =>
             Set(() =>
             {
                 // Prevent requests faster than the minimum interval
-                if (interval < E621Client.MinimumRequestInterval)
-                    throw new ArgumentOutOfRangeException(nameof(interval),
-                        $"The interval between each request must be greater than or equal to {E621Client.MinimumRequestInterval.TotalMilliseconds} ms.");
-
-                RequestInterval = interval;
+                RequestInterval = Guard.Argument(interval, nameof(interval))
+                    .Min(E621Client.MinimumRequestInterval);
             });
 
         /// <summary>
@@ -72,14 +74,14 @@ namespace Noppes.E621
         /// must be higher or equal to the one defined at <see cref="E621Client.MinimumRequestTimeout"/>. Not specifying
         /// a timeout will make the client use <see cref="E621Client.RecommendedRequestTimeout"/>.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public E621ClientBuilder WithTimeout(TimeSpan timeout) =>
             Set(() =>
             {
-                if (timeout < E621Client.MinimumRequestTimeout)
-                    throw new ArgumentOutOfRangeException(nameof(timeout),
-                        $"The timeout must be at least {E621Client.MinimumRequestTimeout.TotalSeconds} seconds long.");
-
-                RequestTimeout = timeout;
+                // Prevent timeouts shorter than the minimum timeout
+                RequestTimeout = Guard.Argument(timeout, nameof(timeout))
+                    .Min(E621Client.MinimumRequestTimeout);
             });
 
         /// <summary>
@@ -87,14 +89,13 @@ namespace Noppes.E621
         /// Must be between 1 and the limit defined in <see cref="E621Client.MaximumConnectionsLimit"/>. Not specifying
         /// the maximum number of connection will make the client use <see cref="E621Client.DefaultMaximumConnections"/>.
         /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public E621ClientBuilder WithMaximumConnections(int maximumConnections) =>
             Set(() =>
             {
-                if (maximumConnections < 1 || maximumConnections > E621Client.MaximumConnectionsLimit)
-                    throw new ArgumentOutOfRangeException(nameof(maximumConnections),
-                        $"Must be between 1 and {E621Client.MaximumConnectionsLimit}.");
-
-                MaximumConnections = maximumConnections;
+                MaximumConnections = Guard.Argument(maximumConnections, nameof(maximumConnections))
+                    .InRange(1, E621Client.MaximumConnectionsLimit); ;
             });
 
         /// <summary>

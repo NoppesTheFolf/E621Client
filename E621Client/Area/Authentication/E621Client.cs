@@ -47,7 +47,7 @@ namespace Noppes.E621
                 {
                     Credentials = createdCredentials;
 
-                    var user = await GetUserAsync();
+                    var user = await GetUserAsync().ConfigureAwait(false);
 
                     success = user != null;
                 }
@@ -74,14 +74,13 @@ namespace Noppes.E621
         {
             return CatchAsync(async () =>
             {
-                var request = FlurlClient.Request("/user/login.json")
+                var result = await FlurlClient.Request("/user/login.json")
                     .SetQueryParams(new
                     {
                         name = username,
                         password
-                    });
-
-                LoginResult result = await request.GetJsonAsync<LoginResult>().ConfigureAwait(false);
+                    })
+                    .GetJsonAsync<LoginResult>().ConfigureAwait(false);
 
                 return result.IsSuccess ? result.ApiKey : null;
             });
