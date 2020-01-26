@@ -1,5 +1,5 @@
-﻿using Flurl.Http;
-using Newtonsoft.Json;
+﻿using Dawn;
+using Flurl.Http;
 using Noppes.E621.Extensions;
 using System;
 using System.Collections.Generic;
@@ -27,21 +27,19 @@ namespace Noppes.E621
         /// <param name="order">The order in which the listing should be sorted.</param>
         /// <param name="permissionLevel">The permission level the users need to have.</param>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<List<User>> GetUsersAsync(string? username = null, UserOrder? order = null, UserPermissionLevel? permissionLevel = null, int page = 1)
+        public Task<List<User>> GetUsersAsync(string? username = null, UserOrder? order = null, UserPermissionLevel? permissionLevel = null, int page = 1)
         {
-            if (page < 1)
-                throw new ArgumentException("The page number must be greater than or equal to 1.");
+            Guard.Argument(page, nameof(page)).Positive();
 
-            var request = FlurlClient.Request("/user/index.json")
+            return CatchAsync(() => FlurlClient.Request("/user/index.json")
                 .SetQueryParams(new
                 {
                     name = username,
                     page,
                     order = order?.ToApiParameter(),
                     level = permissionLevel == null ? (int?)null : (int)permissionLevel,
-                });
-
-            return await request.GetJsonAsync<List<User>>().ConfigureAwait(false);
+                })
+                .GetJsonAsync<List<User>>());
         }
 
         /// <summary>
@@ -78,7 +76,7 @@ namespace Noppes.E621
         public Task<User> GetUserAsync()
         {
             var request = FlurlClient.Request()
-                .AuthenticatedSetQueryParams(this, new { });
+                .SetAuthenticatedQueryParams(this);
 
             // Will never return null values because the logged-in user will always exist
 #pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
@@ -86,19 +84,11 @@ namespace Noppes.E621
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         }
 
-        private static async Task<User?> GetUserAsync(IFlurlRequest flurlRequest)
+        private Task<User?> GetUserAsync(IFlurlRequest flurlRequest)
         {
-            var response = await flurlRequest
-                .AppendPathSegment("/user/show.json")
-                .AllowHttpStatus(HttpStatusCode.Redirect) // The API redirects instead of returning a 404 if a user does not exist...
-                .GetAsync().ConfigureAwait(false);
+            flurlRequest.AppendPathSegment("/user/show.json");
 
-            if (response.StatusCode == HttpStatusCode.Redirect)
-                return null;
-
-            string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-            return JsonConvert.DeserializeObject<User>(content);
+            return flurlRequest.GetJsonAsync<User>(HttpStatusCode.Redirect);
         }
     }
 }

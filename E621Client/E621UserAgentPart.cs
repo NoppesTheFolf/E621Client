@@ -1,4 +1,4 @@
-﻿using Noppes.E621.Extensions;
+﻿using Dawn;
 using System;
 using System.Text;
 
@@ -19,31 +19,21 @@ namespace Noppes.E621
 
         public string? LocationUrl { get; }
 
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public E621UserAgentPart(string productName, string productVersion, string username,
             string platform, string? locationUrl = null)
         {
-            if (string.IsNullOrWhiteSpace(productName))
-                throw new ArgumentNullOrWhiteSpaceException(nameof(productName));
-
-            if (string.IsNullOrWhiteSpace(productVersion))
-                throw new ArgumentNullOrWhiteSpaceException(nameof(productVersion));
-
-            if (string.IsNullOrWhiteSpace(username))
-                throw new ArgumentNullOrWhiteSpaceException(nameof(platform));
-
-            if (string.IsNullOrWhiteSpace(platform))
-                throw new ArgumentNullOrWhiteSpaceException(nameof(platform));
-
-            ProductName = productName;
-            ProductVersion = productVersion;
-            Username = username;
-            Platform = platform;
+            ProductName = Guard.Argument(productName, nameof(productName)).NotNull().NotWhiteSpace();
+            ProductVersion = Guard.Argument(productVersion, nameof(productVersion)).NotNull().NotWhiteSpace();
+            Username = Guard.Argument(username, nameof(username)).NotNull().NotWhiteSpace();
+            Platform = Guard.Argument(platform, nameof(platform)).NotNull().NotWhiteSpace();
 
             if (locationUrl == null)
                 return;
 
             Uri locationUri = new Uri(locationUrl, UriKind.Absolute);
-            locationUri.EnsureHttpOrHttps();
+            Guard.Argument(locationUri, nameof(locationUrl)).Http();
 
             LocationUrl = locationUrl;
         }
