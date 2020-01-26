@@ -15,9 +15,12 @@ E621Client is an unofficial .NET Standard 2.1 library for working asynchronously
    1. [Logging in](#logging-in)
    2. [Logging out](#logging-out)
 5. [Functionality per API area](#functionality-per-api-area)
-   1. [User](#user)
+   1. [Users](#users)
       1. [Retrieving a user](#retrieving-a-user)
       2. [Retrieving users](#retrieving-users)
+   2. [Favorites](#favorites)
+      1. [Adding a post](#adding-a-post)
+      2. [Removing a post](#removing-a-post)
 6. [Report a bug](#report-a-bug)
 7. [Contributing](#contributing)
 
@@ -53,7 +56,7 @@ _Cover per API area_
 | Forum          | :x:                | :four:   |         |
 | Pools          | :x:                | :one:    |         |
 | Sets           | :x:                | :two:    |         |
-| Favorites      | :x:                | :one:    |         |
+| Favorites      | :heavy_check_mark: | :one:    |         |
 | Tag History    | :x:                | :nine:   |         |
 | Flag History   | :x:                | :nine:   |         |
 | Tickets        | :x:                | :nine:   |         |
@@ -124,7 +127,7 @@ e621Client.Logout();
 
 The main point of this section is to show how the e621 API endpoints map to `E621Client` methods. The methods themselves are more elaborately documented than they are here. So don't worry if things may still seem kind off vague after reading this, check out the method documentation out too!
 
-### User
+### Users
 
 #### Retrieving a user
 
@@ -166,6 +169,38 @@ _Retrieve a listing of the most recently joined privileged users_
 
 ```csharp
 var users = await e621Client.GetUsersAsync(sortOrder: UserSortOrder.JoinDate, permissionLevel: UserPermissionLevel.Privileged);
+```
+
+### Favorites
+
+#### Adding a post
+
+Adding a post to a user their favorites can be done with the `CreateFavoriteAsync` method.
+
+_Adding a post using its ID to the logged-in user's favorites_
+
+```csharp
+await e621Client.CreateFavoriteAsync(546281);
+```
+
+#### Removing a post
+
+We can remove a post from a user their favorites using the `DestroyFavoriteAsync` method.
+
+_Removing a post by its ID from the logged-in user's favorites_
+
+```csharp
+await e621Client.DestroyFavoriteAsync(546281);
+```
+
+#### Listing users
+
+Retrieving a list of usernames of users who favorited a post can be done using the `GetUsersWhoFavoritedPostAsync` method.
+
+_Retrieve the usernames of users who favorited a post_
+
+```csharp
+string[]? usernames = await e621Client.GetUsersWhoFavoritedPostAsync(546281);
 ```
 
 ## Report a bug
