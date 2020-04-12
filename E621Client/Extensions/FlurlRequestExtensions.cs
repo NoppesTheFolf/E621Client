@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,30 +15,20 @@ namespace Noppes.E621.Extensions
     /// </summary>
     internal static class FlurlRequestExtensions
     {
-        public static Task<HttpResponseMessage> PostAuthenticatedUrlEncodedAsync(this IFlurlRequest flurlRequest, E621Client e621Client, object? values = null) =>
-            Authenticated(e621Client, parameters => flurlRequest.PostUrlEncodedAsync(parameters), values);
-
-        public static IFlurlRequest SetAuthenticatedQueryParams(this IFlurlRequest flurlRequest, E621Client e621Client, object? values = null) =>
-            Authenticated(e621Client, parameters => flurlRequest.SetQueryParams(parameters), values);
-
-        private static T Authenticated<T>(E621Client e621Client, Func<IDictionary<string, object>, T> func, object? values)
+        public static IFlurlRequest AuthenticatedIfPossible(this IFlurlRequest flurlRequest, E621Client e621Client)
         {
-            var parameters = values != null
-                ? values.ToDictionary()
-                : new Dictionary<string, object>();
+            if (e621Client.Credentials == null)
+                return flurlRequest;
 
-            AddCredentialsToParameters(e621Client, parameters);
-
-            return func(parameters);
+            return flurlRequest.Authenticated(e621Client);
         }
 
-        private static void AddCredentialsToParameters(E621Client e621Client, IDictionary<string, object> parameters)
+        public static IFlurlRequest Authenticated(this IFlurlRequest flurlRequest, E621Client e621Client)
         {
             if (e621Client.Credentials == null)
                 throw E621ClientNotAuthenticatedException.Create();
 
-            parameters.Add("login", e621Client.Credentials.Username);
-            parameters.Add("password_hash", e621Client.Credentials.ApiKey);
+            return flurlRequest.WithBasicAuth(e621Client.Credentials.Username, e621Client.Credentials.ApiKey);
         }
 
         public delegate Task<HttpResponseMessage> MakeRequest(IFlurlRequest request);
@@ -57,6 +46,14 @@ namespace Noppes.E621.Extensions
             ReadToken<T> readToken, params HttpStatusCode[] nullStatusCodes) where T : class
         {
             return request.SendJsonAsync(request => request.GetAsync(), readToken, nullStatusCodes);
+        }
+
+        public static Task<T> GetJsonAsync<T>(this IFlurlRequest request, ReadToken<T> readToken) where T : class
+        {
+            // Will never return null because no null status codes are provided
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
+            return request.SendJsonAsync(request => request.GetAsync(), readToken);
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         }
 
         private static Task<T?> SendJsonAsync<T>(this IFlurlRequest request,
