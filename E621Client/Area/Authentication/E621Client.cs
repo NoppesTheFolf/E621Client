@@ -24,7 +24,7 @@ namespace Noppes.E621
                 {
                     Credentials = createdCredentials;
 
-                    var user = await GetFavoritesAsync().ConfigureAwait(false);
+                    var user = await GetOwnFavoritesAsync().ConfigureAwait(false);
 
                     success = user != null;
                 }

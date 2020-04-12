@@ -1,7 +1,5 @@
 ﻿using Flurl.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -33,44 +31,35 @@ namespace Noppes.E621.Extensions
 
         public delegate Task<HttpResponseMessage> MakeRequest(IFlurlRequest request);
 
-        public delegate T DeserializeContent<out T>(string content);
+        public delegate T? DeserializeContent<out T>(HttpResponseMessage response, string content) where T : class;
 
         public delegate T ReadToken<out T>(JToken token);
-
-        public static Task<T?> GetJsonAsync<T>(this IFlurlRequest request, params HttpStatusCode[] nullStatusCodes) where T : class
-        {
-            return request.SendJsonAsync<T>(request => request.GetAsync(), nullStatusCodes);
-        }
-
-        public static Task<T?> GetJsonAsync<T>(this IFlurlRequest request,
-            ReadToken<T> readToken, params HttpStatusCode[] nullStatusCodes) where T : class
-        {
-            return request.SendJsonAsync(request => request.GetAsync(), readToken, nullStatusCodes);
-        }
 
         public static Task<T> GetJsonAsync<T>(this IFlurlRequest request, ReadToken<T> readToken) where T : class
         {
             // Will never return null because no null status codes are provided
 #pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
-            return request.SendJsonAsync(request => request.GetAsync(), readToken);
+            return request.SendJsonAsync(request => request.GetAsync(), readToken, false);
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         }
 
-        private static Task<T?> SendJsonAsync<T>(this IFlurlRequest request,
-            MakeRequest makeRequest, params HttpStatusCode[] nullStatusCodes) where T : class
+        public static Task<T?> GetJsonAsync<T>(this IFlurlRequest request, ReadToken<T> readToken, bool defaultIfNotJson, params HttpStatusCode[] defaultStatusCodes) where T : class
         {
-            return request.SendAsync(makeRequest, JsonConvert.DeserializeObject<T>, nullStatusCodes);
+            return request.SendJsonAsync(request => request.GetAsync(), readToken, defaultIfNotJson, defaultStatusCodes);
         }
 
         private static Task<T?> SendJsonAsync<T>(this IFlurlRequest request,
-            MakeRequest makeRequest, ReadToken<T> readToken, params HttpStatusCode[] nullStatusCodes) where T : class
+            MakeRequest makeRequest, ReadToken<T> readToken, bool defaultIfNotJson, params HttpStatusCode[] defaultStatusCodes) where T : class
         {
-            return request.SendAsync(makeRequest, content =>
+            return request.SendAsync(makeRequest, (response, content) =>
             {
+                if (defaultIfNotJson && response.Content.Headers.ContentType.MediaType != "application/json")
+                    return default;
+
                 var token = JToken.Parse(content);
 
                 return readToken(token);
-            }, nullStatusCodes);
+            }, defaultStatusCodes);
         }
 
         private static async Task<T?> SendAsync<T>(this IFlurlRequest request,
@@ -85,7 +74,7 @@ namespace Noppes.E621.Extensions
 
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            return deserializeContent(content);
+            return deserializeContent(response, content);
         }
     }
 }
