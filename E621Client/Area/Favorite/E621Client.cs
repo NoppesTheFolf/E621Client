@@ -82,29 +82,54 @@ namespace Noppes.E621
         }
 
         /// <summary>
+        /// Gets the favorites of the user with the provided user ID. Null will be returned in case
+        /// there doesn't exist a user with the given user ID. The maximum possible number of
+        /// favorites retrieved in a single call, is defined at <see cref="FavoritesMaximum"/>.
+        /// </summary>
+        /// <param name="userId">The ID of the user which favorites should be retrieved.</param>
+        /// <param name="page">Pagination, page number.</param>
+        /// <returns></returns>
+        public Task<ICollection<Post>?> GetFavoritesAsync(int userId, int? page = null) => GetFavoritesAsync((int?)userId, page);
+
+        /// <summary>
         /// Gets the currently logged-in user's favorited posts. The maximum possible number of
         /// favorites retrieved in a single call, is defined at <see cref="FavoritesMaximum"/>.
         /// </summary>
         /// <param name="page">Pagination, page number.</param>
-        public Task<ICollection<Post>> GetFavoritesAsync(int? page = null)
+        public Task<ICollection<Post>> GetOwnFavoritesAsync(int? page = null)
         {
+            // A logged-in user will always exist and will therefore always have a list of favorites.
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
+            return GetFavoritesAsync(null, page);
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
+        }
+
+        private Task<ICollection<Post>?> GetFavoritesAsync(int? userId = null, int? page = null)
+        {
+            Guard.Argument(userId, nameof(userId)).Positive();
             Guard.Argument(page, nameof(page)).Positive();
 
             return CatchAsync(() =>
             {
-                var request = FlurlClient
-                    .Request("/favorites.json")
-                    .Authenticated(this);
+                var request = FlurlClient.Request("/favorites.json");
 
-                if (page != null)
+                if (userId == null)
                 {
-                    request = request.SetQueryParams(new
-                    {
-                        page
-                    });
+                    request = request.Authenticated(this);
                 }
 
-                return request.GetJsonAsync(token => token.SelectToken("posts").ToObject<ICollection<Post>>());
+                request = request.SetQueryParams(new
+                {
+                    page,
+                    user_id = userId
+                });
+
+                // DefaultIfNotJson: e621 returns an 200 OK page with HTML saying "Not Found" when the given user doesn't exist.
+                // NotFound: Future proofing in case e621 replaces the 200 OK page with an appropriate 404 Not Found JSON response
+                return request.GetJsonAsync(token =>
+                {
+                    return token.SelectToken("posts").ToObject<ICollection<Post>>();
+                }, true, HttpStatusCode.NotFound);
             });
         }
     }
