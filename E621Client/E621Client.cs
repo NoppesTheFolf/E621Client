@@ -41,16 +41,6 @@ namespace Noppes.E621
                 .WithHeader("User-Agent", userAgent.ToString());
         }
 
-        private static async Task CatchAsync(Func<Task> action)
-        {
-            await CatchAsync<bool>(async () =>
-            {
-                await action().ConfigureAwait(false);
-
-                return default;
-            }).ConfigureAwait(false);
-        }
-
         private static async Task<T> CatchAsync<T>(Func<Task<T>> func)
         {
             try
