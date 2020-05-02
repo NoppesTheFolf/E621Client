@@ -19,9 +19,8 @@ namespace Noppes.E621
         internal new static E621ClientUnauthorizedException Create(Exception innerException)
         {
             string message = @"
-Access to the requested resource was denied. This may indicate the user doesn't have the 
-permission to access the resource in question. It may also be that the used User-Agent has 
-been blocked by e621, but this is rather unlikely.";
+Access to the requested resource was denied. This indicates that the credentials provided by 
+the user got invalidated.";
 
             return new E621ClientUnauthorizedException(message, innerException);
         }

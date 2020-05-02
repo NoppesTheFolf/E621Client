@@ -29,14 +29,19 @@ namespace Noppes.E621
             {
                 var createdCredentials = new E621Credentials(username, apiKey);
 
-                bool success;
+                bool success = true;
                 try
                 {
                     Credentials = createdCredentials;
 
-                    var user = await GetOwnFavoritesAsync().ConfigureAwait(false);
-
-                    success = user != null;
+                    try
+                    {
+                        await CatchAsync(() => GetOwnFavoritesAsync()).ConfigureAwait(false);
+                    }
+                    catch (E621ClientUnauthorizedException)
+                    {
+                        success = false;
+                    }
                 }
                 finally
                 {
