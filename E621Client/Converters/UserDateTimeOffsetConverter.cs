@@ -15,7 +15,7 @@ namespace Noppes.E621.Converters
             return DateTime.SpecifyKind(parsedDateTime, DateTimeKind.Utc);
         }
 
-        public override void WriteJson(JsonWriter writer, DateTimeOffset value, JsonSerializer serializer)
+        protected override string AsString(DateTimeOffset value)
         {
             throw new NotImplementedException();
         }
