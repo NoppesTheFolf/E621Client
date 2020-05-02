@@ -14,11 +14,19 @@
     <RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>E621Client</Product>
+    <PackageIcon>E621Client.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Dawn.Guard" Version="1.12.0" />
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="E621Client.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
