@@ -2,6 +2,9 @@
     <img src="https://i.imgur.com/BNkDfMV.png" alt="E621Client" width="256"/>
 </p>
 
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fnoppesthefolf%2FE621Client%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/noppesthefolf/E621Client/goto?ref=master) ![Nuget](https://img.shields.io/nuget/v/Noppes.E621Client) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a70a205126ab4a7496d48ce63a2e66d0)](https://www.codacy.com/manual/NoppesTheFolf/E621Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=NoppesTheFolf/E621Client&amp;utm_campaign=Badge_Grade)
+
+
 # E621Client
 
 E621Client is an unofficial .NET Standard 2.1 library for interacting with the [e621 and e926 API](https://e621.net/wiki_pages/2425) maintained by me, [Noppes](https://twitter.com/NoppesTheFolf). It uses the newest language version, which at the moment of writing this is C# 8.0, and has support for [nullable and non-nullable reference types](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references).
