@@ -30,16 +30,6 @@ namespace Noppes.E621
             }
         }
 
-        /// <summary>
-        /// Whether or not a user is currently logged in.
-        /// </summary>
-        public bool HasLogin => Credentials != null;
-
-        /// <summary>
-        /// Credentials used to authenticate requests with.
-        /// </summary>
-        internal E621Credentials? Credentials { get; set; }
-
         private IFlurlClient FlurlClient { get; }
 
         internal E621Client(string baseUrl, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
