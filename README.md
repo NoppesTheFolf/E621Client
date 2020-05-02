@@ -49,7 +49,19 @@ _Cover per API area_
 
 ## Installation
 
-You'll have to use this repository as a [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) for now. It'll be published on NuGet soon.
+E621Client is available as a NuGet package listed as `Noppes.E621Client`. You can easily install it using either the Package Manager Console or the .NET CLI.
+
+_Package Manager Console_
+
+```
+Install-Package Noppes.E621Client -Version 0.0.1
+```
+
+_.NET CLI_
+
+```
+dotnet add package Noppes.E621Client --version 0.0.1
+```
 
 ## Getting started
 
