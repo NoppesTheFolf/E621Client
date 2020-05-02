@@ -141,7 +141,8 @@ namespace Noppes.E621
         {
             return CatchAsync(() =>
             {
-                var request = FlurlClient.Request(url);
+                var request = FlurlClient.Request(url)
+                    .AuthenticatedIfPossible(this);
 
                 if (values != null)
                     request = request.SetQueryParams(values);
