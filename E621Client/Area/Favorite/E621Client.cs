@@ -100,7 +100,7 @@ namespace Noppes.E621
         {
             // A logged-in user will always exist and will therefore always have a list of favorites.
 #pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
-            return GetFavoritesAsync(null, page);
+            return GetFavoritesAsync(page: page);
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         }
 
