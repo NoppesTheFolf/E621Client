@@ -137,15 +137,15 @@ namespace Noppes.E621
             });
         }
 
-        private Task<Post?> GetPostAsync(string url, object? values = null)
+        private Task<Post?> GetPostAsync(string url, object? queryParameters)
         {
             return CatchAsync(() =>
             {
                 var request = FlurlClient.Request(url)
                     .AuthenticatedIfPossible(this);
 
-                if (values != null)
-                    request = request.SetQueryParams(values);
+                if (queryParameters != null)
+                    request = request.SetQueryParams(queryParameters);
 
                 return request.GetJsonAsync(token => token.SelectToken("post").ToObject<Post>(), true);
             });
