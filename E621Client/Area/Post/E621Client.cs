@@ -54,7 +54,7 @@ namespace Noppes.E621
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="E621ClientTimeoutException"></exception>
         /// <exception cref="E621ClientException"></exception>
-        public Task<ICollection<Post>> GetPostsAsync(string? tags, int? limit, int id, Position position) => GetPostsAsync(tags, limit, (int?)id, position);
+        public Task<ICollection<Post>> GetPostsAsync(int id, Position position, int? limit = null, string? tags = null) => GetPostsAsync(tags, limit, id, position);
 
         /// <summary>
         /// Retrieves a collection of posts based on the given parameters.
@@ -81,7 +81,7 @@ namespace Noppes.E621
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="E621ClientTimeoutException"></exception>
         /// <exception cref="E621ClientException"></exception>
-        public Task<ICollection<Post>> GetPostsAsync(string? tags, int? limit, int? page) => GetPostsAsync(tags, limit, page, null);
+        public Task<ICollection<Post>> GetPostsAsync(string? tags = null, int? page = null, int? limit = null) => GetPostsAsync(tags, limit, page, null);
 
         private Task<ICollection<Post>> GetPostsAsync(string? tags, int? limit, int? page, Position? position)
         {
