@@ -17,8 +17,11 @@ namespace Noppes.E621
             if (exception is FlurlHttpTimeoutException)
                 return E621ClientTimeoutException.Create(exception);
 
-            if (httpException.Call.Response.StatusCode == HttpStatusCode.Forbidden)
+            if (httpException.Call.Response.StatusCode == HttpStatusCode.Unauthorized)
                 return E621ClientUnauthorizedException.Create(exception);
+
+            if (httpException.Call.Response.StatusCode == HttpStatusCode.Forbidden)
+                return E621ClientForbiddenException.Create(exception);
 
             return E621ClientException.Create(exception);
         }
