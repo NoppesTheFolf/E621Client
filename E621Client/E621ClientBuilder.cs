@@ -95,7 +95,7 @@ namespace Noppes.E621
             Set(() =>
             {
                 MaximumConnections = Guard.Argument(maximumConnections, nameof(maximumConnections))
-                    .InRange(1, E621Client.MaximumConnectionsLimit); ;
+                    .InRange(1, E621Client.MaximumConnectionsLimit);
             });
 
         /// <summary>
