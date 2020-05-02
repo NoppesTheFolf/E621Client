@@ -114,9 +114,9 @@ namespace Noppes.E621
         /// </summary>
         /// <exception cref="E621ClientTimeoutException"></exception>
         /// <exception cref="E621ClientException"></exception>
-        public async Task<Post?> GetPostAsync(int id)
+        public Task<Post?> GetPostAsync(int id)
         {
-            return await GetPostAsync($"/posts/{id}.json", null);
+            return GetPostAsync($"/posts/{id}.json", null);
         }
 
         /// <summary>
