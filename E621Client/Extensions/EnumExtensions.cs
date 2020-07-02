@@ -18,5 +18,7 @@ namespace Noppes.E621.Extensions
 
             return attribute == null ? enumName : attribute.Value;
         }
+
+        public static object AsUnderlyingType(this Enum value) => Convert.ChangeType(value, value.GetTypeCode());
     }
 }

@@ -43,6 +43,11 @@ namespace Noppes.E621.Extensions
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         }
 
+        public static Task<T?> GetJsonAsync<T>(this IFlurlRequest request, bool defaultIfNotJson, params HttpStatusCode[] defaultStatusCodes) where T : class
+        {
+            return request.SendJsonAsync(request => request.GetAsync(), token => token.ToObject<T>(), defaultIfNotJson, defaultStatusCodes);
+        }
+
         public static Task<T?> GetJsonAsync<T>(this IFlurlRequest request, ReadToken<T> readToken, bool defaultIfNotJson, params HttpStatusCode[] defaultStatusCodes) where T : class
         {
             return request.SendJsonAsync(request => request.GetAsync(), readToken, defaultIfNotJson, defaultStatusCodes);

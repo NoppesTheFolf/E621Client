@@ -87,25 +87,22 @@ namespace Noppes.E621
         {
             Guard.Argument(limit, nameof(limit)).InRange(1, PostsMaximumLimit);
 
-            Guard.Argument(page, nameof(page)).InRange(1, PostsMaximumPage);
+            Page.Validate(page, nameof(page), PostsMaximumPage, position);
 
             var splitTags = TagHelper.ParseSearchString(tags);
 
             if (splitTags.Length > PostsMaximumTagSearchCount)
                 throw new ArgumentException($"Only {PostsMaximumTagSearchCount} tags can be searched for at once. You provided {splitTags.Length} tags.");
 
-            return CatchAsync(() =>
-            {
-                return FlurlClient.Request("/posts.json")
-                    .SetQueryParams(new
-                    {
-                        limit,
-                        page = page == null ? null : position == null ? page.ToString() : ((Position)position).ToIdentifier() + page.ToString(),
-                        tags = splitTags.Length == 0 ? null : string.Join(' ', splitTags)
-                    })
-                    .AuthenticatedIfPossible(this)
-                    .GetJsonAsync(token => token["posts"].ToObject<ICollection<Post>>());
-            });
+            return RequestAsync("/posts.json", request =>
+                request.SetQueryParams(new
+                {
+                    limit,
+                    tags = splitTags.Length == 0 ? null : string.Join(' ', splitTags)
+                })
+                .SetPagination(page, position)
+                .AuthenticatedIfPossible(this)
+                .GetJsonAsync(token => token["posts"].ToObject<ICollection<Post>>()));
         }
 
         /// <summary>
@@ -139,10 +136,9 @@ namespace Noppes.E621
 
         private Task<Post?> GetPostAsync(string url, object? queryParameters)
         {
-            return CatchAsync(() =>
+            return RequestAsync(url, request =>
             {
-                var request = FlurlClient.Request(url)
-                    .AuthenticatedIfPossible(this);
+                request = request.AuthenticatedIfPossible(this);
 
                 if (queryParameters != null)
                     request = request.SetQueryParams(queryParameters);

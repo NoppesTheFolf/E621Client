@@ -55,17 +55,17 @@ namespace Noppes.E621
 
         private Task FavoriteAsync(int postId, FavoriteAction action)
         {
-            return CatchAsync(() =>
+            var requestUrl = action switch
             {
-                var requestUrl = action switch
-                {
-                    FavoriteAction.Add => "/favorites.json",
-                    FavoriteAction.Remove => $"/favorites/{postId}.json",
-                    _ => throw new ArgumentOutOfRangeException(nameof(action))
-                };
+                FavoriteAction.Add => "/favorites.json",
+                FavoriteAction.Remove => $"/favorites/{postId}.json",
+                _ => throw new ArgumentOutOfRangeException(nameof(action))
+            };
 
+            return RequestAsync(requestUrl, request =>
+            {
                 // UnprocessableEntity: Post is already a favorite
-                var request = FlurlClient.Request(requestUrl)
+                request = request
                     .AllowHttpStatus(HttpStatusCode.UnprocessableEntity)
                     .Authenticated(this);
 
@@ -109,10 +109,8 @@ namespace Noppes.E621
             Guard.Argument(userId, nameof(userId)).Positive();
             Guard.Argument(page, nameof(page)).Positive();
 
-            return CatchAsync(() =>
+            return RequestAsync("/favorites.json", request =>
             {
-                var request = FlurlClient.Request("/favorites.json");
-
                 if (userId == null)
                 {
                     request = request.Authenticated(this);
