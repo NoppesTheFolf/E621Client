@@ -2,6 +2,9 @@
 
 namespace Noppes.E621
 {
+    /// <summary>
+    /// The kinds of relative positioning used for pagination.
+    /// </summary>
     public enum Position
     {
         Before,
