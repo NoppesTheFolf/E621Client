@@ -41,11 +41,13 @@ namespace Noppes.E621
                 .WithHeader("User-Agent", userAgent.ToString());
         }
 
-        private static async Task<T> CatchAsync<T>(Func<Task<T>> func)
+        private async Task<T> RequestAsync<T>(string urlSegment, Func<IFlurlRequest, Task<T>> func)
         {
             try
             {
-                return await func().ConfigureAwait(false);
+                var request = FlurlClient.Request(urlSegment);
+
+                return await func(request).ConfigureAwait(false);
             }
             catch (Exception exception)
             {

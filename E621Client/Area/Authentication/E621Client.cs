@@ -20,39 +20,28 @@ namespace Noppes.E621
         /// </summary>
         /// <param name="username">Username used for logging in.</param>
         /// <param name="apiKey">API key used for logging in.</param>
-        public Task<bool> LogInAsync(string username, string apiKey)
+        public async Task<bool> LogInAsync(string username, string apiKey)
         {
             if (HasLogin)
                 throw E621ClientAlreadyLoggedInException.Create();
 
-            return CatchAsync(async () =>
+            Credentials = new E621Credentials(username, apiKey);
+
+            var success = true;
+            try
             {
-                var createdCredentials = new E621Credentials(username, apiKey);
+                await GetOwnFavoritesAsync().ConfigureAwait(false);
+            }
+            catch (E621ClientUnauthorizedException)
+            {
+                success = false;
+            }
 
-                bool success = true;
-                try
-                {
-                    Credentials = createdCredentials;
-
-                    try
-                    {
-                        await CatchAsync(() => GetOwnFavoritesAsync()).ConfigureAwait(false);
-                    }
-                    catch (E621ClientUnauthorizedException)
-                    {
-                        success = false;
-                    }
-                }
-                finally
-                {
-                    Credentials = null;
-                }
-
-                if (success)
-                    Credentials = createdCredentials;
-
+            if (success)
                 return success;
-            });
+
+            Credentials = null;
+            return success;
         }
 
         /// <summary>
