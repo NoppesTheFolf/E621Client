@@ -45,6 +45,27 @@ namespace Noppes.E621
         public ICollection<string> Invalid { get; set; } = new List<string>();
 
         /// <summary>
+        /// All the tags except invalid ones. This includes the following properties of this
+        /// collection: <see cref="General"/>, <see cref="Species"/>, <see cref="Character"/>,
+        /// <see cref="Copyright"/>, <see cref="Artist"/>, <see cref="Lore"/> and <see cref="Species"/>.
+        /// </summary>
+        [JsonIgnore]
+        public IEnumerable<string> Valid
+        {
+            get
+            {
+                var validTagCollections = new[]
+                {
+                    General, Species, Character, Copyright, Artist, Lore, Meta
+                };
+
+                foreach (var enumerable in validTagCollections)
+                    foreach (var value in enumerable)
+                        yield return value;
+            }
+        }
+
+        /// <summary>
         /// Tags that provide and/or correct specific outside information (not covered by copyright
         /// or character).
         /// </summary>
