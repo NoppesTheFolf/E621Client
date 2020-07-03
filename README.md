@@ -15,16 +15,19 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
 2. [Installation](#installation)
 3. [Getting started](#getting-started)
 4. [Authentication](#authentication)
-   1. [Logging in](#logging-in)
-   2. [Logging out](#logging-out)
+    1. [Logging in](#logging-in)
+    2. [Logging out](#logging-out)
 5. [Functionality per API area](#functionality-per-api-area)
-   1. [Posts](#posts)
-      1. [Retrieving a post](#retrieving-a-post)
-      2. [Retrieving posts](#retrieving-posts)
-   2. [Favorites](#favorites)
-      1. [Adding a post](#adding-a-post)
-      2. [Removing a post](#removing-a-post)
-      3. [Retrieving favorites](#retrieving-favorites)
+    1. [Posts](#posts)
+        1. [Retrieving a post](#retrieving-a-post)
+        2. [Retrieving posts](#retrieving-posts)
+    2. [Tags](#tags)
+        1. [Retrieving a tag](#retrieving-a-tag)
+        2. [Retrieving tags](#retrieving-tags)
+    3. [Favorites](#favorites)
+        1. [Adding a post](#adding-a-post)
+        2. [Removing a post](#removing-a-post)
+        3. [Retrieving favorites](#retrieving-favorites)
 6. [Report a bug](#report-a-bug)
 7. [Contributing](#contributing)
 
@@ -42,13 +45,16 @@ _Legend_
 
 _Cover per API area_
 
-| Area           | Complete           | Comment                                                                      |
-|----------------|--------------------|------------------------------------------------------------------------------|
-| Authentication | :heavy_check_mark: |                                                                              |
-| Posts          | :heavy_minus_sign: | Only the retrieval of posts                                                  |
-| Notes          | :x:                |                                                                              |
-| Pools          | :x:                |                                                                              |
-| Favorites      | :heavy_check_mark: | Implemented although its not yet documented by e621 at the moment of writing |
+| Area           | Complete           | Comment                                             |
+|----------------|--------------------|-----------------------------------------------------|
+| Authentication | :heavy_check_mark: |                                                     |
+| Posts          | :heavy_minus_sign: | Only the retrieval of posts                         |
+| Tags           | :heavy_minus_sign: | Only the retrieval of tags                          |
+| Tag Aliases    | :x:                |                                                     |
+| Notes          | :x:                |                                                     |
+| Pools          | :x:                |                                                     |
+| Favorites      | :heavy_check_mark: | Not yet documented by e621 at the moment of writing |
+| IQDB           | :x:                | Not yet documented by e621 at the moment of writing |
 
 ## Installation
 
@@ -194,6 +200,74 @@ _Retrieve a collection of posts tagged "canine" with an ID greater than 200 usin
 
 ```csharp
 var posts = await e621Client.GetPostsAsync(200, Position.After, "canine", E621Client.PostsMaximumLimit);
+```
+
+### Tags
+
+#### Retrieving a tag
+
+A tag can either be retrieved by either its name or ID by using the `GetTagAsync` method.
+
+_Retrieve a tag by ID_
+
+```csharp
+var tag = await e621Client.GetTagAsync(813847);
+```
+
+_Retrieve a tag by name_
+
+```csharp
+var tag = await e621Client.GetTagAsync("noppes");
+```
+
+#### Retrieving tags
+
+There are a couple of different ways a collection of tags can be retrieved: without using any filter, using the names of the tags and using a query.
+
+Searching for tags without using filter, opens up the usage of pagination with relative positioning. [This works in exactly the same way as it does for posts.](#navigation-using-relative-positioning). [All of the other available overloads make use of pagination as you're used to.](#navigation-using-pagination). The maximum allowed page number is defined at `E621Client.TagsMaximumPage`.
+
+Note that there is a limit on the number of tags that can be retrieved in a single call to any of the overloads. This limit is defined at `E621Client.TagsMaximumLimit`.
+
+##### Without filter
+
+The first way of retrieving tags is without using any specific name filter with the `GetTagsAsync` method.
+
+_Get the maximum possible number of tags after ID 1000_
+
+```csharp
+var tags = await e621Client.GetTagsAsync(1000, Position.After, E621Client.TagsMaximumLimit);
+```
+
+_Get the 10th page using the maximum possible number of tags ordered by the number of posts making use of the tag_
+
+```csharp
+var tags = await e621Client.GetTagsAsync(10, E621Client.TagsMaximumLimit, order: TagOrder.Count);
+```
+
+##### Using tags their names
+
+A collection of tags can also be retrieved using their names using the `GetTagsUsingNamesAsync` method.
+
+_Get tags using their names_
+
+```csharp
+var tagNames = new []
+{
+    "noppes",
+    "blep",
+    "fur"
+};
+var tags = await e621Client.GetTagsByNames(tagNames);
+```
+
+##### Using a search query
+
+Tags can also be retrieved using a search query on the tag their names using a wildcards, for example, with an overload of the `GetTagsUsingNamesAsync` method.
+
+_Get the first page of tags that start with 'wolf' in the species category_
+
+```csharp
+var tags = await e621Client.GetTagsByNames("wolf*", category: TagCategory.Species);
 ```
 
 ### Favorites
