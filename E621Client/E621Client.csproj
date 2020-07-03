@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>NoppesTheFolf</Authors>
-    <Version>0.0.2</Version>
+    <Version>0.1.0</Version>
     <Description>An unofficial .NET Standard 2.1 wrapper for the e621 API.</Description>
     <PackageProjectUrl>https://github.com/NoppesTheFolf/E621Client</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
@@ -16,7 +16,8 @@
     <Product>E621Client</Product>
     <PackageIcon>E621Client.png</PackageIcon>
     <Copyright>Copyright © NoppesTheFolf 2019-2020</Copyright>
-    <PackageReleaseNotes>- Fix authentication not being used when retrieving a single post</PackageReleaseNotes>
+    <PackageReleaseNotes>- Add retrieval of tags
+    - Allow for enumeration over a post its valid tags</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
