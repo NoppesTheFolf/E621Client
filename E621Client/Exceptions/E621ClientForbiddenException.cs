@@ -2,21 +2,25 @@
 
 namespace Noppes.E621
 {
-    class E621ClientForbiddenException : E621ClientException
+    /// <summary>
+    /// Thrown when an attempt was made to access a resource the user doesn't have the permissions
+    /// to view/use. Can also indicate that the used User-Agent has been blacklisted.
+    /// </summary>
+    public class E621ClientForbiddenException : Exception
     {
-        public E621ClientForbiddenException()
+        internal E621ClientForbiddenException()
         {
         }
 
-        public E621ClientForbiddenException(string message) : base(message)
+        internal E621ClientForbiddenException(string message) : base(message)
         {
         }
 
-        public E621ClientForbiddenException(string message, Exception innerException) : base(message, innerException)
+        internal E621ClientForbiddenException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        internal new static E621ClientForbiddenException Create(Exception innerException)
+        internal static E621ClientForbiddenException Create(Exception innerException)
         {
             string message = @"
 Access to the requested resource was denied. This may indicate the user doesn't have the 
