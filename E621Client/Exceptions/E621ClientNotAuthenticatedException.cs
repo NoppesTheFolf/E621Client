@@ -2,17 +2,21 @@
 
 namespace Noppes.E621
 {
-    public class E621ClientNotAuthenticatedException : E621ClientException
+    /// <summary>
+    /// Thrown whenever an attempt is made to access a protected resource without there being a
+    /// logged-in user.
+    /// </summary>
+    public class E621ClientNotAuthenticatedException : Exception
     {
-        public E621ClientNotAuthenticatedException()
+        internal E621ClientNotAuthenticatedException()
         {
         }
 
-        public E621ClientNotAuthenticatedException(string message) : base(message)
+        internal E621ClientNotAuthenticatedException(string message) : base(message)
         {
         }
 
-        public E621ClientNotAuthenticatedException(string message, Exception innerException) : base(message, innerException)
+        internal E621ClientNotAuthenticatedException(string message, Exception innerException) : base(message, innerException)
         {
         }
 

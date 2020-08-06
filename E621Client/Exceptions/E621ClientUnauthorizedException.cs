@@ -2,21 +2,24 @@
 
 namespace Noppes.E621
 {
-    public class E621ClientUnauthorizedException : E621ClientException
+    /// <summary>
+    /// Thrown whenever the credentials of the currently logged-in user got invalidated.
+    /// </summary>
+    public class E621ClientUnauthorizedException : Exception
     {
-        public E621ClientUnauthorizedException()
+        internal E621ClientUnauthorizedException()
         {
         }
 
-        public E621ClientUnauthorizedException(string message) : base(message)
+        internal E621ClientUnauthorizedException(string message) : base(message)
         {
         }
 
-        public E621ClientUnauthorizedException(string message, Exception innerException) : base(message, innerException)
+        internal E621ClientUnauthorizedException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        internal new static E621ClientUnauthorizedException Create(Exception innerException)
+        internal static E621ClientUnauthorizedException Create(Exception innerException)
         {
             string message = @"
 Access to the requested resource was denied. This indicates that the credentials provided by 
