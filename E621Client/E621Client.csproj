@@ -6,6 +6,7 @@
     <RootNamespace>Noppes.E621</RootNamespace>
     <AssemblyName>Noppes.E621Client</AssemblyName>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>NoppesTheFolf</Authors>
     <Version>0.1.0</Version>
