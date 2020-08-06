@@ -52,8 +52,6 @@ namespace Noppes.E621
         /// <param name="position">Relative position to the given post ID.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        /// <exception cref="E621ClientTimeoutException"></exception>
-        /// <exception cref="E621ClientException"></exception>
         public Task<ICollection<Post>> GetPostsAsync(int id, Position position, int? limit = null, string? tags = null) => GetPostsAsync(tags, limit, id, position);
 
         /// <summary>
@@ -79,8 +77,6 @@ namespace Noppes.E621
         /// <param name="page">Pagination, number of the page.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        /// <exception cref="E621ClientTimeoutException"></exception>
-        /// <exception cref="E621ClientException"></exception>
         public Task<ICollection<Post>> GetPostsAsync(string? tags = null, int? page = null, int? limit = null) => GetPostsAsync(tags, limit, page, null);
 
         private Task<ICollection<Post>> GetPostsAsync(string? tags, int? limit, int? page, Position? position)
@@ -109,8 +105,6 @@ namespace Noppes.E621
         /// Retrieves the post with the given ID. A null value will be returned if there doesn't
         /// exist a post with the given ID.
         /// </summary>
-        /// <exception cref="E621ClientTimeoutException"></exception>
-        /// <exception cref="E621ClientException"></exception>
         public Task<Post?> GetPostAsync(int id)
         {
             return GetPostAsync($"/posts/{id}.json", null);
@@ -122,8 +116,6 @@ namespace Noppes.E621
         /// image has been deleted.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="E621ClientTimeoutException"></exception>
-        /// <exception cref="E621ClientException"></exception>
         public Task<Post?> GetPostAsync(string md5)
         {
             Guard.Argument(md5, nameof(md5)).Length(32);
