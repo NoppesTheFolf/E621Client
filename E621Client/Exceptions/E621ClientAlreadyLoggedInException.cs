@@ -5,17 +5,17 @@ namespace Noppes.E621
     /// <summary>
     /// Thrown when a login tries to take place while another user is already logged-in.
     /// </summary>
-    internal class E621ClientAlreadyLoggedInException : E621ClientException
+    public class E621ClientAlreadyLoggedInException : Exception
     {
-        public E621ClientAlreadyLoggedInException()
+        internal E621ClientAlreadyLoggedInException()
         {
         }
 
-        public E621ClientAlreadyLoggedInException(string message) : base(message)
+        internal E621ClientAlreadyLoggedInException(string message) : base(message)
         {
         }
 
-        public E621ClientAlreadyLoggedInException(string message, Exception innerException) : base(message, innerException)
+        internal E621ClientAlreadyLoggedInException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
