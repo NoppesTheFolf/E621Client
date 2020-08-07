@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 
 namespace Noppes.E621
 {
@@ -11,20 +8,10 @@ namespace Noppes.E621
     /// </summary>
     internal class E621ClientHandler : HttpClientHandler
     {
-        private ILimiter RateLimiter { get; }
-
-        public E621ClientHandler(TimeSpan requestInterval, int maximumConnections)
+        public E621ClientHandler(int maximumConnections)
         {
             MaxConnectionsPerServer = maximumConnections;
-            RateLimiter = new RateLimiter(requestInterval);
             AllowAutoRedirect = false;
-        }
-
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            await RateLimiter.WaitAsync();
-
-            return await base.SendAsync(request, cancellationToken);
         }
     }
 }

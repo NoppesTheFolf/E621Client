@@ -32,22 +32,29 @@ namespace Noppes.E621
 
         private IFlurlClient FlurlClient { get; }
 
+        private ILimiter RateLimiter { get; }
+
         internal E621Client(string baseUrl, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
         {
-            E621HttpClientFactory clientFactory = new E621HttpClientFactory(requestInterval, maximumConnections);
+            E621HttpClientFactory clientFactory = new E621HttpClientFactory(maximumConnections);
 
             FlurlClient = new FlurlClient(baseUrl)
                 .Configure(options => options.HttpClientFactory = clientFactory)
                 .WithHeader("User-Agent", userAgent.ToString());
+
+            RateLimiter = new RateLimiter(requestInterval);
         }
 
-        private async Task<T> RequestAsync<T>(string urlSegment, Func<IFlurlRequest, Task<T>> func)
+        private async Task<T> RequestAsync<T>(string urlSegment, Func<IFlurlRequest, Task<T>> func, int? interval = null, int? delayAfterRequest = null)
         {
             try
             {
                 var request = FlurlClient.Request(urlSegment);
 
-                return await func(request).ConfigureAwait(false);
+                return await RateLimiter.ExecuteAsync(() =>
+                {
+                    return func(request);
+                }, interval, delayAfterRequest).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
