@@ -1,5 +1,4 @@
 ﻿using Flurl.Http.Configuration;
-using System;
 using System.Net.Http;
 
 namespace Noppes.E621
@@ -10,17 +9,14 @@ namespace Noppes.E621
     /// </summary>
     internal class E621HttpClientFactory : DefaultHttpClientFactory
     {
-        private TimeSpan RequestInterval { get; }
-
         private int MaximumConnection { get; }
 
-        public E621HttpClientFactory(TimeSpan requestInterval, int maximumConnection)
+        public E621HttpClientFactory(int maximumConnection)
         {
-            RequestInterval = requestInterval;
             MaximumConnection = maximumConnection;
         }
 
         public override HttpMessageHandler CreateMessageHandler() =>
-            new E621ClientHandler(RequestInterval, MaximumConnection);
+            new E621ClientHandler(MaximumConnection);
     }
 }
