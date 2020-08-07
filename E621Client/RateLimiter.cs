@@ -1,51 +1,82 @@
-﻿using System;
+﻿using Flurl.Http;
+using System;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Noppes.E621
 {
-    /// <inheritdoc/>
-    public class RateLimiter : ILimiter
+    /// <summary>
+    /// Throttles the rate at which requests are allowed to be made.
+    /// </summary>
+    internal class RateLimiter : ILimiter
     {
-        public int Interval { get; }
+        public int DefaultInterval { get; }
 
-        private long LastProceedTime { get; set; }
+        private long WaitUntil { get; set; }
 
-        private object InstanceLock { get; }
+        private SemaphoreSlim RequestLock { get; }
 
-        public RateLimiter(TimeSpan interval)
+        public RateLimiter(TimeSpan defaultInterval)
         {
-            Interval = (int)Math.Round(interval.TotalMilliseconds, MidpointRounding.AwayFromZero);
-            LastProceedTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - Interval;
-            InstanceLock = new object();
+            DefaultInterval = (int)Math.Round(defaultInterval.TotalMilliseconds, MidpointRounding.AwayFromZero);
+            WaitUntil = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - int.MaxValue / 4;
+            RequestLock = new SemaphoreSlim(1, 1);
+        }
+
+        private Task WaitAsync(int interval)
+        {
+            var currentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+            var timeToWait = (int)(WaitUntil - currentTime);
+            if (timeToWait > 0)
+            {
+                WaitUntil = currentTime + timeToWait + interval;
+                return Task.Delay(timeToWait);
+            }
+
+            WaitUntil = currentTime + interval;
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
-        public async Task WaitAsync()
+        public async Task<T> ExecuteAsync<T>(Func<Task<T>> requestAsync, int? interval = null, int? delayAfterRequest = null)
         {
-            int waitTime = CalculateWaitTime();
+            await RequestLock.WaitAsync();
 
-            if (waitTime != 0)
-                await Task.Delay(waitTime).ConfigureAwait(false);
-        }
-
-        private int CalculateWaitTime()
-        {
-            lock (InstanceLock)
+            try
             {
-                long currentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-                // Set lastActionUnixTime to the sum of lastActionUnixTime and delay if the sum of those values is bigger than the current unix time
-                long nextProceedTime = LastProceedTime + Interval;
-                int timeToWait = (int)(nextProceedTime - currentTime);
-                if (nextProceedTime > currentTime)
+                var isFirstAttempt = true;
+                while (true)
                 {
-                    LastProceedTime = nextProceedTime;
-                    return timeToWait;
-                }
+                    if (isFirstAttempt)
+                    {
+                        await WaitAsync(interval ?? DefaultInterval).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await Task.Delay(E621Client.MinimumRequestInterval);
+                    }
 
-                // Set lastActionUnixTime to the current time and return a delay of 0 if none of the if statements matched
-                LastProceedTime = currentTime;
-                return 0;
+                    try
+                    {
+                        return await requestAsync().ConfigureAwait(false);
+                    }
+                    catch (FlurlHttpException httpException)
+                    {
+                        if (httpException.Call?.Response.StatusCode != HttpStatusCode.TooManyRequests)
+                            throw;
+
+                        isFirstAttempt = false;
+                    }
+                }
+            }
+            finally
+            {
+                if (delayAfterRequest != null)
+                    await Task.Delay(TimeSpan.FromMilliseconds((int)delayAfterRequest));
+
+                RequestLock.Release();
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Noppes.E621
 {
@@ -8,8 +9,8 @@ namespace Noppes.E621
     internal interface ILimiter
     {
         /// <summary>
-        /// Wait until a request is allowed to made. 
+        /// Executes a request and potentially waits until a requested may be made again.
         /// </summary>
-        Task WaitAsync();
+        Task<T> ExecuteAsync<T>(Func<Task<T>> requestAsync, int? interval = null, int? delayAfterRequest = null);
     }
 }
