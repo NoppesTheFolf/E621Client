@@ -27,14 +27,20 @@ namespace Noppes.E621
 
             Credentials = new E621Credentials(username, apiKey);
 
-            var success = true;
+            bool success;
             try
             {
                 await GetOwnFavoritesAsync().ConfigureAwait(false);
+                success = true;
             }
             catch (E621ClientUnauthorizedException)
             {
                 success = false;
+            }
+            catch // Some other exception could occur. There is no way of knowing if the request succeeded in that place. We need to set the credentials to null again in that case.
+            {
+                Credentials = null;
+                throw;
             }
 
             if (success)
@@ -42,6 +48,7 @@ namespace Noppes.E621
 
             Credentials = null;
             return success;
+
         }
 
         /// <summary>
