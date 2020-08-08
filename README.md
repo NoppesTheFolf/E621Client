@@ -28,6 +28,7 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
         1. [Adding a post](#adding-a-post)
         2. [Removing a post](#removing-a-post)
         3. [Retrieving favorites](#retrieving-favorites)
+    4. [IQDB (Reverse image searching)](#iqdb-(reverse-image-searching))
 6. [Report a bug](#report-a-bug)
 7. [Contributing](#contributing)
 
@@ -54,7 +55,7 @@ _Cover per API area_
 | Notes          | :x:                |                                                     |
 | Pools          | :x:                |                                                     |
 | Favorites      | :heavy_check_mark: | Not yet documented by e621 at the moment of writing |
-| IQDB           | :x:                | Not yet documented by e621 at the moment of writing |
+| IQDB           | :heavy_check_mark: | Not yet documented by e621 at the moment of writing |
 
 ## Installation
 
@@ -318,6 +319,32 @@ _Retrieving the seventh page of posts favorited by the user with ID 11271 (SnowW
 
 ```csharp
 var favorites = await e621Client.GetFavoritesAsync(11271, 7);
+```
+
+### IQDB (Reverse image searching)
+
+Since the overhaul of e621 at the 5th of March, it has become possible to reverse search images using IQDB. You can reverse search an image (and therefore a post) by either a locally stored image, a stream or a URL. This will return a collection of posts of which the images are similar to the submitted image. The returned posts have an additional property named `IqdbScore` which can be used to assess how similar the image is to the submitted one. E621Client will by default not return posts that have been deleted. However, if you'd like to include them, you can simply pass a boolean to any of the methods associated with querying IQDB.
+
+In case you're using the URL method, note that e621 will download images only from domains whitelisted by them. Which domains are on the whitelist is unknown. You should test if the domains of the URLs you are planning to use are whitelisted or not.
+
+_Reverse image searching using a file, also returning deleted posts_
+
+```csharp
+var results = await e621Client.QueryIqdbByFileAsync("/my/path", false);
+```
+
+_Reverse image searching using a URL_
+
+```csharp
+var results = await e621Client.QueryIqdbByUrlAsync("https://url.net");
+```
+
+_Reverse image searching using a stream_
+
+```csharp
+// You can use any stream, a FileStream is simply used as an example here
+await using var exampleStream = File.OpenRead("/my/path");
+var results = await e621Client.QueryIqdbByStreamAsync(exampleStream);
 ```
 
 ## Report a bug
