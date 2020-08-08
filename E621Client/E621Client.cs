@@ -64,6 +64,7 @@ namespace Noppes.E621
 
         private bool IsDisposed { get; set; }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
