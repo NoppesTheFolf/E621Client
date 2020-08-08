@@ -12,7 +12,7 @@ namespace Noppes.E621
         Explicit
     }
 
-    public static class PostRatingHelper
+    internal static class PostRatingHelper
     {
         public static PostRating FromAbbreviation(string value)
         {
