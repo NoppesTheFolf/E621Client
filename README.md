@@ -67,13 +67,13 @@ E621Client is available as a NuGet package listed as `Noppes.E621Client`. You ca
 _Package Manager Console_
 
 ```
-Install-Package Noppes.E621Client -Version 0.1.0
+Install-Package Noppes.E621Client -Version 0.2.0
 ```
 
 _.NET CLI_
 
 ```
-dotnet add package Noppes.E621Client --version 0.1.0
+dotnet add package Noppes.E621Client --version 0.2.0
 ```
 
 ## Getting started
