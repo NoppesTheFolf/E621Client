@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Noppes.E621
 {
     /// <summary>
-    /// Represents a post. Contains the values each post, independent of its status, can have.
+    /// Represents a post. Contains the values each post, independent of its status (active or deleted), can have.
     /// </summary>
     public class Post
     {
