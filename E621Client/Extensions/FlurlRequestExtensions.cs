@@ -25,10 +25,12 @@ namespace Noppes.E621.Extensions
 
         public static IFlurlRequest Authenticated(this IFlurlRequest flurlRequest, E621Client e621Client)
         {
-            if (e621Client.Credentials == null)
+            if (!e621Client.HasLogin)
                 throw E621ClientNotAuthenticatedException.Create();
 
+#pragma warning disable 8602 // If the E621Client instance has a login, then the credentials are always available.
             return flurlRequest.WithBasicAuth(e621Client.Credentials.Username, e621Client.Credentials.ApiKey);
+#pragma warning restore 8602
         }
 
         public delegate Task<HttpResponseMessage> MakeRequest(IFlurlRequest request);
