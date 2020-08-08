@@ -24,11 +24,14 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
     2. [Tags](#tags)
         1. [Retrieving a tag](#retrieving-a-tag)
         2. [Retrieving tags](#retrieving-tags)
-    3. [Favorites](#favorites)
+    3. [Users](#users)
+        1. [Retrieving a user](#retrieving-a-user)
+        2. [Retrieving the logged-in user](#retrieving-the-logged-in-user)
+    4. [Favorites](#favorites)
         1. [Adding a post](#adding-a-post)
         2. [Removing a post](#removing-a-post)
         3. [Retrieving favorites](#retrieving-favorites)
-    4. [IQDB (Reverse image searching)](#iqdb-(reverse-image-searching))
+    5. [IQDB (Reverse image searching)](#iqdb-(reverse-image-searching))
 6. [Report a bug](#report-a-bug)
 7. [Contributing](#contributing)
 
@@ -269,6 +272,30 @@ _Get the first page of tags that start with 'wolf' in the species category_
 
 ```csharp
 var tags = await e621Client.GetTagsByNames("wolf*", category: TagCategory.Species);
+```
+
+### Users
+
+Currently E621Client doesn't support much of the users area of the API mainly due to there being no documentation on it whatsoever at the moment this was written.
+
+#### Retrieving a user
+
+You can retrieve a part of the info available about a user by searching for them using their username.
+
+_Get information about a user by searching by their username_
+
+```csharp
+var user = await e621Client.GetUserAsync("noppes");
+```
+
+#### Retrieving the logged-in user
+
+You can also retrieve the same info for the user that is currently logged-in.
+
+_Get information about the currently logged-in user_
+
+```csharp
+var user = await e621Client.GetUserAsync("noppes");
 ```
 
 ### Favorites
