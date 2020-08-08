@@ -1,9 +1,11 @@
-﻿using Flurl.Http;
+﻿using System;
+using Flurl.Http;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Flurl.Http.Content;
 
 namespace Noppes.E621.Extensions
 {
@@ -54,6 +56,25 @@ namespace Noppes.E621.Extensions
         }
 
         private static Task<T?> SendJsonAsync<T>(this IFlurlRequest request,
+            MakeRequest makeRequest, ReadToken<T> readToken, bool defaultIfNotJson, params HttpStatusCode[] defaultStatusCodes) where T : class
+        {
+            return request.SendAsync(makeRequest, (response, content) =>
+            {
+                if (defaultIfNotJson && response.Content.Headers.ContentType.MediaType != "application/json")
+                    return default;
+
+                var token = JToken.Parse(content);
+
+                return readToken(token);
+            }, defaultStatusCodes);
+        }
+
+        public static Task<T?> PostMultipartAsync<T>(this IFlurlRequest request, Action<CapturedMultipartContent> buildContent,ReadToken<T> readToken, bool defaultIfNotJson, params HttpStatusCode[] defaultStatusCodes) where T : class
+        {
+            return request.PostMultipartAsync(request => request.PostMultipartAsync(buildContent), readToken, defaultIfNotJson, defaultStatusCodes);
+        }
+
+        private static Task<T?> PostMultipartAsync<T>(this IFlurlRequest request,
             MakeRequest makeRequest, ReadToken<T> readToken, bool defaultIfNotJson, params HttpStatusCode[] defaultStatusCodes) where T : class
         {
             return request.SendAsync(makeRequest, (response, content) =>
