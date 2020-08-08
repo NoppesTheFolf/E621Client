@@ -3,6 +3,7 @@ using Flurl.Http;
 using Noppes.E621.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Noppes.E621
@@ -135,7 +136,10 @@ namespace Noppes.E621
                 if (queryParameters != null)
                     request = request.SetQueryParams(queryParameters);
 
-                return request.GetJsonAsync(token => token.SelectToken("post").ToObject<Post>(), true);
+                return request.GetJsonAsync(token =>
+                {
+                    return token.SelectToken("post").ToObject<Post>();
+                }, true, HttpStatusCode.NotFound);
             });
         }
     }
