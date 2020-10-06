@@ -3,6 +3,7 @@ using Noppes.E621.Extensions;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Noppes.E621
@@ -13,7 +14,7 @@ namespace Noppes.E621
     /// </summary>
     public partial class E621Client : IDisposable
     {
-        public string BaseUrlRegistrableDomain { get; }
+        private string BaseUrlRegistrableDomain { get; }
 
         /// <summary>
         /// The base URL that is used to create requests with.
@@ -66,10 +67,10 @@ namespace Noppes.E621
         public Task<Stream> GetStreamAsync(string url)
         {
             if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri))
-                throw new ArgumentException("Invalid url.", nameof(uri));
+                throw new ArgumentException("Invalid URL.", nameof(uri));
 
             if (uri.IsAbsoluteUri && uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)
-                throw new ArgumentException("Absolute url is use neither the HTTP scheme or HTTPS scheme.");
+                throw new ArgumentException("Absolute URL is use neither the HTTP scheme or HTTPS scheme.");
 
             string relativeUrl = url;
             if (uri.IsAbsoluteUri)
