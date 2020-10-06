@@ -31,7 +31,9 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
         1. [Adding a post](#adding-a-post)
         2. [Removing a post](#removing-a-post)
         3. [Retrieving favorites](#retrieving-favorites)
-    5. [IQDB (Reverse image searching)](#iqdb-(reverse-image-searching))
+    5. [IQDB (Reverse image searching)](#iqdb-reverse-image-searching)
+    6. [Additional](#additional)
+        1. [Get response body as stream](#get-response-body-as-a-stream)
 6. [Report a bug](#report-a-bug)
 7. [Contributing](#contributing)
 
@@ -57,6 +59,7 @@ _Cover per API area_
 | Tag Aliases    | :x:                |                                                     |
 | Notes          | :x:                |                                                     |
 | Pools          | :x:                |                                                     |
+| Users          | :heavy_minus_sign: | Only the retrieval of a user by name                |
 | Favorites      | :heavy_check_mark: | Not yet documented by e621 at the moment of writing |
 | IQDB           | :heavy_check_mark: | Not yet documented by e621 at the moment of writing |
 
@@ -372,6 +375,18 @@ _Reverse image searching using a stream_
 // You can use any stream, a FileStream is simply used as an example here
 await using var exampleStream = File.OpenRead("/my/path");
 var results = await e621Client.QueryIqdbByStreamAsync(exampleStream);
+```
+
+### Additional
+
+#### Get response body as a stream
+
+In case you need to get data from e621 that requires authorization, especially images, you can request said data as a `Stream` by using the `GetStreamAsync` method.
+
+_Get the response body as a stream from a given URL_
+
+```csharp
+await using var stream = await e621Client.GetStreamAsync("my/url");
 ```
 
 ## Report a bug
