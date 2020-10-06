@@ -10,8 +10,8 @@ using Flurl.Http.Content;
 namespace Noppes.E621.Extensions
 {
     /// <summary>
-    /// Adds e621 authentication functionality to the <see cref="IFlurlRequest"/> class. Also provides a way
-    /// of returning null values on specified HTTP status codes.
+    /// Adds e621 authentication functionality to the <see cref="IFlurlRequest"/> class. Also
+    /// provides a way of returning null values on specified HTTP status codes.
     /// </summary>
     internal static class FlurlRequestExtensions
     {

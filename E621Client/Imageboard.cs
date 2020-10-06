@@ -19,18 +19,21 @@ namespace Noppes.E621
 
     internal static class ImageboardExtensions
     {
-        public const string E621Url = "https://e621.net";
-        public const string E921Url = "https://e926.net";
+        private const string E621BaseUrlRegistrableDomain = "e621.net";
+        private const string E621BaseUrl = "https://" + E621BaseUrlRegistrableDomain;
+
+        private const string E921BaseUrlRegistrableDomain = "e926.net";
+        private const string E921BaseUrl = "https://" + E921BaseUrlRegistrableDomain;
 
         /// <summary>
         /// Maps the imageboard to a base URL that can be for HTTP clients.
         /// </summary>
-        public static string AsBaseUrl(this Imageboard imageboard)
+        public static (string registrableDomain, string baseUrl) AsBaseUrl(this Imageboard imageboard)
         {
             return imageboard switch
             {
-                Imageboard.E621 => E621Url,
-                Imageboard.E926 => E921Url,
+                Imageboard.E621 => (E621BaseUrlRegistrableDomain, E621BaseUrl),
+                Imageboard.E926 => (E921BaseUrlRegistrableDomain, E921BaseUrl),
                 _ => throw new ArgumentOutOfRangeException(nameof(imageboard))
             };
         }

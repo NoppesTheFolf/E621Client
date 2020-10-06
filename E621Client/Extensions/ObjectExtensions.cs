@@ -9,8 +9,8 @@ namespace Noppes.E621.Extensions
     internal static class ObjectExtensions
     {
         /// <summary>
-        /// Gets all the public properties from the given object, retrieves their
-        /// name and value and puts them into a dictionary.
+        /// Gets all the public properties from the given object, retrieves their name and value and
+        /// puts them into a dictionary.
         /// </summary>
         public static IDictionary<string, object> ToDictionary(this object target)
         {

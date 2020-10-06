@@ -10,9 +10,9 @@ namespace Noppes.E621
         public const int MinimumRequestIntervalInMilliseconds = 500;
 
         /// <summary>
-        /// The minimum allowed interval between each request. You should only
-        /// use this value if you're developing a time-sensitive application.
-        /// You also shouldn't use this if you're making lots of requests over a sustained period of time.
+        /// The minimum allowed interval between each request. You should only use this value if
+        /// you're developing a time-sensitive application. You also shouldn't use this if you're
+        /// making lots of requests over a sustained period of time.
         /// </summary>
         public static TimeSpan MinimumRequestInterval { get; } = TimeSpan.FromMilliseconds(MinimumRequestIntervalInMilliseconds);
 
@@ -42,7 +42,8 @@ namespace Noppes.E621
         public static TimeSpan MinimumRequestTimeout { get; } = TimeSpan.FromMilliseconds(MinimumRequestTimeoutInMilliseconds);
 
         /// <summary>
-        /// The minimum allowed amount of time in milliseconds before a request will be considered as timed out.
+        /// The minimum allowed amount of time in milliseconds before a request will be considered
+        /// as timed out.
         /// </summary>
         public const int MinimumRequestTimeoutInMilliseconds = 5000;
 
