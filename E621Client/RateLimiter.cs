@@ -64,7 +64,7 @@ namespace Noppes.E621
                     }
                     catch (FlurlHttpException httpException)
                     {
-                        if (httpException.Call?.Response.StatusCode != HttpStatusCode.TooManyRequests)
+                        if (httpException.Call.Response?.StatusCode != HttpStatusCode.TooManyRequests)
                             throw;
 
                         isFirstAttempt = false;
