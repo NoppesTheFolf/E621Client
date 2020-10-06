@@ -7,7 +7,7 @@ namespace Noppes.E621
         /// <summary>
         /// The minimum allowed interval in milliseconds between each request.
         /// </summary>
-        public const int MinimumRequestIntervalInMilliseconds = 500;
+        public static readonly int MinimumRequestIntervalInMilliseconds = 500;
 
         /// <summary>
         /// The minimum allowed interval between each request. You should only use this value if
@@ -19,7 +19,7 @@ namespace Noppes.E621
         /// <summary>
         /// The recommended interval in milliseconds between each request as per the e621 docs.
         /// </summary>
-        public const int RecommendedRequestIntervalInMilliseconds = 1000;
+        public static readonly int RecommendedRequestIntervalInMilliseconds = 1000;
 
         /// <summary>
         /// The recommended interval between each request as per the e621 docs.
@@ -45,7 +45,7 @@ namespace Noppes.E621
         /// The minimum allowed amount of time in milliseconds before a request will be considered
         /// as timed out.
         /// </summary>
-        public const int MinimumRequestTimeoutInMilliseconds = 5000;
+        public static readonly int MinimumRequestTimeoutInMilliseconds = 5000;
 
         /// <summary>
         /// The default amount of time before a request will be considered as timed out.
@@ -55,7 +55,7 @@ namespace Noppes.E621
         /// <summary>
         /// The default amount of time in milliseconds before a request will be considered as timed out.
         /// </summary>
-        public const int RecommendedRequestTimeoutInMilliseconds = 15000;
+        public static readonly int RecommendedRequestTimeoutInMilliseconds = 15000;
 
         /// <summary>
         /// The default imageboard information is retrieved from.

@@ -42,7 +42,7 @@ namespace Noppes.E621
         /// <inheritdoc/>
         public async Task<T> ExecuteAsync<T>(Func<Task<T>> requestAsync, int? interval = null, int? delayAfterRequest = null)
         {
-            await RequestLock.WaitAsync();
+            await RequestLock.WaitAsync().ConfigureAwait(false);
 
             try
             {
@@ -55,7 +55,7 @@ namespace Noppes.E621
                     }
                     else
                     {
-                        await Task.Delay(E621Client.MinimumRequestInterval);
+                        await Task.Delay(E621Client.MinimumRequestInterval).ConfigureAwait(false);
                     }
 
                     try
@@ -74,7 +74,7 @@ namespace Noppes.E621
             finally
             {
                 if (delayAfterRequest != null)
-                    await Task.Delay(TimeSpan.FromMilliseconds((int)delayAfterRequest));
+                    await Task.Delay(TimeSpan.FromMilliseconds((int)delayAfterRequest)).ConfigureAwait(false);
 
                 RequestLock.Release();
             }

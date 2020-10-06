@@ -37,7 +37,7 @@ namespace Noppes.E621
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference. Credentials will never be null because there is a user is logged-in
 #pragma warning disable 8603 // It is impossible for the method to return a null value because a logged-in user always exists
-            return await GetUserAsync(Credentials.Username);
+            return await GetUserAsync(Credentials.Username).ConfigureAwait(false);
 #pragma warning restore 8603
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
