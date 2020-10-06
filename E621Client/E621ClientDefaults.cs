@@ -37,25 +37,25 @@ namespace Noppes.E621
         public static int MaximumConnectionsLimit { get; } = 4;
 
         /// <summary>
-        /// The minimum allowed amount of time before a request will be considered as timed out.
-        /// </summary>
-        public static TimeSpan MinimumRequestTimeout { get; } = TimeSpan.FromMilliseconds(MinimumRequestTimeoutInMilliseconds);
-
-        /// <summary>
         /// The minimum allowed amount of time in milliseconds before a request will be considered
         /// as timed out.
         /// </summary>
         public static readonly int MinimumRequestTimeoutInMilliseconds = 5000;
 
         /// <summary>
-        /// The default amount of time before a request will be considered as timed out.
+        /// The minimum allowed amount of time before a request will be considered as timed out.
         /// </summary>
-        public static TimeSpan RecommendedRequestTimeout { get; } = TimeSpan.FromMilliseconds(RecommendedRequestTimeoutInMilliseconds);
+        public static TimeSpan MinimumRequestTimeout { get; } = TimeSpan.FromMilliseconds(MinimumRequestTimeoutInMilliseconds);
 
         /// <summary>
         /// The default amount of time in milliseconds before a request will be considered as timed out.
         /// </summary>
         public static readonly int RecommendedRequestTimeoutInMilliseconds = 15000;
+
+        /// <summary>
+        /// The default amount of time before a request will be considered as timed out.
+        /// </summary>
+        public static TimeSpan RecommendedRequestTimeout { get; } = TimeSpan.FromMilliseconds(RecommendedRequestTimeoutInMilliseconds);
 
         /// <summary>
         /// The default imageboard information is retrieved from.
