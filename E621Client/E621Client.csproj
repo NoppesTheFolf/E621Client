@@ -9,7 +9,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>NoppesTheFolf</Authors>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <Description>An unofficial .NET Standard 2.1 wrapper for the e621 API.</Description>
     <PackageProjectUrl>https://github.com/NoppesTheFolf/E621Client</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
@@ -17,10 +17,7 @@
     <Product>E621Client</Product>
     <PackageIcon>E621Client.png</PackageIcon>
     <Copyright>Copyright © NoppesTheFolf 2019-2020</Copyright>
-    <PackageReleaseNotes>- Add support for getting the response body as a stream for a given URL
-- Fix null reference exception when attempting to determine whether or not to retry a request
-- Minor performance improvements
-</PackageReleaseNotes>
+    <PackageReleaseNotes>- Fix issue where requests time out instantly</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
