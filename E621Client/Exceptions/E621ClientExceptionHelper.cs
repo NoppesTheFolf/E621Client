@@ -16,8 +16,8 @@ namespace Noppes.E621
 
             return httpException.Call.Response.StatusCode switch
             {
-                HttpStatusCode.Unauthorized => E621ClientUnauthorizedException.Create(exception),
-                HttpStatusCode.Forbidden => E621ClientForbiddenException.Create(exception),
+                (int)HttpStatusCode.Unauthorized => E621ClientUnauthorizedException.Create(exception),
+                (int)HttpStatusCode.Forbidden => E621ClientForbiddenException.Create(exception),
                 _ => exception
             };
         }

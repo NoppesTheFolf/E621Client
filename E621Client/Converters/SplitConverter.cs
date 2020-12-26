@@ -33,7 +33,7 @@ namespace Noppes.E621.Converters
 
         protected virtual T ConvertType(string value)
         {
-            return (T) Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
+            return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
         }
 
         protected override string AsString(ICollection<T> value)
