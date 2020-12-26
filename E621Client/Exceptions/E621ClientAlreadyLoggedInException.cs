@@ -19,7 +19,7 @@ namespace Noppes.E621
         {
         }
 
-        internal static E621ClientAlreadyLoggedInException Create() => 
+        internal static E621ClientAlreadyLoggedInException Create() =>
             new E621ClientAlreadyLoggedInException("A log in tried to take place while another user is already logged in. You need to log out first.");
     }
 }
