@@ -3,7 +3,6 @@ using Noppes.E621.Extensions;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Noppes.E621

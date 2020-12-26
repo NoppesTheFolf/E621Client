@@ -21,7 +21,7 @@ namespace Noppes.E621
         /// </summary>
         [JsonProperty("note_locked")]
         public bool IsNoteLocked { get; set; }
-        
+
         /// <summary>
         /// If the post’s status has been locked. Null if a post has been deleted.
         /// </summary>

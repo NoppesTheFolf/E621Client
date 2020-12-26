@@ -1,11 +1,10 @@
-﻿using System;
-using Flurl.Http;
+﻿using Flurl.Http;
+using Flurl.Http.Content;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Flurl.Http.Content;
 
 namespace Noppes.E621.Extensions
 {
@@ -17,10 +16,9 @@ namespace Noppes.E621.Extensions
     {
         public static IFlurlRequest AuthenticatedIfPossible(this IFlurlRequest flurlRequest, E621Client e621Client)
         {
-            if (e621Client.Credentials == null)
-                return flurlRequest;
-
-            return flurlRequest.Authenticated(e621Client);
+            return e621Client.Credentials == null
+                ? flurlRequest
+                : flurlRequest.Authenticated(e621Client);
         }
 
         public static IFlurlRequest Authenticated(this IFlurlRequest flurlRequest, E621Client e621Client)
@@ -33,9 +31,9 @@ namespace Noppes.E621.Extensions
 #pragma warning restore 8602
         }
 
-        public delegate Task<HttpResponseMessage> MakeRequest(IFlurlRequest request);
+        public delegate Task<IFlurlResponse> MakeRequest(IFlurlRequest request);
 
-        public delegate T? DeserializeContent<out T>(HttpResponseMessage response, string content) where T : class;
+        public delegate T? DeserializeContent<out T>(IFlurlResponse response, string content) where T : class;
 
         public delegate T ReadToken<out T>(JToken token);
 
@@ -62,7 +60,7 @@ namespace Noppes.E621.Extensions
         {
             return request.SendAsync(makeRequest, (response, content) =>
             {
-                if (defaultIfNotJson && response.Content.Headers.ContentType.MediaType != "application/json")
+                if (defaultIfNotJson && response.ResponseMessage.Content.Headers.ContentType.MediaType != "application/json")
                     return default;
 
                 var token = JToken.Parse(content);
@@ -71,7 +69,7 @@ namespace Noppes.E621.Extensions
             }, defaultStatusCodes);
         }
 
-        public static Task<T?> PostMultipartAsync<T>(this IFlurlRequest request, Action<CapturedMultipartContent> buildContent,ReadToken<T> readToken, bool defaultIfNotJson, params HttpStatusCode[] defaultStatusCodes) where T : class
+        public static Task<T?> PostMultipartAsync<T>(this IFlurlRequest request, Action<CapturedMultipartContent> buildContent, ReadToken<T> readToken, bool defaultIfNotJson, params HttpStatusCode[] defaultStatusCodes) where T : class
         {
             return request.PostMultipartAsync(request => request.PostMultipartAsync(buildContent), readToken, defaultIfNotJson, defaultStatusCodes);
         }
@@ -81,7 +79,7 @@ namespace Noppes.E621.Extensions
         {
             return request.SendAsync(makeRequest, (response, content) =>
             {
-                if (defaultIfNotJson && response.Content.Headers.ContentType.MediaType != "application/json")
+                if (defaultIfNotJson && response.ResponseMessage.Content.Headers.ContentType.MediaType != "application/json")
                     return default;
 
                 var token = JToken.Parse(content);
@@ -97,10 +95,10 @@ namespace Noppes.E621.Extensions
 
             var response = await makeRequest(request).ConfigureAwait(false);
 
-            if (defaultStatusCodes.Contains(response.StatusCode))
+            if (defaultStatusCodes.Contains((HttpStatusCode)response.StatusCode))
                 return default;
 
-            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var content = await response.ResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             return deserializeContent(response, content);
         }
