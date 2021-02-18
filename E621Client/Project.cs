@@ -7,7 +7,7 @@
     {
         private const string Name = "E621Client";
 
-        private const string Version = "0.4.0";
+        private const string Version = "0.4.1";
 
         private const string DevelopedBy = "NoppesTheFolf";
 
