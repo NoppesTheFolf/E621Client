@@ -16,7 +16,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>E621Client</Product>
     <PackageIcon>E621Client.png</PackageIcon>
-    <Copyright>Copyright © NoppesTheFolf 2019-2020</Copyright>
+    <Copyright>Copyright © NoppesTheFolf 2019-2021</Copyright>
     <PackageReleaseNotes>- Bump Flurl.Http to version 3.0.1</PackageReleaseNotes>
   </PropertyGroup>
 
