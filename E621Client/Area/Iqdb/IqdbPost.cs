@@ -208,7 +208,7 @@ namespace Noppes.E621
             post.Sample = new PostSampleImage
             {
                 Location = SampleLocation,
-                SameAsSource = SampleLocation == FileLocation,
+                Has = SampleLocation != FileLocation,
                 Width = -1,
                 Height = -1
             };
