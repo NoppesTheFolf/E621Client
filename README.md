@@ -34,8 +34,9 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
     5. [IQDB (Reverse image searching)](#iqdb-reverse-image-searching)
     6. [Additional](#additional)
         1. [Get response body as stream](#get-response-body-as-a-stream)
-6. [Report a bug](#report-a-bug)
-7. [Contributing](#contributing)
+6. [Testing](#testing)    
+7. [Report a bug](#report-a-bug)
+8. [Contributing](#contributing)
 
 ## Completeness
 
@@ -98,8 +99,8 @@ _Example for an interactive application_
 ```csharp
 var e621Client = new E621ClientBuilder()
     .WithUserAgent("MyApplicationName", "MyApplicationVersion", "MyTwitterUsername", "Twitter")
-    .WithMaximumConnections(E621Client.MaximumConnectionsLimit)
-    .WithRequestInterval(E621Client.MinimumRequestInterval)
+    .WithMaximumConnections(E621Constants.MaximumConnectionsLimit)
+    .WithRequestInterval(E621Constants.MinimumRequestInterval)
     .Build();
 ```
 
@@ -155,7 +156,7 @@ var postByMd5 = await e621Client.GetPostAsync("900e98af5b512ba1a5f8a1a9885c1ef1"
 
 #### Retrieving posts
 
-A collection of posts can be retrieved using the `GetPostsAsync` method. There is a limit on how much posts can be retrieved in a single call to this method. This limited is defined at `E621Client.PostsMaximumLimit`. Therefore, you need to be able to navigate through e621's post collection. There are two ways to do this: pagination and relative positioning.
+A collection of posts can be retrieved using the `GetPostsAsync` method. There is a limit on how much posts can be retrieved in a single call to this method. This limited is defined at `E621Constants.PostsMaximumLimit`. Therefore, you need to be able to navigate through e621's post collection. There are two ways to do this: pagination and relative positioning.
 
 ##### Without navigation
 
@@ -164,14 +165,14 @@ You can request a bunch of posts without navigation, but the use cases are very 
 _Retrieve a collection of posts tagged "canine" with the maximum number of posts retrievable in a single call without using any navigation_
 
 ```csharp
-var posts = await e621Client.GetPostsAsync("canine", limit: E621Client.PostsMaximumLimit);
+var posts = await e621Client.GetPostsAsync("canine", limit: E621Constants.PostsMaximumLimit);
 ```
 
 ##### Navigation using pagination
 
 You're probably already familiar with the concept of pagination: a collection of something, in this case posts, is split into parts of equal size. Each of those parts is assigned a number and these parts can then be requested using that number. That number is which we call a "page".
 
-Be aware that there is a limit on the maximum allowed page number. This limit is defined at `E621Client.PostsMaximumPage`. Exceeding this number will cause an exception to be thrown.
+Be aware that there is a limit on the maximum allowed page number. This limit is defined at `E621Constants.PostsMaximumPage`. Exceeding this number will cause an exception to be thrown.
 
 _Retrieve the fifteenth page of a collection of posts tagged "canine"_
 
@@ -182,14 +183,14 @@ var posts = await e621Client.GetPostsAsync("canine", 15);
 _Retrieve the fifteenth page of a collection of posts tagged "canine" with the maximum number of posts retrievable in a single call_
 
 ```csharp
-var posts = await e621Client.GetPostsAsync("canine", 15, E621Client.PostsMaximumLimit);
+var posts = await e621Client.GetPostsAsync("canine", 15, E621Constants.PostsMaximumLimit);
 ```
 
 ##### Navigation using relative positioning
 
 This may sound a bit scary at first, but it really isn't. All you need to do is specify both an post ID and a position. The position parameter defines the position of the returned posts relative to the given post ID.
 
-Let's take post with ID 1000 as an example. Passing this ID in combination with `Position.Before` will cause the posts 999, 998, 997, etc. to be retrieved. Using `Position.After` will retrieve the posts 1001, 1002, 1003, etc. You should use this method if you don't need pagination or need to avoid the limit pagination comes with it. Moreover, this is the most efficient way to navigate through posts.
+Let's take post with ID 1000 as an example. Passing this ID in combination with `Position.Before` will cause the posts 999, 998, 997, etc. to be retrieved. Using `Position.After` will retrieve the posts 1001, 1002, 1003, etc. You should use this method if you don't need pagination or need to avoid the limit pagination comes with. Moreover, this is the most efficient way to navigate through posts.
 
 _Retrieve a collection of posts with an ID less than 200_
 
@@ -206,7 +207,7 @@ var posts = await e621Client.GetPostsAsync(200, Position.After);
 _Retrieve a collection of posts tagged "canine" with an ID greater than 200 using the maximum limit of posts retrieved in a single call_
 
 ```csharp
-var posts = await e621Client.GetPostsAsync(200, Position.After, "canine", E621Client.PostsMaximumLimit);
+var posts = await e621Client.GetPostsAsync(200, Position.After, "canine", E621Constants.PostsMaximumLimit);
 ```
 
 ### Tags
@@ -231,9 +232,9 @@ var tag = await e621Client.GetTagAsync("noppes");
 
 There are a couple of different ways a collection of tags can be retrieved: without using any filter, using the names of the tags and using a query.
 
-Searching for tags without using filter, opens up the usage of pagination with relative positioning. [This works in exactly the same way as it does for posts.](#navigation-using-relative-positioning). [All of the other available overloads make use of pagination as you're used to.](#navigation-using-pagination). The maximum allowed page number is defined at `E621Client.TagsMaximumPage`.
+Searching for tags without using filter, opens up the usage of pagination with relative positioning. [This works in exactly the same way as it does for posts.](#navigation-using-relative-positioning). [All of the other available overloads make use of pagination as you're used to.](#navigation-using-pagination). The maximum allowed page number is defined at `E621Constants.TagsMaximumPage`.
 
-Note that there is a limit on the number of tags that can be retrieved in a single call to any of the overloads. This limit is defined at `E621Client.TagsMaximumLimit`.
+Note that there is a limit on the number of tags that can be retrieved in a single call to any of the overloads. This limit is defined at `E621Constants.TagsMaximumLimit`.
 
 ##### Without filter
 
@@ -242,16 +243,16 @@ The first way of retrieving tags is without using any specific name filter with 
 _Get the maximum possible number of tags after ID 1000_
 
 ```csharp
-var tags = await e621Client.GetTagsAsync(1000, Position.After, E621Client.TagsMaximumLimit);
+var tags = await e621Client.GetTagsAsync(1000, Position.After, E621Constants.TagsMaximumLimit);
 ```
 
 _Get the 10th page using the maximum possible number of tags ordered by the number of posts making use of the tag_
 
 ```csharp
-var tags = await e621Client.GetTagsAsync(10, E621Client.TagsMaximumLimit, order: TagOrder.Count);
+var tags = await e621Client.GetTagsAsync(10, E621Constants.TagsMaximumLimit, order: TagOrder.Count);
 ```
 
-##### Using tags their names
+##### Using tags and their names
 
 A collection of tags can also be retrieved using their names using the `GetTagsUsingNamesAsync` method.
 
@@ -298,7 +299,7 @@ You can also retrieve the same info for the user that is currently logged-in.
 _Get information about the currently logged-in user_
 
 ```csharp
-var user = await e621Client.GetUserAsync("noppes");
+var user = await e621Client.GetLoggedInUserAsync("noppes");
 ```
 
 ### Favorites
@@ -388,6 +389,10 @@ _Get the response body as a stream from a given URL_
 ```csharp
 await using var stream = await e621Client.GetStreamAsync("my/url");
 ```
+
+## Testing
+
+E621Client now supports testing and Mocking. `E621ClientBuilder.Build()` will return an interface `IE621Client` that can be mocked using a mocking framework. You can use this to test your own logic with different responses of the `E621Client`.
 
 ## Report a bug
 

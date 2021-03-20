@@ -10,15 +10,15 @@ namespace Noppes.E621
     {
         private E621UserAgent? UserAgent { get; set; }
 
-        private string BaseUrlRegistrableDomain { get; set; } = E621Client.DefaultImageboard.AsBaseUrl().registrableDomain;
+        private string BaseUrlRegistrableDomain { get; set; } = E621Constants.DefaultImageboard.AsBaseUrl().registrableDomain;
 
-        private string BaseUrl { get; set; } = E621Client.DefaultImageboard.AsBaseUrl().baseUrl;
+        private string BaseUrl { get; set; } = E621Constants.DefaultImageboard.AsBaseUrl().baseUrl;
 
-        private TimeSpan RequestTimeout { get; set; } = E621Client.RecommendedRequestTimeout;
+        private TimeSpan RequestTimeout { get; set; } = E621Constants.RecommendedRequestTimeout;
 
-        private TimeSpan RequestInterval { get; set; } = E621Client.RecommendedRequestInterval;
+        private TimeSpan RequestInterval { get; set; } = E621Constants.RecommendedRequestInterval;
 
-        private int MaximumConnections { get; set; } = E621Client.DefaultMaximumConnections;
+        private int MaximumConnections { get; set; } = E621Constants.DefaultMaximumConnections;
 
         /// <summary>
         /// Sets the User-Agent header that is sent with each request made. This header is used to
@@ -63,7 +63,7 @@ namespace Noppes.E621
             {
                 // Prevent requests faster than the minimum interval
                 RequestInterval = Guard.Argument(interval, nameof(interval))
-                    .Min(E621Client.MinimumRequestInterval);
+                    .Min(E621Constants.MinimumRequestInterval);
             });
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Noppes.E621
             {
                 // Prevent timeouts shorter than the minimum timeout
                 RequestTimeout = Guard.Argument(timeout, nameof(timeout))
-                    .Min(E621Client.MinimumRequestTimeout);
+                    .Min(E621Constants.MinimumRequestTimeout);
             });
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Noppes.E621
             Set(() =>
             {
                 MaximumConnections = Guard.Argument(maximumConnections, nameof(maximumConnections))
-                    .InRange(1, E621Client.MaximumConnectionsLimit);
+                    .InRange(1, E621Constants.MaximumConnectionsLimit);
             });
 
         /// <summary>
@@ -128,12 +128,12 @@ namespace Noppes.E621
         /// <see cref="WithUserAgent"/> method.
         /// </summary>
         /// <exception cref="InvalidOperationException"></exception>
-        public E621Client Build()
+        public IE621Client Build()
         {
             if (UserAgent == null)
                 throw new InvalidOperationException($"The user agent must be specified in order to build the client.");
 
-            E621Client e621Client = new E621Client(BaseUrlRegistrableDomain, BaseUrl, UserAgent, RequestInterval, MaximumConnections)
+            IE621Client e621Client = new E621Client(BaseUrlRegistrableDomain, BaseUrl, UserAgent, RequestInterval, MaximumConnections)
             {
                 Timeout = RequestTimeout
             };
