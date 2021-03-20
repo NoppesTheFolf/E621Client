@@ -55,7 +55,7 @@ namespace Noppes.E621
                     }
                     else
                     {
-                        await Task.Delay(E621Client.MinimumRequestInterval).ConfigureAwait(false);
+                        await Task.Delay(E621Constants.MinimumRequestInterval).ConfigureAwait(false);
                     }
 
                     try

@@ -11,7 +11,7 @@ namespace Noppes.E621
     /// Client used to make requests with to the e621 API. Can only be created using the <see
     /// cref="E621ClientBuilder"/> class.
     /// </summary>
-    public partial class E621Client : IDisposable
+    public partial class E621Client : IE621Client, IDisposable
     {
         private string BaseUrlRegistrableDomain { get; }
 

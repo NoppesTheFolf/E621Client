@@ -4,22 +4,15 @@ namespace Noppes.E621
 {
     public partial class E621Client
     {
-        /// <summary>
-        /// Whether or not a user is currently logged in.
-        /// </summary>
+        /// <inheritdoc cref="IE621Client.HasLogin"/>
         public bool HasLogin => Credentials != null;
 
         /// <summary>
         /// Credentials used to authenticate requests with.
         /// </summary>
-        internal E621Credentials? Credentials { get; set; }
+        internal E621Credentials? Credentials { get; private set; }
 
-        /// <summary>
-        /// Logs the user in based on their username and API key. It will validate the provided credentials and return
-        /// whether or not the log in was successful or not.
-        /// </summary>
-        /// <param name="username">Username used for logging in.</param>
-        /// <param name="apiKey">API key used for logging in.</param>
+        /// <inheritdoc cref="IE621Client.LogInAsync"/>
         public async Task<bool> LogInAsync(string username, string apiKey)
         {
             if (HasLogin)
@@ -51,9 +44,7 @@ namespace Noppes.E621
 
         }
 
-        /// <summary>
-        /// Logs a user out.
-        /// </summary>
+        /// <inheritdoc cref="IE621Client.Logout"/>
         public void Logout() => Credentials = null;
     }
 }

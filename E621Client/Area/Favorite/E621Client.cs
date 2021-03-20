@@ -10,49 +10,34 @@ namespace Noppes.E621
 {
     public partial class E621Client
     {
-        /// <summary>
-        /// The maximum possible number of favorites retrieved in a single call to <see cref="GetFavoritesAsync"/>.
-        /// </summary>
-        public static int FavoritesMaximum { get; } = 75;
-
-        private enum FavoriteAction
-        {
-            Add,
-            Remove
-        }
-
-        /// <summary>
-        /// Adds a post to the user's favorites. Trying to add a post that does
-        /// not exist or is already a favorite, will silently 'fail'.
-        /// </summary>
-        /// <exception cref="E621ClientNotAuthenticatedException"></exception>
+        /// <inheritdoc cref="IE621Client.AddFavoriteAsync(Noppes.E621.Post)"/>
         public Task AddFavoriteAsync(Post post) =>
             AddFavoriteAsync(post.Id);
 
-        /// <summary>
-        /// Adds a post to the user's favorites. Trying to add a post that does
-        /// not exist or is already a favorite, will silently 'fail'.
-        /// </summary>
-        /// <exception cref="E621ClientNotAuthenticatedException"></exception>
+        /// <inheritdoc cref="IE621Client.AddFavoriteAsync(Noppes.E621.Post)"/>
         public Task AddFavoriteAsync(int postId) =>
             FavoriteAsync(postId, FavoriteAction.Add);
 
-        /// <summary>
-        /// Removes a post from the user's favorites. Trying to remove a post that does
-        /// not exist or is not a favorite, will silently 'fail'.
-        /// </summary>
-        /// <exception cref="E621ClientNotAuthenticatedException"></exception>
+        /// <inheritdoc cref="IE621Client.RemoveFavoriteAsync(Noppes.E621.Post)"/>
         public Task RemoveFavoriteAsync(Post post) =>
             RemoveFavoriteAsync(post.Id);
 
-        /// <summary>
-        /// Removes a post from the user's favorites. Trying to remove a post that does
-        /// not exist or is not a favorite, will silently 'fail'.
-        /// </summary>
-        /// <exception cref="E621ClientNotAuthenticatedException"></exception>
+        /// <inheritdoc cref="IE621Client.RemoveFavoriteAsync(Noppes.E621.Post)"/>
         public Task RemoveFavoriteAsync(int postId) =>
             FavoriteAsync(postId, FavoriteAction.Remove);
 
+        /// <inheritdoc cref="IE621Client.GetFavoritesAsync"/>
+        public Task<ICollection<Post>?> GetFavoritesAsync(int userId, int? page = null) => GetFavoritesAsync((int?)userId, page);
+
+        /// <inheritdoc cref="IE621Client.GetOwnFavoritesAsync"/>
+        public Task<ICollection<Post>> GetOwnFavoritesAsync(int? page = null)
+        {
+            // A logged-in user will always exist and will therefore always have a list of favorites.
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
+            return GetFavoritesAsync(page: page);
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
+        }
+        
         private Task FavoriteAsync(int postId, FavoriteAction action)
         {
             var requestUrl = action switch
@@ -81,29 +66,6 @@ namespace Noppes.E621
             });
         }
 
-        /// <summary>
-        /// Gets the favorites of the user with the provided user ID. Null will be returned in case
-        /// there doesn't exist a user with the given user ID. The maximum possible number of
-        /// favorites retrieved in a single call, is defined at <see cref="FavoritesMaximum"/>.
-        /// </summary>
-        /// <param name="userId">The ID of the user which favorites should be retrieved.</param>
-        /// <param name="page">Pagination, page number.</param>
-        /// <returns></returns>
-        public Task<ICollection<Post>?> GetFavoritesAsync(int userId, int? page = null) => GetFavoritesAsync((int?)userId, page);
-
-        /// <summary>
-        /// Gets the currently logged-in user's favorited posts. The maximum possible number of
-        /// favorites retrieved in a single call, is defined at <see cref="FavoritesMaximum"/>.
-        /// </summary>
-        /// <param name="page">Pagination, page number.</param>
-        public Task<ICollection<Post>> GetOwnFavoritesAsync(int? page = null)
-        {
-            // A logged-in user will always exist and will therefore always have a list of favorites.
-#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
-            return GetFavoritesAsync(page: page);
-#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
-        }
-
         private Task<ICollection<Post>?> GetFavoritesAsync(int? userId = null, int? page = null)
         {
             Guard.Argument(userId, nameof(userId)).Positive();
@@ -129,6 +91,12 @@ namespace Noppes.E621
                     return token.SelectToken("posts").ToObject<ICollection<Post>>();
                 }, true, HttpStatusCode.NotFound);
             });
+        }
+        
+        private enum FavoriteAction
+        {
+            Add,
+            Remove
         }
     }
 }
