@@ -13,7 +13,7 @@ namespace Noppes.E621
         /// <inheritdoc cref="IE621Client.GetPostsAsync(int,Noppes.E621.Position,System.Nullable{int},string?)"/>
         public Task<ICollection<Post>> GetPostsAsync(int id, Position position, int? limit = null, string? tags = null) => GetPostsAsync(tags, limit, id, position);
 
-        /// <inheritdoc cref="IE621Client.GetPostsAsync(int,Noppes.E621.Position,System.Nullable{int},string?)"/>
+        /// <inheritdoc cref="IE621Client.GetPostsAsync(string?,System.Nullable{int},System.Nullable{int})"/>
         public Task<ICollection<Post>> GetPostsAsync(string? tags = null, int? page = null, int? limit = null) => GetPostsAsync(tags, limit, page, null);
 
         /// <inheritdoc cref="IE621Client.GetPostAsync(int)"/>
