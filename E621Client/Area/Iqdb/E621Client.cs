@@ -21,15 +21,6 @@ namespace Noppes.E621
         // an IQDB query seems to prevent 429 responses.
         private const int IqdbRequestInterval = 0;
         private const int IqdbRequestDelay = 2000;
-        
-        /// <inheritdoc cref="IE621Client.IqdbAllowedFormats"/>
-        public IReadOnlyDictionary<string, string[]> IqdbAllowedFormats { get; }
-
-        /// <inheritdoc cref="IE621Client.IqdbAllowedFormatNames"/>
-        public IReadOnlyCollection<string> IqdbAllowedFormatNames { get; }
-
-        /// <inheritdoc cref="IE621Client.IqdbAllowedFormatExtensions"/>
-        public IReadOnlyCollection<string> IqdbAllowedFormatExtensions { get; } 
 
         /// <inheritdoc cref="IE621Client.QueryIqdbByUrlAsync"/>
         public Task<ICollection<IqdbPost>?> QueryIqdbByUrlAsync(string url, bool activeOnly = true)
