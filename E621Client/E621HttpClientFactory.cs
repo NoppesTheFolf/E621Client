@@ -9,14 +9,14 @@ namespace Noppes.E621
     /// </summary>
     internal class E621HttpClientFactory : DefaultHttpClientFactory
     {
-        private int MaximumConnection { get; }
+        private readonly int _maximumConnection;
 
         public E621HttpClientFactory(int maximumConnection)
         {
-            MaximumConnection = maximumConnection;
+            _maximumConnection = maximumConnection;
         }
 
         public override HttpMessageHandler CreateMessageHandler() =>
-            new E621ClientHandler(MaximumConnection);
+            new E621ClientHandler(_maximumConnection);
     }
 }

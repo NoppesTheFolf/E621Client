@@ -13,8 +13,6 @@ namespace Noppes.E621
     /// </summary>
     public partial class E621Client : IE621Client, IDisposable
     {
-        private string BaseUrlRegistrableDomain { get; }
-
         /// <summary>
         /// The base URL that is used to create requests with.
         /// </summary>
@@ -29,28 +27,28 @@ namespace Noppes.E621
             get => _timeout;
             internal set
             {
-                FlurlClient.WithTimeout(value);
+                _flurlClient.WithTimeout(value);
 
                 _timeout = value;
             }
         }
 
-        private IFlurlClient FlurlClient { get; }
-
-        private ILimiter RateLimiter { get; }
+        private readonly string _baseUrlRegistrableDomain;
+        private readonly IFlurlClient _flurlClient;
+        private readonly IRequestHandler _requestHandler;
 
         internal E621Client(string baseUrlRegistrableDomain, string baseUrl, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
         {
-            BaseUrlRegistrableDomain = baseUrlRegistrableDomain;
+            _baseUrlRegistrableDomain = baseUrlRegistrableDomain;
             BaseUrl = baseUrl;
 
             E621HttpClientFactory clientFactory = new E621HttpClientFactory(maximumConnections);
 
-            FlurlClient = new FlurlClient(BaseUrl)
+            _flurlClient = new FlurlClient(BaseUrl)
                 .Configure(options => options.HttpClientFactory = clientFactory)
                 .WithHeader("User-Agent", userAgent.ToString());
 
-            RateLimiter = new RateLimiter(requestInterval);
+            _requestHandler = new E621RequestHandler(requestInterval);
         }
 
         /// <summary>
@@ -76,28 +74,23 @@ namespace Noppes.E621
             {
                 var match = Regex.Match(url, "http[s]?:\\/\\/(.+?)(?=\\/|$)(.*)", RegexOptions.IgnoreCase);
 
-                if (!match.Groups[1].Value.EndsWith(BaseUrlRegistrableDomain))
+                if (!match.Groups[1].Value.EndsWith(_baseUrlRegistrableDomain))
                     throw new ArgumentException("The provided URL does not match the registrable domain of the base URL.", nameof(url));
             }
 
-            return RequestAsync(relativeUrl, request =>
-            {
-                return request
-                    .AuthenticatedIfPossible(this)
-                    .GetStreamAsync();
-            });
+            return RequestAsync(relativeUrl, request => request
+                .AuthenticatedIfPossible(this)
+                .GetStreamAsync());
         }
 
         private async Task<T> RequestAsync<T>(string urlSegment, Func<IFlurlRequest, Task<T>> func, int? interval = null, int? delayAfterRequest = null)
         {
             try
             {
-                var request = FlurlClient.Request(urlSegment);
+                var request = _flurlClient.Request(urlSegment);
 
-                return await RateLimiter.ExecuteAsync(() =>
-                {
-                    return func(request);
-                }, interval, delayAfterRequest).ConfigureAwait(false);
+                return await _requestHandler.ExecuteAsync(() => func(request), interval, delayAfterRequest)
+                    .ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -120,7 +113,7 @@ namespace Noppes.E621
                 return;
 
             if (disposing)
-                FlurlClient.Dispose();
+                _flurlClient.Dispose();
 
             IsDisposed = true;
         }
