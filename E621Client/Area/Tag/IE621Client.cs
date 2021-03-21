@@ -3,9 +3,7 @@ using System.Threading.Tasks;
 
 namespace Noppes.E621
 {
-    /// <summary>
-    /// Interface for the Tag part of the E621Client.
-    /// </summary>
+    // Interface for the tag part of the E621Client.
     public partial interface IE621Client
     {
         /// <summary>

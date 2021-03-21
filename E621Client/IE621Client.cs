@@ -4,13 +4,16 @@ using System.Threading.Tasks;
 
 namespace Noppes.E621
 {
+    /// <summary>
+    /// Client which can be used to make requests with to the e621 API.
+    /// </summary>
     public partial interface IE621Client
     {
         /// <summary>
         /// The base URL that is used to create requests with.
         /// </summary>
         public string BaseUrl { get; }
-        
+
         /// <summary>
         /// The amount of time before a request is considered timed out.
         /// </summary>

@@ -22,7 +22,7 @@ namespace Noppes.E621
         private const int IqdbRequestInterval = 0;
         private const int IqdbRequestDelay = 2000;
 
-        /// <inheritdoc cref="IE621Client.QueryIqdbByUrlAsync"/>
+        /// <inheritdoc/>
         public Task<ICollection<IqdbPost>?> QueryIqdbByUrlAsync(string url, bool activeOnly = true)
         {
             return QueryIqdbAsync(content =>
@@ -31,7 +31,7 @@ namespace Noppes.E621
             }, activeOnly, HttpStatusCode.InternalServerError);
         }
 
-        /// <inheritdoc cref="IE621Client.QueryIqdbByStreamAsync"/>
+        /// <inheritdoc/>
         public Task<ICollection<IqdbPost>> QueryIqdbByStreamAsync(Stream stream, bool activeOnly = true)
         {
 #pragma warning disable 8619 // Nullability of reference types in value doesn't match target type. Null values will only be returned in case defaultStatusCodes are provided.
@@ -42,7 +42,7 @@ namespace Noppes.E621
 #pragma warning restore 8619 // Nullability of reference types in value doesn't match target type.
         }
 
-        /// <inheritdoc cref="IE621Client.QueryIqdbByFileAsync"/>
+        /// <inheritdoc/>
         public Task<ICollection<IqdbPost>> QueryIqdbByFileAsync(string path, bool activeOnly = true)
         {
             if (!File.Exists(path))

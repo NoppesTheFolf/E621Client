@@ -4,9 +4,7 @@ using System.Threading.Tasks;
 
 namespace Noppes.E621
 {
-    /// <summary>
-    /// Interface for the Post part of the E621Client.
-    /// </summary>
+    // Interface for the posts part of the E621Client.
     public partial interface IE621Client
     {
         /// <summary>

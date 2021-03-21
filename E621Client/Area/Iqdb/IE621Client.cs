@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace Noppes.E621
 {
-    /// <summary>
-    /// Interface for the IQDB part of the E621Client
-    /// </summary>
+    // Interface for the IQDB part of the E621Client.
     public partial interface IE621Client
     {
         /// <summary>

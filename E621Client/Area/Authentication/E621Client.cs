@@ -4,7 +4,7 @@ namespace Noppes.E621
 {
     public partial class E621Client
     {
-        /// <inheritdoc cref="IE621Client.HasLogin"/>
+        /// <inheritdoc/>
         public bool HasLogin => Credentials != null;
 
         /// <summary>
@@ -12,7 +12,7 @@ namespace Noppes.E621
         /// </summary>
         internal E621Credentials? Credentials { get; private set; }
 
-        /// <inheritdoc cref="IE621Client.LogInAsync"/>
+        /// <inheritdoc/>
         public async Task<bool> LogInAsync(string username, string apiKey)
         {
             if (HasLogin)
@@ -44,7 +44,7 @@ namespace Noppes.E621
 
         }
 
-        /// <inheritdoc cref="IE621Client.Logout"/>
+        /// <inheritdoc/>
         public void Logout() => Credentials = null;
     }
 }

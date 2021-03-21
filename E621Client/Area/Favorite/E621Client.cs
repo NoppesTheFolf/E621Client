@@ -10,26 +10,26 @@ namespace Noppes.E621
 {
     public partial class E621Client
     {
-        /// <inheritdoc cref="IE621Client.AddFavoriteAsync(Noppes.E621.Post)"/>
+        /// <inheritdoc/>
         public Task AddFavoriteAsync(Post post) =>
             AddFavoriteAsync(post.Id);
 
-        /// <inheritdoc cref="IE621Client.AddFavoriteAsync(Noppes.E621.Post)"/>
+        /// <inheritdoc/>
         public Task AddFavoriteAsync(int postId) =>
             FavoriteAsync(postId, FavoriteAction.Add);
 
-        /// <inheritdoc cref="IE621Client.RemoveFavoriteAsync(Noppes.E621.Post)"/>
+        /// <inheritdoc/>
         public Task RemoveFavoriteAsync(Post post) =>
             RemoveFavoriteAsync(post.Id);
 
-        /// <inheritdoc cref="IE621Client.RemoveFavoriteAsync(Noppes.E621.Post)"/>
+        /// <inheritdoc/>
         public Task RemoveFavoriteAsync(int postId) =>
             FavoriteAsync(postId, FavoriteAction.Remove);
 
-        /// <inheritdoc cref="IE621Client.GetFavoritesAsync"/>
+        /// <inheritdoc/>
         public Task<ICollection<Post>?> GetFavoritesAsync(int userId, int? page = null) => GetFavoritesAsync((int?)userId, page);
 
-        /// <inheritdoc cref="IE621Client.GetOwnFavoritesAsync"/>
+        /// <inheritdoc/>
         public Task<ICollection<Post>> GetOwnFavoritesAsync(int? page = null)
         {
             // A logged-in user will always exist and will therefore always have a list of favorites.
@@ -37,7 +37,7 @@ namespace Noppes.E621
             return GetFavoritesAsync(page: page);
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         }
-        
+
         private Task FavoriteAsync(int postId, FavoriteAction action)
         {
             var requestUrl = action switch
@@ -92,7 +92,7 @@ namespace Noppes.E621
                 }, true, HttpStatusCode.NotFound);
             });
         }
-        
+
         private enum FavoriteAction
         {
             Add,

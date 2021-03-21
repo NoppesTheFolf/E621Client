@@ -10,19 +10,19 @@ namespace Noppes.E621
 {
     public partial class E621Client
     {
-        /// <inheritdoc cref="IE621Client.GetPostsAsync(int,Noppes.E621.Position,System.Nullable{int},string?)"/>
+        /// <inheritdoc/>
         public Task<ICollection<Post>> GetPostsAsync(int id, Position position, int? limit = null, string? tags = null) => GetPostsAsync(tags, limit, id, position);
 
-        /// <inheritdoc cref="IE621Client.GetPostsAsync(string?,System.Nullable{int},System.Nullable{int})"/>
+        /// <inheritdoc/>
         public Task<ICollection<Post>> GetPostsAsync(string? tags = null, int? page = null, int? limit = null) => GetPostsAsync(tags, limit, page, null);
 
-        /// <inheritdoc cref="IE621Client.GetPostAsync(int)"/>
+        /// <inheritdoc/>
         public Task<Post?> GetPostAsync(int id)
         {
             return GetPostAsync($"/posts/{id}.json", null);
         }
 
-        /// <inheritdoc cref="IE621Client.GetPostAsync(string)"/>
+        /// <inheritdoc/>
         public Task<Post?> GetPostAsync(string md5)
         {
             Guard.Argument(md5, nameof(md5)).Length(32);
