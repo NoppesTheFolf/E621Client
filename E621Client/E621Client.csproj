@@ -9,7 +9,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>NoppesTheFolf</Authors>
-    <Version>0.4.1</Version>
+    <Version>0.5.0</Version>
     <Description>An unofficial .NET Standard 2.1 wrapper for the e621 API.</Description>
     <PackageProjectUrl>https://github.com/NoppesTheFolf/E621Client</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
@@ -17,9 +17,11 @@
     <Product>E621Client</Product>
     <PackageIcon>E621Client.png</PackageIcon>
     <Copyright>Copyright © NoppesTheFolf 2019-2021</Copyright>
-    <PackageReleaseNotes>- Fix invalid scores on posts
-- Replace `SameAsSource` with `Has` on posts their sample image due to it getting parsed incorrectly
-- Update copyright year</PackageReleaseNotes>
+    <PackageReleaseNotes>- The concrete `E621Client` class now has an interface behind it: `IE621Client`. This allows for mocking using a mocking framework.
+- The builder its return type has been changed to `IE621Client`.
+- The constants previously defined in `E621Client` have been moved to `E621Constants`.
+
+Thanks to GizmoCaritate for suggesting and implementing these changes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
