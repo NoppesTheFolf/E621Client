@@ -392,7 +392,7 @@ await using var stream = await e621Client.GetStreamAsync("my/url");
 
 ## Testing
 
-E621Client now supports testing and Mocking. `E621ClientBuilder.Build()` will return an interface `IE621Client` that can be mocked using a mocking framework. You can use this to test your own logic with different responses of the `E621Client`.
+E621Client supports testing by mocking. `E621ClientBuilder.Build()` will return an interface `IE621Client` which can be mocked using a mocking framework. You can use this to test your own logic with different responses of the `E621Client`.
 
 ## Report a bug
 
@@ -400,4 +400,4 @@ You can [open an issue](https://github.com/NoppesTheFolf/E621Client/issues). I s
 
 ## Contributing
 
-Contributions to this project are very welcome! Just make sure to contact me on [Telegram](https://t.me/NoppesTheFolf) or on [Twitter](https://twitter.com/NoppesTheFolf) before doing anything. I might very well already be working on the feature you need or a bug that has to be fixed. It would be a shame if our hard work would be for nothing.
+Contributions to this project are very welcome! Just make sure to contact me before doing anything. You can find places to contact me at on [my website](https://noppes.dev). I might very well already be working on the feature you need or a bug that has to be fixed. It would be a shame if our hard work would be for nothing.
