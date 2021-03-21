@@ -3,9 +3,7 @@ using System.Threading.Tasks;
 
 namespace Noppes.E621
 {
-    /// <summary>
-    /// Interface for the Favorites part of the E621Client
-    /// </summary>
+    // Interface for the favorites part of the E621Client.
     public partial interface IE621Client
     {
         /// <summary>

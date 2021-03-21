@@ -2,9 +2,7 @@
 
 namespace Noppes.E621
 {
-    /// <summary>
-    /// Interface for the User part of E621Client.
-    /// </summary>
+    // Interface for the user part of E621Client.
     public partial interface IE621Client
     {
         /// <summary>

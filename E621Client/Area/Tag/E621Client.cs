@@ -10,13 +10,13 @@ namespace Noppes.E621
 {
     public partial class E621Client
     {
-        /// <inheritdoc cref="IE621Client.GetTagAsync(int)"/>
+        /// <inheritdoc/>
         public Task<Tag?> GetTagAsync(int id)
         {
             return RequestAsync($"/tags/{id}.json", request => request.GetJsonAsync<Tag>(true, HttpStatusCode.NotFound));
         }
 
-        /// <inheritdoc cref="IE621Client.GetTagAsync(string)"/>
+        /// <inheritdoc/>
         public async Task<Tag?> GetTagAsync(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -27,13 +27,13 @@ namespace Noppes.E621
 
         #region Tags without filter
 
-        /// <inheritdoc cref="IE621Client.GetTagsAsync(int,Noppes.E621.Position,System.Nullable{int},System.Nullable{Noppes.E621.TagCategory},bool,System.Nullable{bool})"/>
+        /// <inheritdoc/>
         public Task<ICollection<Tag>> GetTagsAsync(int id, Position position, int? limit = null, TagCategory? category = null, bool hideEmpty = true, bool? hasWiki = null)
         {
             return GetTagsWithParameterAsync(null, id, position, limit, category, null, hideEmpty, hasWiki);
         }
 
-        /// <inheritdoc cref="IE621Client.GetTagsAsync(System.Nullable{int},System.Nullable{int},TagCategory?,TagOrder?,bool,System.Nullable{bool})"/>
+        /// <inheritdoc/>
         public Task<ICollection<Tag>> GetTagsAsync(int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool hideEmpty = true, bool? hasWiki = null)
         {
             return GetTagsWithParameterAsync(null, page, null, limit, category, order, hideEmpty, hasWiki);
@@ -43,7 +43,7 @@ namespace Noppes.E621
 
         #region Tags filter by name
 
-        /// <inheritdoc cref="IE621Client.GetTagsByNames(System.Collections.Generic.IEnumerable{string},System.Nullable{int},System.Nullable{int},System.Nullable{Noppes.E621.TagCategory},System.Nullable{Noppes.E621.TagOrder},bool,System.Nullable{bool})"/>
+        /// <inheritdoc/>
         public Task<ICollection<Tag>> GetTagsByNames(IEnumerable<string> names, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool hideEmpty = true, bool? hasWiki = null)
         {
             return GetTagsByNamesAsync(names, page, null, limit, category, order, hideEmpty, hasWiki);
@@ -64,7 +64,7 @@ namespace Noppes.E621
 
         #region Tags filter with query
 
-        /// <inheritdoc cref="IE621Client.GetTagsByNames(string,System.Nullable{int},System.Nullable{int},TagCategory?,TagOrder?,System.Nullable{bool},System.Nullable{bool})"/>
+        /// <inheritdoc/>
         public Task<ICollection<Tag>> GetTagsByNames(string query, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool? hideEmpty = null, bool? hasWiki = null)
         {
             return GetTagsByNames(query, page, null, limit, category, order, hideEmpty, hasWiki);

@@ -42,7 +42,7 @@ namespace Noppes.E621
 
         /// <summary>
         /// Sets the imageboard used to retrieve data from. Not specifying an imageboard will make
-        /// the client use <see cref="E621Client.DefaultImageboard"/>.
+        /// the client use <see cref="E621Constants.DefaultImageboard"/>.
         /// </summary>
         public E621ClientBuilder WithBaseUrl(Imageboard imageboard)
         {
@@ -53,8 +53,8 @@ namespace Noppes.E621
 
         /// <summary>
         /// Sets the amount of time between each request. This value has to be greater than or equal
-        /// to <see cref="E621Client.MinimumRequestInterval"/>. Not specifying the request interval
-        /// will make the client use <see cref="E621Client.RecommendedRequestInterval"/>.
+        /// to <see cref="E621Constants.MinimumRequestInterval"/>. Not specifying the request interval
+        /// will make the client use <see cref="E621Constants.RecommendedRequestInterval"/>.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -69,8 +69,8 @@ namespace Noppes.E621
         /// <summary>
         /// Sets the maximum amount of time a request may take to complete before an exception is
         /// thrown. This value must be higher or equal to the one defined at <see
-        /// cref="E621Client.MinimumRequestTimeout"/>. Not specifying a timeout will make the client
-        /// use <see cref="E621Client.RecommendedRequestTimeout"/>.
+        /// cref="E621Constants.MinimumRequestTimeout"/>. Not specifying a timeout will make the client
+        /// use <see cref="E621Constants.RecommendedRequestTimeout"/>.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -85,8 +85,8 @@ namespace Noppes.E621
         /// <summary>
         /// Sets the maximum number of connections that may be used simultaneously to communicate
         /// with the API. Must be between 1 and the limit defined in <see
-        /// cref="E621Client.MaximumConnectionsLimit"/>. Not specifying the maximum number of
-        /// connection will make the client use <see cref="E621Client.DefaultMaximumConnections"/>.
+        /// cref="E621Constants.MaximumConnectionsLimit"/>. Not specifying the maximum number of
+        /// connection will make the client use <see cref="E621Constants.DefaultMaximumConnections"/>.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
