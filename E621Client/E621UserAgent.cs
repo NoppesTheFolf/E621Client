@@ -8,12 +8,12 @@ namespace Noppes.E621
     /// </summary>
     public class E621UserAgent
     {
-        private List<E621UserAgentPart> UserAgentParts { get; }
+        private readonly List<E621UserAgentPart> _userAgentParts;
 
         public E621UserAgent(string productName, string productVersion, string username,
             string platform, string? location = null)
         {
-            UserAgentParts = new List<E621UserAgentPart>
+            _userAgentParts = new List<E621UserAgentPart>
             {
                 new E621UserAgentPart(productName, productVersion, username, platform, location),
                 Project.AsUserAgentPart()
@@ -22,13 +22,13 @@ namespace Noppes.E621
 
         public override string ToString()
         {
-            StringBuilder userAgentBuilder = new StringBuilder();
+            var userAgentBuilder = new StringBuilder();
 
-            for (int i = 0; i < UserAgentParts.Count; i++)
+            for (var i = 0; i < _userAgentParts.Count; i++)
             {
-                UserAgentParts[i].AppendString(userAgentBuilder);
+                _userAgentParts[i].AppendString(userAgentBuilder);
 
-                if (i != UserAgentParts.Count - 1)
+                if (i != _userAgentParts.Count - 1)
                     userAgentBuilder.Append(" using ");
             }
 
