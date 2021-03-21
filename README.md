@@ -299,7 +299,7 @@ You can also retrieve the same info for the user that is currently logged-in.
 _Get information about the currently logged-in user_
 
 ```csharp
-var user = await e621Client.GetLoggedInUserAsync("noppes");
+var user = await e621Client.GetLoggedInUserAsync();
 ```
 
 ### Favorites
