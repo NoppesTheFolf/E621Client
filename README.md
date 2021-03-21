@@ -2,8 +2,7 @@
     <img src="https://i.imgur.com/BNkDfMV.png" alt="E621Client" width="256"/>
 </p>
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fnoppesthefolf%2FE621Client%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/noppesthefolf/E621Client/goto?ref=master) ![Nuget](https://img.shields.io/nuget/v/Noppes.E621Client) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a70a205126ab4a7496d48ce63a2e66d0)](https://www.codacy.com/manual/NoppesTheFolf/E621Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=NoppesTheFolf/E621Client&amp;utm_campaign=Badge_Grade)
-
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fnoppesthefolf%2FE621Client%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/noppesthefolf/E621Client/goto?ref=main) ![Nuget](https://img.shields.io/nuget/v/Noppes.E621Client) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a70a205126ab4a7496d48ce63a2e66d0)](https://www.codacy.com/manual/NoppesTheFolf/E621Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=NoppesTheFolf/E621Client&amp;utm_campaign=Badge_Grade)
 
 # E621Client
 
