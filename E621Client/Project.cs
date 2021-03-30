@@ -7,9 +7,9 @@
     {
         private const string Name = "E621Client";
 
-        private const string Version = "0.5.0";
+        private const string Version = "0.5.1";
 
-        private const string DevelopedBy = "NoppesTheFolf";
+        private const string DevelopedBy = "NoppesTheFolf and contributors";
 
         private const string Url = "https://github.com/NoppesTheFolf/E621Client";
 
