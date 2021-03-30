@@ -13,12 +13,15 @@ namespace Noppes.E621
         internal E621Credentials? Credentials { get; private set; }
 
         /// <inheritdoc/>
-        public async Task<bool> LogInAsync(string username, string apiKey)
+        public async Task<bool> LogInAsync(string username, string apiKey, bool skipValidation = false)
         {
             if (HasLogin)
                 throw E621ClientAlreadyLoggedInException.Create();
 
             Credentials = new E621Credentials(username, apiKey);
+
+            if (skipValidation)
+                return true;
 
             bool success;
             try
@@ -41,7 +44,6 @@ namespace Noppes.E621
 
             Credentials = null;
             return success;
-
         }
 
         /// <inheritdoc/>
