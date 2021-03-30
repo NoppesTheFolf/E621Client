@@ -7,7 +7,7 @@ namespace Noppes.E621
     /// <summary>
     /// Client which can be used to make requests with to the e621 API.
     /// </summary>
-    public partial interface IE621Client
+    public partial interface IE621Client : IDisposable
     {
         /// <summary>
         /// The base URL that is used to create requests with.
