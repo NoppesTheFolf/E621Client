@@ -16,7 +16,8 @@ namespace Noppes.E621
         /// </summary>
         /// <param name="username">Username used for logging in.</param>
         /// <param name="apiKey">API key used for logging in.</param>
-        public Task<bool> LogInAsync(string username, string apiKey);
+        /// <param name="skipValidation">Whether or not to skip credentials validation.</param>
+        public Task<bool> LogInAsync(string username, string apiKey, bool skipValidation = false);
 
         /// <summary>
         /// Logs a user out.
