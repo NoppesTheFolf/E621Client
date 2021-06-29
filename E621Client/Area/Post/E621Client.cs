@@ -16,6 +16,28 @@ namespace Noppes.E621
         /// <inheritdoc/>
         public Task<ICollection<Post>> GetPostsAsync(string? tags = null, int? page = null, int? limit = null) => GetPostsAsync(tags, limit, page, null);
 
+        private Task<ICollection<Post>> GetPostsAsync(string? tags, int? limit, int? page, Position? position)
+        {
+            Guard.Argument(limit, nameof(limit)).InRange(1, E621Constants.PostsMaximumLimit);
+
+            Page.Validate(page, nameof(page), E621Constants.PostsMaximumPage, position);
+
+            var splitTags = TagHelper.ParseSearchString(tags);
+
+            if (splitTags.Length > E621Constants.PostsMaximumTagSearchCount)
+                throw new ArgumentException($"Only {E621Constants.PostsMaximumTagSearchCount} tags can be searched for at once. You provided {splitTags.Length} tags.");
+
+            return RequestAsync("/posts.json", request =>
+                    request.SetQueryParams(new
+                    {
+                        limit,
+                        tags = splitTags.Length == 0 ? null : string.Join(' ', splitTags)
+                    })
+                    .SetPagination(page, position)
+                    .AuthenticatedIfPossible(this)
+                    .GetJsonAsync(token => token["posts"].ToObject<ICollection<Post>>()));
+        }
+
         /// <inheritdoc/>
         public Task<Post?> GetPostAsync(int id)
         {
@@ -31,28 +53,6 @@ namespace Noppes.E621
             {
                 md5 = md5.ToLowerInvariant()
             });
-        }
-
-        private Task<ICollection<Post>> GetPostsAsync(string? tags, int? limit, int? page, Position? position)
-        {
-            Guard.Argument(limit, nameof(limit)).InRange(1, E621Constants.PostsMaximumLimit);
-
-            Page.Validate(page, nameof(page), E621Constants.PostsMaximumPage, position);
-
-            var splitTags = TagHelper.ParseSearchString(tags);
-
-            if (splitTags.Length > E621Constants.PostsMaximumTagSearchCount)
-                throw new ArgumentException($"Only {E621Constants.PostsMaximumTagSearchCount} tags can be searched for at once. You provided {splitTags.Length} tags.");
-
-            return RequestAsync("/posts.json", request =>
-                request.SetQueryParams(new
-                    {
-                        limit,
-                        tags = splitTags.Length == 0 ? null : string.Join(' ', splitTags)
-                    })
-                    .SetPagination(page, position)
-                    .AuthenticatedIfPossible(this)
-                    .GetJsonAsync(token => token["posts"].ToObject<ICollection<Post>>()));
         }
 
         private Task<Post?> GetPostAsync(string url, object? queryParameters)
