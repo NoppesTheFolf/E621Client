@@ -10,32 +10,43 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
 
 ## Table of Contents
 
-1. [Completeness](#completeness)
-2. [Installation](#installation)
-3. [Getting started](#getting-started)
-4. [Authentication](#authentication)
-    1. [Logging in](#logging-in)
-    2. [Logging out](#logging-out)
-5. [Functionality per API area](#functionality-per-api-area)
-    1. [Posts](#posts)
-        1. [Retrieving a post](#retrieving-a-post)
-        2. [Retrieving posts](#retrieving-posts)
-    2. [Tags](#tags)
-        1. [Retrieving a tag](#retrieving-a-tag)
-        2. [Retrieving tags](#retrieving-tags)
-    3. [Users](#users)
-        1. [Retrieving a user](#retrieving-a-user)
-        2. [Retrieving the logged-in user](#retrieving-the-logged-in-user)
-    4. [Favorites](#favorites)
-        1. [Adding a post](#adding-a-post)
-        2. [Removing a post](#removing-a-post)
-        3. [Retrieving favorites](#retrieving-favorites)
-    5. [IQDB (Reverse image searching)](#iqdb-reverse-image-searching)
-    6. [Additional](#additional)
-        1. [Get response body as stream](#get-response-body-as-a-stream)
-6. [Testing](#testing)    
-7. [Report a bug](#report-a-bug)
-8. [Contributing](#contributing)
+- [E621Client](#e621client)
+  - [Table of Contents](#table-of-contents)
+  - [Completeness](#completeness)
+  - [Installation](#installation)
+  - [Getting started](#getting-started)
+  - [Authentication](#authentication)
+    - [Logging in](#logging-in)
+    - [Logging out](#logging-out)
+  - [Functionality per API area](#functionality-per-api-area)
+    - [Posts](#posts)
+      - [Retrieving a post](#retrieving-a-post)
+      - [Retrieving posts](#retrieving-posts)
+        - [Without navigation](#without-navigation)
+        - [Navigation using pagination](#navigation-using-pagination)
+        - [Navigation using relative positioning](#navigation-using-relative-positioning)
+    - [Tags](#tags)
+      - [Retrieving a tag](#retrieving-a-tag)
+      - [Retrieving tags](#retrieving-tags)
+        - [Without filter](#without-filter)
+        - [Using tags and their names](#using-tags-and-their-names)
+        - [Using a search query](#using-a-search-query)
+    - [Pools](#pools)
+      - [Retrieving a pool](#retrieving-a-pool)
+      - [Retrieving pools](#retrieving-pools)
+    - [Users](#users)
+      - [Retrieving a user](#retrieving-a-user)
+      - [Retrieving the logged-in user](#retrieving-the-logged-in-user)
+    - [Favorites](#favorites)
+      - [Adding a post](#adding-a-post)
+      - [Removing a post](#removing-a-post)
+      - [Retrieving favorites](#retrieving-favorites)
+    - [IQDB (Reverse image searching)](#iqdb-reverse-image-searching)
+    - [Additional](#additional)
+      - [Get response body as a stream](#get-response-body-as-a-stream)
+  - [Testing](#testing)
+  - [Report a bug](#report-a-bug)
+  - [Contributing](#contributing)
 
 ## Completeness
 
@@ -51,17 +62,17 @@ _Legend_
 
 _Cover per API area_
 
-| Area           | Complete           | Comment                                             |
-|----------------|--------------------|-----------------------------------------------------|
-| Authentication | :heavy_check_mark: |                                                     |
-| Posts          | :heavy_minus_sign: | Only the retrieval of posts                         |
-| Tags           | :heavy_minus_sign: | Only the retrieval of tags                          |
-| Tag Aliases    | :x:                |                                                     |
-| Notes          | :x:                |                                                     |
-| Pools          | :x:                |                                                     |
-| Users          | :heavy_minus_sign: | Only the retrieval of a user by name                |
-| Favorites      | :heavy_check_mark: | Not yet documented by e621 at the moment of writing |
-| IQDB           | :heavy_check_mark: | Not yet documented by e621 at the moment of writing |
+| Area           | Complete           | Comment                                                     |
+|----------------|--------------------|-------------------------------------------------------------|
+| Authentication | :heavy_check_mark: |                                                             |
+| Posts          | :heavy_minus_sign: | Only the retrieval of posts                                 |
+| Tags           | :heavy_minus_sign: | Only the retrieval of tags, updating not documented by e621 |
+| Tag Aliases    | :x:                |                                                             |
+| Notes          | :x:                |                                                             |
+| Pools          | :heavy_minus_sign: | Only the retrieval of pools                                 |
+| Users          | :heavy_minus_sign: | Only the retrieval of a user by name                        |
+| Favorites      | :heavy_check_mark: |                                                             |
+| IQDB           | :heavy_check_mark: | Not yet documented by e621 at the moment of writing         |
 
 ## Installation
 
@@ -275,6 +286,49 @@ _Get the first page of tags that start with 'wolf' in the species category_
 
 ```csharp
 var tags = await e621Client.GetTagsByNames("wolf*", category: TagCategory.Species);
+```
+
+### Pools
+
+#### Retrieving a pool
+
+You can retrieve the information of a single pool by its ID. If there exists no pool with the given ID, a `null` value will be returned. If you need to retrieve more than one pool, you should take a look at the next section of the documentation. There is a more efficient way to do that than to call this method multiple times.
+
+_Retrieve information about pool with ID 621_
+
+```csharp
+var pool = await e621Client.GetPoolAsync(621);
+```
+
+#### Retrieving pools
+
+As an expansion upon the previous section, you can retrieve multiple pools by their IDs. IDs to which there is no pool associated, will be left out of the result.
+
+_Retrieve pool with ID 621 and pool with ID 926_
+
+```csharp
+var poolIds = new[]
+{
+    621,
+    926
+};
+var pools = await e621Client.GetPoolsAsync(ids: poolIds);
+```
+
+You can also get a listing of all the pools on e621. You can navigate through all of the available pools using either pagination or relative position. Both of these concepts have already been explained in the [posts section](#navigation-using-pagination) of the documentation and therefore won't be further elaborated on here. Using relative positioning won't allow you to specify an order in which pools should be sorted.
+
+_Get the third page of pools with the response containing as much pools as allowed_
+
+```csharp
+var pools = await e621Client.GetPoolsAsync(3, limit: E621Constants.PoolsMaximumLimit);
+```
+
+To narrow down the pools returned by e621, you can filter based on the following attributes of a pool: name, description, by who it was created, whether its still being actively updated, whether it has been deleted and its category.
+
+_Get (the first page of) pools of which the name ends in "cat" and which are not deleted, in descending order by the amount of posts contained in the pool._
+
+```csharp
+var pools = await e621Client.GetPoolsAsync(name: "*cat", isDeleted: false, order: PoolOrder.PostCount)
 ```
 
 ### Users
