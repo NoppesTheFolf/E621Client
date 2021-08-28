@@ -2,7 +2,7 @@
     <img src="https://i.imgur.com/BNkDfMV.png" alt="E621Client" width="256"/>
 </p>
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fnoppesthefolf%2FE621Client%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/noppesthefolf/E621Client/goto?ref=main) ![Nuget](https://img.shields.io/nuget/v/Noppes.E621Client) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a70a205126ab4a7496d48ce63a2e66d0)](https://www.codacy.com/manual/NoppesTheFolf/E621Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=NoppesTheFolf/E621Client&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fnoppesthefolf%2FE621Client%2Fbadge%3Fref%3Dmain&style=flat)](https://actions-badge.atrox.dev/noppesthefolf/E621Client/goto?ref=main) ![Nuget](https://img.shields.io/nuget/v/Noppes.E621Client) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a70a205126ab4a7496d48ce63a2e66d0)](https://www.codacy.com/manual/NoppesTheFolf/E621Client?utm_source=github.com&utm_medium=referral&utm_content=NoppesTheFolf/E621Client&utm_campaign=Badge_Grade)
 
 # E621Client
 
@@ -41,6 +41,9 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
       - [Adding a post](#adding-a-post)
       - [Removing a post](#removing-a-post)
       - [Retrieving favorites](#retrieving-favorites)
+    - [Artists](#artists)
+      - [Retrieving an artist](#retrieving-an-artist)
+      - [Retrieving artists](#retrieving-artists)
     - [IQDB (Reverse image searching)](#iqdb-reverse-image-searching)
     - [Additional](#additional)
       - [Get response body as a stream](#get-response-body-as-a-stream)
@@ -55,7 +58,7 @@ This project is far from a complete wrapper around the e621 API. A table can be 
 _Legend_
 
 | Symbol             | Meaning               |
-|--------------------|-----------------------|
+| ------------------ | --------------------- |
 | :x:                | Not implemented       |
 | :heavy_minus_sign: | Partially implemented |
 | :heavy_check_mark: | Fully implemented     |
@@ -63,7 +66,7 @@ _Legend_
 _Cover per API area_
 
 | Area           | Complete           | Comment                                                     |
-|----------------|--------------------|-------------------------------------------------------------|
+| -------------- | ------------------ | ----------------------------------------------------------- |
 | Authentication | :heavy_check_mark: |                                                             |
 | Posts          | :heavy_minus_sign: | Only the retrieval of posts                                 |
 | Tags           | :heavy_minus_sign: | Only the retrieval of tags, updating not documented by e621 |
@@ -72,6 +75,7 @@ _Cover per API area_
 | Pools          | :heavy_minus_sign: | Only the retrieval of pools                                 |
 | Users          | :heavy_minus_sign: | Only the retrieval of a user by name                        |
 | Favorites      | :heavy_check_mark: |                                                             |
+| Artists        | :heavy_minus_sign: | Only the retrieval of artists, not documented by e621       |
 | IQDB           | :heavy_check_mark: | Not yet documented by e621 at the moment of writing         |
 
 ## Installation
@@ -405,7 +409,31 @@ _Retrieving the seventh page of posts favorited by the user with ID 11271 (SnowW
 var favorites = await e621Client.GetFavoritesAsync(11271, 7);
 ```
 
+### Artists
+
+#### Retrieving an artist
+
+You can retrieve a single artist by their ID.
+
+_Retrieve information about artist with ID 8695, which is the artist WagnerMutt_
+
+```csharp
+var wagnermutt = await e621Client.GetArtistAsync(8695);
+```
+
+#### Retrieving artists
+
+You can also retrieve a list of artists and optionally filter the results by name, for example. Pagination works the same way as it does for other endpoints with normal pagination using numbers and relative positioning.
+
+_Retrieve a list of artists that contain the the name "wagner"_
+
+```csharp
+var wagners = await e621Client.GetArtistsAsync(name: "wagner")
+```
+
 ### IQDB (Reverse image searching)
+
+_Note: Be sure to check out another project of mine, [fluffle.xyz](https://fluffle.xyz), if you're interested in this kind of functionality._
 
 Since the overhaul of e621 at the 5th of March, it has become possible to reverse search images using IQDB. You can reverse search an image (and therefore a post) by either a locally stored image, a stream or a URL. This will return a collection of posts of which the images are similar to the submitted image. The returned posts have an additional property named `IqdbScore` which can be used to assess how similar the image is to the submitted one. E621Client will by default not return posts that have been deleted. However, if you'd like to include them, you can simply pass a boolean to any of the methods associated with querying IQDB.
 
@@ -453,4 +481,4 @@ You can [open an issue](https://github.com/NoppesTheFolf/E621Client/issues). I s
 
 ## Contributing
 
-Contributions to this project are very welcome! Just make sure to contact me before doing anything. You can find places to contact me at on [my website](https://noppes.dev). I might very well already be working on the feature you need or a bug that has to be fixed. It would be a shame if our hard work would be for nothing.
+Contributions to this project are very welcome! It's probably a good idea to contact me if you'd like to do so. You can find places to contact me at on [my website](https://noppes.dev).
