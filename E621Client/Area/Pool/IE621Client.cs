@@ -83,7 +83,8 @@ namespace Noppes.E621
             bool? isActive = null,
             bool? isDeleted = null,
             PoolCategory? category = null,
-            int? limit = null);
+            int? limit = null
+        );
 
         /// <summary>
         /// Retrieves a collection of pools based on the given parameters. By default, e621 returns
@@ -150,6 +151,7 @@ namespace Noppes.E621
             bool? isDeleted = null,
             PoolCategory? category = null,
             PoolOrder order = PoolOrder.UpdatedAt,
-            int? limit = null);
+            int? limit = null
+        );
     }
 }
