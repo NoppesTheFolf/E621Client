@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Noppes.E621.Converters;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Noppes.E621
 {
@@ -22,11 +22,30 @@ namespace Noppes.E621
         [JsonProperty("artist_id")]
         public int ArtistId { get; set; }
 
+        private string _url = null!;
         /// <summary>
-        /// The actual URL itself at which the artist can be found.
+        /// The URL retrieved from the API. Also see the <see cref="Location"/> property. Note that
+        /// this URL contains user provided information and might be invalid.
         /// </summary>
-        [JsonProperty("url"), JsonConverter(typeof(UriConverter))]
-        public Uri Location { get; set; } = null!;
+        [JsonProperty("url")]
+        public string Url
+        {
+            get => _url;
+            set
+            {
+                _url = value;
+
+                var url = Regex.IsMatch(Url, "[A-z]+:\\/\\/") ? Url : $"https://{Url}";
+                Location = Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri) ? uri : null;
+            }
+        }
+
+        /// <summary>
+        /// The actual URL itself at which the artist can be found. Might be null if the user
+        /// provided URL is invalid. It will try to append the HTTPS scheme if the user did not
+        /// provide a scheme.
+        /// </summary>
+        public Uri? Location { get; set; }
 
         /// <summary>
         /// When this URL get added to the artist's URL collection.
