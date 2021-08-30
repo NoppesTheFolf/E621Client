@@ -22,7 +22,7 @@ namespace Noppes.E621.Converters
 
         public sealed override void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)
         {
-            string valueAsString = AsString(value);
+            var valueAsString = AsString(value);
 
             serializer.Serialize(writer, valueAsString);
         }
