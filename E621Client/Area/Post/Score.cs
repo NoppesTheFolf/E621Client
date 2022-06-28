@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace Noppes.E621
 {
@@ -18,9 +17,10 @@ namespace Noppes.E621
         public int Down { get; set; }
 
         /// <summary>
-        /// The total score the post has. This is the number of upvotes subtracted by the number of downvotes.
+        /// The total score the post has. Theoretically, this is the number of upvotes subtracted by
+        /// the number of downvotes. However, what the API returns differs from this.
         /// </summary>
-        [JsonIgnore]
-        public int Total => Math.Abs(Up) - Math.Abs(Down);
+        [JsonProperty("total")]
+        public int Total { get; set; }
     }
 }

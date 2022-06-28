@@ -135,7 +135,7 @@ namespace Noppes.E621
         public PostFlags Flags { get; set; } = null!;
 
         /// <summary>
-        /// The number of comments the post has.
+        /// The number of comments left on the post.
         /// </summary>
         [JsonProperty("comment_count")]
         public int CommentCount { get; set; }

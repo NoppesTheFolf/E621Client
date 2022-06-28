@@ -17,7 +17,7 @@ namespace Noppes.E621
         public bool IsFlagged { get; set; }
 
         /// <summary>
-        /// If the post has it’s notes locked.
+        /// If the post has its notes locked.
         /// </summary>
         [JsonProperty("note_locked")]
         public bool IsNoteLocked { get; set; }
