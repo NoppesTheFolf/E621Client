@@ -10,9 +10,7 @@ namespace Noppes.E621
     {
         private E621UserAgent? UserAgent { get; set; }
 
-        private string BaseUrlRegistrableDomain { get; set; } = E621Constants.DefaultImageboard.AsBaseUrl().registrableDomain;
-
-        private string BaseUrl { get; set; } = E621Constants.DefaultImageboard.AsBaseUrl().baseUrl;
+        private Imageboard Imageboard { get; set; } = E621Constants.DefaultImageboard;
 
         private TimeSpan RequestTimeout { get; set; } = E621Constants.RecommendedRequestTimeout;
 
@@ -44,12 +42,7 @@ namespace Noppes.E621
         /// Sets the imageboard used to retrieve data from. Not specifying an imageboard will make
         /// the client use <see cref="E621Constants.DefaultImageboard"/>.
         /// </summary>
-        public E621ClientBuilder WithBaseUrl(Imageboard imageboard)
-        {
-            var (registrableDomain, baseUrl) = imageboard.AsBaseUrl();
-
-            return WithBaseUrl(registrableDomain, baseUrl);
-        }
+        public E621ClientBuilder WithBaseUrl(Imageboard imageboard) => Set(() => Imageboard = imageboard);
 
         /// <summary>
         /// Sets the amount of time between each request. This value has to be greater than or equal
@@ -97,23 +90,6 @@ namespace Noppes.E621
                     .InRange(1, E621Constants.MaximumConnectionsLimit);
             });
 
-        /// <summary>
-        /// Sets the base URL that should be used when making requests. You probably do not want to
-        /// use this method. Look at <see cref="WithBaseUrl(Imageboard)"/> first.
-        /// </summary>
-        public E621ClientBuilder WithBaseUrl(string baseUrlRegistrableDomain, string baseUrl) =>
-            Set(() =>
-            {
-                if (!baseUrl.Contains(baseUrlRegistrableDomain))
-                    throw new ArgumentException("The registrable domain does not occur in the provided base url.", nameof(baseUrlRegistrableDomain));
-
-                Uri uri = new Uri(baseUrl, UriKind.Absolute);
-                Guard.Argument(uri, nameof(baseUrl)).Http();
-
-                BaseUrlRegistrableDomain = baseUrlRegistrableDomain;
-                BaseUrl = baseUrl;
-            });
-
         private E621ClientBuilder Set(Action action)
         {
             action();
@@ -133,7 +109,7 @@ namespace Noppes.E621
             if (UserAgent == null)
                 throw new InvalidOperationException($"The user agent must be specified in order to build the client.");
 
-            IE621Client e621Client = new E621Client(BaseUrlRegistrableDomain, BaseUrl, UserAgent, RequestInterval, MaximumConnections)
+            IE621Client e621Client = new E621Client(Imageboard, UserAgent, RequestInterval, MaximumConnections)
             {
                 Timeout = RequestTimeout
             };

@@ -24,8 +24,14 @@ namespace Noppes.E621
         Explicit
     }
 
-    internal static class PostRatingHelper
+    /// <summary>
+    /// Helper methods for working with posts.
+    /// </summary>
+    public static class PostRatingHelper
     {
+        /// <summary>
+        /// Converts the abbreviation s, q and e to a <see cref="PostRating"/>.
+        /// </summary>
         public static PostRating FromAbbreviation(string value)
         {
             return value switch
@@ -37,6 +43,9 @@ namespace Noppes.E621
             };
         }
 
+        /// <summary>
+        /// Converts a <see cref="PostRating"/> to its abbreviation (s, q or e).
+        /// </summary>
         public static string ToAbbreviation(this PostRating rating)
         {
             return rating switch

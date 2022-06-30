@@ -2,6 +2,7 @@
 using Noppes.E621.Extensions;
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -13,15 +14,14 @@ namespace Noppes.E621
     /// </summary>
     public partial class E621Client : IE621Client
     {
-        /// <summary>
-        /// The base URL that is used to create requests with.
-        /// </summary>
+        /// <inheritdoc/>
+        public Imageboard Imageboard { get; }
+
+        /// <inheritdoc/>
         public string BaseUrl { get; }
 
         private TimeSpan _timeout;
-        /// <summary>
-        /// The amount of time before a request is considered timed out.
-        /// </summary>
+        /// <inheritdoc/>
         public TimeSpan Timeout
         {
             get => _timeout;
@@ -37,12 +37,12 @@ namespace Noppes.E621
         private readonly IFlurlClient _flurlClient;
         private readonly IRequestHandler _requestHandler;
 
-        internal E621Client(string baseUrlRegistrableDomain, string baseUrl, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
+        internal E621Client(Imageboard imageboard, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
         {
-            _baseUrlRegistrableDomain = baseUrlRegistrableDomain;
-            BaseUrl = baseUrl;
+            Imageboard = imageboard;
+            (_baseUrlRegistrableDomain, BaseUrl) = imageboard.AsBaseUrl();
 
-            E621HttpClientFactory clientFactory = new E621HttpClientFactory(maximumConnections);
+            var clientFactory = new E621HttpClientFactory(maximumConnections);
 
             _flurlClient = new FlurlClient(BaseUrl)
                 .Configure(options => options.HttpClientFactory = clientFactory)
@@ -51,17 +51,8 @@ namespace Noppes.E621
             _requestHandler = new E621RequestHandler(requestInterval);
         }
 
-        /// <summary>
-        /// Sends a GET request and returns the response body as a stream. Note that this method
-        /// will act in accordance with the <see cref="BaseUrl"/> set when the client was built.
-        /// Providing this method with an absolute URL will cause it to match it with the base url.
-        /// If the registrable domain of the url does not match that of the base url, an exception
-        /// will be thrown.
-        /// </summary>
-        /// <param name="url">
-        /// The URL at which the resource is located of which you want the response body as a stream.
-        /// </param>
-        public Task<Stream> GetStreamAsync(string url)
+        /// <inheritdoc/>
+        public async Task<Stream> GetStreamAsync(string url, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
         {
             if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri))
                 throw new ArgumentException("Invalid URL.", nameof(uri));
@@ -69,7 +60,6 @@ namespace Noppes.E621
             if (uri.IsAbsoluteUri && uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)
                 throw new ArgumentException("Absolute URL is use neither the HTTP scheme or HTTPS scheme.");
 
-            string relativeUrl = url;
             if (uri.IsAbsoluteUri)
             {
                 var match = Regex.Match(url, "http[s]?:\\/\\/(.+?)(?=\\/|$)(.*)", RegexOptions.IgnoreCase);
@@ -78,9 +68,11 @@ namespace Noppes.E621
                     throw new ArgumentException("The provided URL does not match the registrable domain of the base URL.", nameof(url));
             }
 
-            return RequestAsync(relativeUrl, request => request
+            var response = await RequestAsync(url, request => request
                 .AuthenticatedIfPossible(this)
-                .GetStreamAsync());
+                .GetAsync(completionOption: completionOption));
+
+            return await response.GetStreamAsync();
         }
 
         private async Task<T> RequestAsync<T>(string urlSegment, Func<IFlurlRequest, Task<T>> func, int? interval = null, int? delayAfterRequest = null)

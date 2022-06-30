@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Noppes.E621
@@ -9,6 +10,11 @@ namespace Noppes.E621
     /// </summary>
     public partial interface IE621Client : IDisposable
     {
+        /// <summary>
+        /// The imageboard to which the requests are made.
+        /// </summary>
+        public Imageboard Imageboard { get; }
+
         /// <summary>
         /// The base URL that is used to create requests with.
         /// </summary>
@@ -29,6 +35,6 @@ namespace Noppes.E621
         /// <param name="url">
         /// The URL at which the resource is located of which you want the response body as a stream.
         /// </param>
-        public Task<Stream> GetStreamAsync(string url);
+        public Task<Stream> GetStreamAsync(string url, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead);
     }
 }
