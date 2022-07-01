@@ -22,7 +22,7 @@ namespace Noppes.E621
                     .AuthenticatedIfPossible(this)
                     .SetQueryParam("search[name_matches]", username)
                     .GetJsonAsync<IList<User>>();
-            });
+            }).ConfigureAwait(false);
 
             return result.FirstOrDefault();
         }

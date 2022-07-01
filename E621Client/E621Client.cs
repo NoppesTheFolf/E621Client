@@ -70,9 +70,10 @@ namespace Noppes.E621
 
             var response = await RequestAsync(url, request => request
                 .AuthenticatedIfPossible(this)
-                .GetAsync(completionOption: completionOption));
+                .GetAsync(completionOption: completionOption))
+                .ConfigureAwait(false);
 
-            return await response.GetStreamAsync();
+            return await response.GetStreamAsync().ConfigureAwait(false);
         }
 
         private async Task<T> RequestAsync<T>(string urlSegment, Func<IFlurlRequest, Task<T>> func, int? interval = null, int? delayAfterRequest = null)

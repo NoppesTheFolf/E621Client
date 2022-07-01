@@ -82,7 +82,7 @@ namespace Noppes.E621
                             .OrderByDescending(p => p.IqdbScore)
                             .ToList();
                     }, false, defaultStatusCodes);
-            }, IqdbRequestInterval, IqdbRequestDelay);
+            }, IqdbRequestInterval, IqdbRequestDelay).ConfigureAwait(false);
         }
     }
 }

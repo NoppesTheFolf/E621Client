@@ -83,7 +83,7 @@ namespace Noppes.E621.DbExport
         public async Task<Stream> GetDbExportStreamAsync(DbExport export)
         {
             var url = Url.Combine(Route, export.FileName);
-            var stream = await _e621Client.GetStreamAsync(url, HttpCompletionOption.ResponseHeadersRead);
+            var stream = await _e621Client.GetStreamAsync(url, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
             return new GZipStream(stream, CompressionMode.Decompress);
         }
@@ -91,8 +91,6 @@ namespace Noppes.E621.DbExport
         /// <inheritdoc/>
         public IAsyncEnumerable<DbExportPost> ReadStreamAsPostsDbExportAsync(Stream stream)
         {
-
-
             return ReadStreamAsDbExportAsync<DbExportPostRaw, DbExportPost>(stream, record =>
             {
                 var post = new DbExportPost
@@ -101,12 +99,12 @@ namespace Noppes.E621.DbExport
                     UploaderId = record.UploaderId,
                     CreatedAt = DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
                     Md5 = record.Md5,
-                    Sources = record.Source == null ? Array.Empty<string>() : record.Source.Split('\n'),
+                    Sources = string.IsNullOrWhiteSpace(record.Source) ? Array.Empty<string>() : record.Source.Split('\n', StringSplitOptions.RemoveEmptyEntries),
                     Rating = PostRatingHelper.FromAbbreviation(record.Rating),
                     FileWidth = record.ImageWidth,
                     FileHeight = record.ImageHeight,
-                    Tags = record.Tags == null ? Array.Empty<string>() : record.Tags.Split(' '),
-                    LockedTags = record.LockedTags == null ? Array.Empty<string>() : record.LockedTags.Split(' '),
+                    Tags = record.Tags == null ? Array.Empty<string>() : record.Tags.Split(' ', StringSplitOptions.RemoveEmptyEntries),
+                    LockedTags = record.LockedTags == null ? Array.Empty<string>() : record.LockedTags.Split(' ', StringSplitOptions.RemoveEmptyEntries),
                     FavoriteCount = record.FavoriteCount,
                     FileExtension = record.FileExtension,
                     ParentId = record.ParentId,
@@ -114,8 +112,8 @@ namespace Noppes.E621.DbExport
                     ApproverId = record.ApproverId,
                     FileSize = record.FileSize,
                     CommentCount = record.CommentCount,
-                    Description = record.Description,
-                    UpdatedAt = record.UpdatedAt == null ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.UpdatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
+                    Description = string.IsNullOrWhiteSpace(record.Description) ? null : record.Description,
+                    UpdatedAt = string.IsNullOrWhiteSpace(record.UpdatedAt) ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.UpdatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
                     ScoreUp = record.ScoreUp,
                     ScoreDown = record.ScoreDown,
                     Score = record.Score,
@@ -145,7 +143,7 @@ namespace Noppes.E621.DbExport
                 CreatedAt = DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
                 UpdatedAt = DateTimeOffset.ParseExact(record.UpdatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
                 CreatorId = record.CreatorId,
-                Description = record.Description,
+                Description = string.IsNullOrWhiteSpace(record.Description) ? null : record.Description,
                 IsActive = (bool)StringToBool(record.IsActive)!,
                 Category = Enum.Parse<PoolCategory>(record.Category.Pascalize()),
                 PostIds = record.PostIds[1..^1].Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList()
@@ -213,7 +211,7 @@ namespace Noppes.E621.DbExport
             using var streamReader = new StreamReader(stream);
             using var csv = new CsvReader(streamReader, CultureInfo.InvariantCulture);
 
-            await foreach (var record in csv.GetRecordsAsync<TRaw>())
+            await foreach (var record in csv.GetRecordsAsync<TRaw>().ConfigureAwait(false))
                 yield return map(record);
         }
 
@@ -221,7 +219,7 @@ namespace Noppes.E621.DbExport
         public async Task<ICollection<DbExport>> GetDbExportsAsync()
         {
             // Get the index page of https://e621.net/db_export/
-            await using var stream = await _e621Client.GetStreamAsync(Route);
+            await using var stream = await _e621Client.GetStreamAsync(Route).ConfigureAwait(false);
             var htmlDocument = new HtmlDocument();
             htmlDocument.Load(stream);
 
