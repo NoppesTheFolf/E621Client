@@ -11,7 +11,7 @@ namespace Noppes.E621
     /// If, for whatever reason, the API returns a 429 Too Many Requests response, it will retry the
     /// request after waiting for the minimum allowed request interval as defined in <see cref="E621Constants.MinimumRequestInterval"/>.
     /// </summary>
-    internal class E621RequestHandler : IRequestHandler
+    internal class E621RequestHandler : IRequestHandler, IDisposable
     {
         public int DefaultInterval { get; }
 
@@ -75,6 +75,11 @@ namespace Noppes.E621
 
             _waitUntil = currentTime + interval;
             return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            _requestLock.Dispose();
         }
     }
 }

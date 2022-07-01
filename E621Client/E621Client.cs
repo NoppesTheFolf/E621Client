@@ -35,7 +35,7 @@ namespace Noppes.E621
 
         private readonly string _baseUrlRegistrableDomain;
         private readonly IFlurlClient _flurlClient;
-        private readonly IRequestHandler _requestHandler;
+        private readonly E621RequestHandler _requestHandler;
 
         internal E621Client(Imageboard imageboard, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
         {
@@ -105,7 +105,10 @@ namespace Noppes.E621
                 return;
 
             if (disposing)
+            {
+                _requestHandler.Dispose();
                 _flurlClient.Dispose();
+            }
 
             IsDisposed = true;
         }
