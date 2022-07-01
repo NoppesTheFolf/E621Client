@@ -21,7 +21,7 @@ namespace Noppes.E621.DbExport
         /// <summary>
         /// When the post was created.
         /// </summary>
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
         /// The MD5 hash of the contents of the post's file.
@@ -113,7 +113,7 @@ namespace Noppes.E621.DbExport
         /// <summary>
         /// The last time the post was updated. Null in case the post has never been updated before.
         /// </summary>
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
 
         /// <summary>
         /// If the post has been deleted.

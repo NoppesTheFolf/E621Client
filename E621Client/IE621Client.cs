@@ -32,9 +32,6 @@ namespace Noppes.E621
         /// If the registrable domain of the url does not match that of the base url, an exception
         /// will be thrown.
         /// </summary>
-        /// <param name="url">
-        /// The URL at which the resource is located of which you want the response body as a stream.
-        /// </param>
         public Task<Stream> GetStreamAsync(string url, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead);
     }
 }

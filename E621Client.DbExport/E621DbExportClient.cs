@@ -38,9 +38,24 @@ namespace Noppes.E621.DbExport
         IAsyncEnumerable<DbExportPost> ReadStreamAsPostsDbExportAsync(Stream stream);
 
         /// <summary>
+        /// Read the provided <see cref="Stream"/> in the format in which pools are exported.
+        /// </summary>
+        IAsyncEnumerable<DbExportPool> ReadStreamAsPoolsDbExportAsync(Stream stream);
+
+        /// <summary>
         /// Read the provided <see cref="Stream"/> in the format in which tags are exported.
         /// </summary>
         IAsyncEnumerable<DbExportTag> ReadStreamAsTagsDbExportAsync(Stream stream);
+
+        /// <summary>
+        /// Read the provided <see cref="Stream"/> in the format in which tag implications are exported.
+        /// </summary>
+        IAsyncEnumerable<DbExportTagImplication> ReadStreamAsTagImplicationsDbExportAsync(Stream stream);
+
+        /// <summary>
+        /// Read the provided <see cref="Stream"/> in the format in which tag aliases are exported.
+        /// </summary>
+        IAsyncEnumerable<DbExportTagAlias> ReadStreamAsTagAliasesDbExportAsync(Stream stream);
     }
 
     /// <summary>
@@ -50,6 +65,9 @@ namespace Noppes.E621.DbExport
     public class E621DbExportClient : IE621DbExportClient
     {
         private const string Route = "/db_export/";
+        private const string DateFormat = "yyyy-MM-dd";
+        private const string TimeFormat = "HH:mm:ss.FFFFFF";
+        private const string DateTimeFormat = DateFormat + " " + TimeFormat;
 
         private readonly IE621Client _e621Client;
 
@@ -73,17 +91,7 @@ namespace Noppes.E621.DbExport
         /// <inheritdoc/>
         public IAsyncEnumerable<DbExportPost> ReadStreamAsPostsDbExportAsync(Stream stream)
         {
-            static bool? StringToBool(string? value)
-            {
-                return value switch
-                {
-                    "t" => true,
-                    "f" => false,
-                    null => null,
-                    "" => null,
-                    _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
-                };
-            }
+
 
             return ReadStreamAsDbExportAsync<DbExportPostRaw, DbExportPost>(stream, record =>
             {
@@ -91,7 +99,7 @@ namespace Noppes.E621.DbExport
                 {
                     Id = record.Id,
                     UploaderId = record.UploaderId,
-                    CreatedAt = record.CreatedAt,
+                    CreatedAt = DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
                     Md5 = record.Md5,
                     Sources = record.Source == null ? Array.Empty<string>() : record.Source.Split('\n'),
                     Rating = PostRatingHelper.FromAbbreviation(record.Rating),
@@ -107,7 +115,7 @@ namespace Noppes.E621.DbExport
                     FileSize = record.FileSize,
                     CommentCount = record.CommentCount,
                     Description = record.Description,
-                    UpdatedAt = record.UpdatedAt,
+                    UpdatedAt = record.UpdatedAt == null ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.UpdatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
                     ScoreUp = record.ScoreUp,
                     ScoreDown = record.ScoreDown,
                     Score = record.Score,
@@ -128,6 +136,35 @@ namespace Noppes.E621.DbExport
         }
 
         /// <inheritdoc/>
+        public IAsyncEnumerable<DbExportPool> ReadStreamAsPoolsDbExportAsync(Stream stream)
+        {
+            return ReadStreamAsDbExportAsync<DbExportPoolRaw, DbExportPool>(stream, record => new DbExportPool
+            {
+                Id = record.Id,
+                Name = record.Name,
+                CreatedAt = DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
+                UpdatedAt = DateTimeOffset.ParseExact(record.UpdatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
+                CreatorId = record.CreatorId,
+                Description = record.Description,
+                IsActive = (bool)StringToBool(record.IsActive)!,
+                Category = Enum.Parse<PoolCategory>(record.Category.Pascalize()),
+                PostIds = record.PostIds[1..^1].Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList()
+            });
+        }
+
+        private static bool? StringToBool(string? value)
+        {
+            return value switch
+            {
+                "t" => true,
+                "f" => false,
+                null => null,
+                "" => null,
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+            };
+        }
+
+        /// <inheritdoc/>
         public IAsyncEnumerable<DbExportTag> ReadStreamAsTagsDbExportAsync(Stream stream)
         {
             return ReadStreamAsDbExportAsync<DbExportTagRaw, DbExportTag>(stream, record => new DbExportTag
@@ -136,6 +173,38 @@ namespace Noppes.E621.DbExport
                 Name = record.Name,
                 Category = (TagCategory)record.Category,
                 Count = record.PostCount
+            });
+        }
+
+        /// <inheritdoc/>
+        public IAsyncEnumerable<DbExportTagImplication> ReadStreamAsTagImplicationsDbExportAsync(Stream stream)
+        {
+            return ReadStreamAsDbExportAsync<DbExportTagImplicationRaw, DbExportTagImplication>(stream, record => new DbExportTagImplication
+            {
+                Id = record.Id,
+                AntecedentName = record.AntecedentName,
+                ConsequentName = record.ConsequentName,
+                CreatedAt = string.IsNullOrWhiteSpace(record.CreatedAt) ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
+                Status = Enum.Parse<TagImplicationStatus>(record.Status.Pascalize())
+            });
+        }
+
+        /// <inheritdoc/>
+        public IAsyncEnumerable<DbExportTagAlias> ReadStreamAsTagAliasesDbExportAsync(Stream stream)
+        {
+            return ReadStreamAsDbExportAsync<DbExportTagAliasRaw, DbExportTagAlias>(stream, record =>
+            {
+                if (!Enum.TryParse<TagAliasStatus>(record.Status.Pascalize(), out var status))
+                    status = TagAliasStatus.Other;
+
+                return new DbExportTagAlias
+                {
+                    Id = record.Id,
+                    AntecedentName = record.AntecedentName,
+                    ConsequentName = record.ConsequentName,
+                    CreatedAt = string.IsNullOrWhiteSpace(record.CreatedAt) ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
+                    Status = status
+                };
             });
         }
 
@@ -175,7 +244,7 @@ namespace Noppes.E621.DbExport
 
                 // Then we split the leftover part at the first dot: ["2022-06-27", "csv.gz"]
                 parts = leftover.Split('.', 2);
-                var date = DateTime.ParseExact(parts[0], "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                var date = DateTimeOffset.ParseExact(parts[0], DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
 
                 // Turn tag_implications --> TagImplication and parse that as an enum
                 var typeName = name.Singularize().Pascalize();

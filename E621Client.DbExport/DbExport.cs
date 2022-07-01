@@ -48,7 +48,7 @@ namespace Noppes.E621.DbExport
         /// <summary>
         /// When the database got exported.
         /// </summary>
-        public DateTime When { get; }
+        public DateTimeOffset When { get; }
 
         /// <summary>
         /// The name of the database export file on the server.
@@ -58,7 +58,7 @@ namespace Noppes.E621.DbExport
         /// <summary>
         /// Create a <see cref="DbExport"/>.
         /// </summary>
-        public DbExport(DbExportType type, DateTime when, string fileName)
+        public DbExport(DbExportType type, DateTimeOffset when, string fileName)
         {
             Type = type;
             When = when;

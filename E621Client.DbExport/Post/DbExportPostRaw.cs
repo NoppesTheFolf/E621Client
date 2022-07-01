@@ -1,5 +1,4 @@
 ﻿using CsvHelper.Configuration.Attributes;
-using System;
 
 namespace Noppes.E621.DbExport
 {
@@ -12,7 +11,7 @@ namespace Noppes.E621.DbExport
         public int UploaderId { get; set; }
 
         [Name("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public string CreatedAt { get; set; } = null!;
 
         [Name("md5")]
         public string Md5 { get; set; } = null!;
@@ -63,7 +62,7 @@ namespace Noppes.E621.DbExport
         public float? Duration { get; set; }
 
         [Name("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
+        public string? UpdatedAt { get; set; }
 
         [Name("is_deleted")]
         public string IsDeleted { get; set; } = null!;
