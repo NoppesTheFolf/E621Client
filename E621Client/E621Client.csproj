@@ -1,35 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <LangVersion>8.0</LangVersion>
-    <RootNamespace>Noppes.E621</RootNamespace>
-    <AssemblyName>Noppes.E621Client</AssemblyName>
-    <Nullable>enable</Nullable>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>NoppesTheFolf and contributors</Authors>
-    <Version>0.7.2</Version>
-    <Description>An unofficial .NET Standard 2.1 wrapper for the e621 API.</Description>
-    <PackageProjectUrl>https://github.com/NoppesTheFolf/E621Client</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Product>E621Client</Product>
-    <PackageIcon>E621Client.png</PackageIcon>
-    <Copyright>Copyright © NoppesTheFolf and contributors 2019-2022</Copyright>
-    <PackageReleaseNotes>- Bump Flurl.Http to 3.2.2</PackageReleaseNotes>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<LangVersion>8.0</LangVersion>
+		<RootNamespace>Noppes.E621</RootNamespace>
+		<AssemblyName>Noppes.E621Client</AssemblyName>
+		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>NoppesTheFolf and contributors</Authors>
+		<Version>0.8.0</Version>
+		<Description>An unofficial .NET Standard 2.1 wrapper for the e621 API.</Description>
+		<PackageProjectUrl>https://github.com/NoppesTheFolf/E621Client</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Product>E621Client</Product>
+		<PackageIcon>E621Client.png</PackageIcon>
+		<Copyright>Copyright © NoppesTheFolf and contributors 2019-2022</Copyright>
+		<PackageReleaseNotes>- Added support for working with database exports in a separate NuGet package: Noppes.E621.DbExport.
+- Before, a post's total score got calculated based on its up- and downvotes. E621Client now uses the total score returned by the API.
+- Added the ability to pass a HttpCompletionOption to GetStreamAsync. This means you now have the option to not download all the data at once into memory (.NET default), but stream it efficiently.
+- Bump Flurl.Http to 3.2.4</PackageReleaseNotes>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Dawn.Guard" Version="1.12.0" />
-    <PackageReference Include="Flurl.Http" Version="3.2.4" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Dawn.Guard" Version="1.12.0" />
+		<PackageReference Include="Flurl.Http" Version="3.2.4" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="E621Client.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="E621Client.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>
