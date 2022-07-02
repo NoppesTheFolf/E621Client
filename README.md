@@ -44,6 +44,7 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
     - [Artists](#artists)
       - [Retrieving an artist](#retrieving-an-artist)
       - [Retrieving artists](#retrieving-artists)
+    - [Database exports](#database-exports)
     - [IQDB (Reverse image searching)](#iqdb-reverse-image-searching)
     - [Additional](#additional)
       - [Get response body as a stream](#get-response-body-as-a-stream)
@@ -65,38 +66,40 @@ _Legend_
 
 _Cover per API area_
 
-| Area           | Complete           | Comment                                                     |
-| -------------- | ------------------ | ----------------------------------------------------------- |
-| Authentication | :heavy_check_mark: |                                                             |
-| Posts          | :heavy_minus_sign: | Only the retrieval of posts                                 |
-| Tags           | :heavy_minus_sign: | Only the retrieval of tags, updating not documented by e621 |
-| Tag Aliases    | :x:                |                                                             |
-| Notes          | :x:                |                                                             |
-| Pools          | :heavy_minus_sign: | Only the retrieval of pools                                 |
-| Users          | :heavy_minus_sign: | Only the retrieval of a user by name                        |
-| Favorites      | :heavy_check_mark: |                                                             |
-| Artists        | :heavy_minus_sign: | Only the retrieval of artists, not documented by e621       |
-| IQDB           | :heavy_check_mark: | Not yet documented by e621 at the moment of writing         |
+| Area             | Complete           | Comment                                                     |
+| ---------------- | ------------------ | ----------------------------------------------------------- |
+| Authentication   | :heavy_check_mark: |                                                             |
+| Posts            | :heavy_minus_sign: | Only the retrieval of posts                                 |
+| Tags             | :heavy_minus_sign: | Only the retrieval of tags                                  |
+| Tag aliases      | :x:                |                                                             |
+| Tag implications | :x:                |                                                             |
+| Notes            | :x:                |                                                             |
+| Pools            | :heavy_minus_sign: | Only the retrieval of pools                                 |
+| Users            | :heavy_minus_sign: | Only the retrieval of a user by name                        |
+| Favorites        | :heavy_check_mark: |                                                             |
+| Artists          | :heavy_minus_sign: | Only the retrieval of artists, not documented by e621       |
+| IQDB             | :heavy_check_mark: | Not yet documented by e621 at the moment of writing         |
+| DB export        | :heavy_minus_sign: | All except wiki pages                                       |
 
 ## Installation
 
-E621Client is available as a NuGet package listed as `Noppes.E621Client`. You can easily install it using either the Package Manager Console or the .NET CLI.
+E621Client is available as a NuGet package listed as [Noppes.E621Client](https://www.nuget.org/packages/Noppes.E621Client). You can easily install it using either the Package Manager Console or the .NET CLI.
 
 _Package Manager Console_
 
 ```
-Install-Package Noppes.E621Client -Version 0.7.1
+Install-Package Noppes.E621Client -Version 0.8.0
 ```
 
 _.NET CLI_
 
 ```
-dotnet add package Noppes.E621Client --version 0.7.1
+dotnet add package Noppes.E621Client --version 0.8.0
 ```
 
 ## Getting started
 
-You will need a `E621Client` instance in order to interact with the API. These instances can only be created using the `E621ClientBuilder` class. The builder will allow you to create your very own personalized `E621Client` instance in a fluent manner based on the specific needs of your application. Just make sure you at least specify User-Agent information, as e621 requires it. Not specifying it will cause an exception to be thrown.
+You will need a `IE621Client` instance in order to interact with the API. These instances can only be created using the `E621ClientBuilder` class. The builder will allow you to create your very own personalized `IE621Client` instance in a fluent manner based on the specific needs of your application. Just make sure you at least specify User-Agent information, as e621 requires it. Not specifying it will cause an exception to be thrown.
 
 _Bare minimum example_
 
@@ -106,7 +109,7 @@ var e621Client = new E621ClientBuilder()
     .Build();
 ```
 
-However, you might need something a little more suited for your application. The default `E621Client` instance built above uses settings tuned to make sure the load on e621's side is kept to a minimum. This is not desirable if you're, for example, developing an interactive tool and therefore want it to be as snappy as possible.
+However, you might need something a little more suited for your application. The default `IE621Client` instance built above uses settings tuned to make sure the load on e621's side is kept to a minimum. This is not desirable if you're, for example, developing an interactive tool and therefore want it to be as snappy as possible.
 
 _Example for an interactive application_
 
@@ -118,7 +121,7 @@ var e621Client = new E621ClientBuilder()
     .Build();
 ```
 
-`E621Client` instances can be disposed of, but you generally shouldn't do this. It uses a `HttpClient` behind the screens which gets disposed when you dispose the associated `E621Client`. You can read more about why that's bad at _[You're using HttpClient wrong and it is destabilizing your software](https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/)_ if you're interested.
+`IE621Client` instances can be disposed of, but you generally want to treat an `IE621Client` instance as a singleton. It uses a `HttpClient` behind the scenes which gets disposed when you dispose the associated `IE621Client`. You can read more about why that's bad at _[You're using HttpClient wrong and it is destabilizing your software](https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/)_ if you're interested.
 
 ## Authentication
 
@@ -148,7 +151,7 @@ e621Client.Logout();
 
 ## Functionality per API area
 
-The main point of this section is to show how the e621 API endpoints map to `E621Client` methods. The methods themselves are more elaborately documented than they are here. So don't worry if things may still seem kind off vague after reading this, check the method documentation out too!
+The main point of this section is to show how the e621 API endpoints map to `E621Client` methods. The methods themselves are sometimes more elaborately documented than they are here. So don't worry if things may still seem kind off vague after reading this, check the method documentation out too!
 
 ### Posts
 
@@ -431,6 +434,61 @@ _Retrieve a list of artists that contain the the name "wagner"_
 var wagners = await e621Client.GetArtistsAsync(name: "wagner")
 ```
 
+### Database exports
+
+e621 provides exports of posts, pools, tags, tag aliases, tag implications and wiki pages.
+
+E621Client supports downloading and the reading all of these exports except wiki pages. Due to this functionality being unlikely to be used in combination with it introducing a few dependencies, it has its own separate package: [Noppes.E621Client.DbExport](https://www.nuget.org/packages/Noppes.E621Client.DbExport).
+
+_Package Manager Console_
+
+```
+Install-Package Noppes.E621Client.DbExport -Version 0.8.0
+```
+
+_.NET CLI_
+
+```
+dotnet add package Noppes.E621Client.DbExport --version 0.8.0
+```
+
+After installing the package, you need to get a database export client. You can get one by calling the `GetDbExportClient` method on your `IE621Client` instance, as shown below. 
+
+_Get a database export client_
+
+```csharp
+var dbExportClient = e621Client.GetDbExportClient();
+```
+
+The next step you want to take whenever you want to retrieve a database export, is get a list of all the database exports available on e621. This can be done using the `GetDbExportsAsync` method on your database export client. This list can also be [viewed on e621](https://e621.net/db_export/).
+
+_Get a list of all the available database exports_
+
+```csharp
+var exports = await dbExportClient.GetDbExportsAsync();
+```
+
+Now that you have a list of all the database exports available on e621, it is time to choose which one you'd like to download and read. The retrieved exports contain a handy extension method named `Latest`. With this method, you can get the latest database export of a given type (posts, pools, tags, etc.).
+
+After selecting the desired database export, you need to get the data as a stream using the `GetDbExportStreamAsync` method. This stream, depending on what export you're downloading, can then be read using one of the following methods on your database export client:
+
+Posts: `ReadStreamAsPostsDbExportAsync`\
+Pools: `ReadStreamAsPoolsDbExportAsync`\
+Tags: `ReadStreamAsTagsDbExportAsync`\
+Tag implications: `ReadStreamAsTagImplicationsDbExportAsync`\
+Tag aliases: `ReadStreamAsTagAliasesDbExportAsync`
+
+The code below shows a concrete example of how the use the interface described above.
+
+_Print the IDs of the posts in the latest post database export to the console_
+
+```csharp
+var export = exports.Latest(DbExportType.Post);
+await using var stream = await exportClient.GetDbExportStreamAsync(export);
+await foreach (var post in exportClient.ReadStreamAsPostsDbExportAsync(stream))
+  Console.WriteLine(post.Id);
+```
+
 ### IQDB (Reverse image searching)
 
 _Note: Be sure to check out another project of mine, [fluffle.xyz](https://fluffle.xyz), if you're interested in this kind of functionality._
@@ -473,12 +531,12 @@ await using var stream = await e621Client.GetStreamAsync("my/url");
 
 ## Testing
 
-E621Client supports testing by mocking. `E621ClientBuilder.Build()` will return an interface `IE621Client` which can be mocked using a mocking framework. You can use this to test your own logic with different responses of the `E621Client`.
+E621Client supports testing by mocking. `E621ClientBuilder.Build()` will return an interface `IE621Client` which can be mocked using a mocking framework. You can use this to test your own logic with different responses of the `IE621Client`.
 
 ## Report a bug
 
-You can [open an issue](https://github.com/NoppesTheFolf/E621Client/issues). I still have to set up a template for issues so be creative. Just make sure to at least include a piece of code that reproduces the bug.
+You can [open an issue](https://github.com/NoppesTheFolf/E621Client/issues). Please make sure to include a piece of code that reproduces the bug. That will make troubleshooting a lot easier on my side! If you do not have a GitHub account, then also feel free to [contact me](https://noppes.dev).
 
 ## Contributing
 
-Contributions to this project are very welcome! It's probably a good idea to contact me if you'd like to do so. You can find places to contact me at on [my website](https://noppes.dev).
+Contributions to this project are very welcome! Please [open an issue](https://github.com/NoppesTheFolf/E621Client/issues) where you describe what you'd like to contribute and why it is useful if that is not obvious. If you want to contact me personally, you can find places to contact me at on [my website](https://noppes.dev).
