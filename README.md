@@ -484,8 +484,8 @@ _Print the IDs of the posts in the latest post database export to the console_
 
 ```csharp
 var export = exports.Latest(DbExportType.Post);
-await using var stream = await exportClient.GetDbExportStreamAsync(export);
-await foreach (var post in exportClient.ReadStreamAsPostsDbExportAsync(stream))
+await using var stream = await dbExportClient.GetDbExportStreamAsync(export);
+await foreach (var post in dbExportClient.ReadStreamAsPostsDbExportAsync(stream))
   Console.WriteLine(post.Id);
 ```
 

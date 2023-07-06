@@ -16,6 +16,6 @@
         /// <summary>
         /// The maximum number of tags which can be searched for in a single call to <see cref="IE621Client.GetPostsAsync"/>.
         /// </summary>
-        public static readonly int PostsMaximumTagSearchCount = 6;
+        public static readonly int PostsMaximumTagSearchCount = 40;
     }
 }
