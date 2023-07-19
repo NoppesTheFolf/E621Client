@@ -9,6 +9,20 @@ namespace Noppes.E621
     public partial interface IE621Client
     {
         /// <summary>
+        /// Reverse search the image associated with the post for the given ID. If no post could be
+        /// found with the given ID, e621 will return an empty collection.
+        /// </summary>
+        /// <param name="postId">
+        /// The ID of the post of which its image has to be reverse searched for.
+        /// </param>
+        /// <param name="activeOnly">Whether or not to only return posts which are not deleted.</param>
+        /// <param name="similarityCutoffScore">
+        /// The cutoff value for the similarity score. Images with this score or lower are removed
+        /// from the results.
+        /// </param>
+        public Task<ICollection<IqdbPost>> QueryIqdbByPostIdAsync(int postId, bool activeOnly = true, int similarityCutoffScore = 60);
+
+        /// <summary>
         /// Reverse search an image using an image located at the given URL. Note that e621 will not
         /// download files domains that aren't whitelisted. If you provided a URL that e621 does not
         /// trust, a <see cref="E621ClientForbiddenException"/> will be thrown. If you provided a
@@ -17,7 +31,11 @@ namespace Noppes.E621
         /// </summary>
         /// <param name="url">The url of the image.</param>
         /// <param name="activeOnly">Whether or not to only return posts which are not deleted.</param>
-        public Task<ICollection<IqdbPost>?> QueryIqdbByUrlAsync(string url, bool activeOnly = true);
+        /// <param name="similarityCutoffScore">
+        /// The cutoff value for the similarity score. Images with this score or lower are removed
+        /// from the results.
+        /// </param>
+        public Task<ICollection<IqdbPost>?> QueryIqdbByUrlAsync(string url, bool activeOnly = true, int similarityCutoffScore = 60);
 
         /// <summary>
         /// Reverse search an image using a stream that contains image data. If the stream doesn't
@@ -25,7 +43,11 @@ namespace Noppes.E621
         /// </summary>
         /// <param name="stream">The stream containing the image data.</param>
         /// <param name="activeOnly">Whether or not to only return posts which are not deleted.</param>
-        public Task<ICollection<IqdbPost>> QueryIqdbByStreamAsync(Stream stream, bool activeOnly = true);
+        /// <param name="similarityCutoffScore">
+        /// The cutoff value for the similarity score. Images with this score or lower are removed
+        /// from the results.
+        /// </param>
+        public Task<ICollection<IqdbPost>> QueryIqdbByStreamAsync(Stream stream, bool activeOnly = true, int similarityCutoffScore = 60);
 
         /// <summary>
         /// Reverse search an image using an image stored on a filesystem. A <see
@@ -36,6 +58,10 @@ namespace Noppes.E621
         /// </summary>
         /// <param name="path">The path where the image is located.</param>
         /// <param name="activeOnly">Whether or not to only return posts which are not deleted.</param>
-        public Task<ICollection<IqdbPost>> QueryIqdbByFileAsync(string path, bool activeOnly = true);
+        /// <param name="similarityCutoffScore">
+        /// The cutoff value for the similarity score. Images with this score or lower are removed
+        /// from the results.
+        /// </param>
+        public Task<ICollection<IqdbPost>> QueryIqdbByFileAsync(string path, bool activeOnly = true, int similarityCutoffScore = 60);
     }
 }

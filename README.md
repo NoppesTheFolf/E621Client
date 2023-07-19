@@ -493,7 +493,7 @@ await foreach (var post in dbExportClient.ReadStreamAsPostsDbExportAsync(stream)
 
 _Note: Be sure to check out another project of mine, [fluffle.xyz](https://fluffle.xyz), if you're interested in this kind of functionality._
 
-Since the overhaul of e621 at the 5th of March, it has become possible to reverse search images using IQDB. You can reverse search an image (and therefore a post) by either a locally stored image, a stream or a URL. This will return a collection of posts of which the images are similar to the submitted image. The returned posts have an additional property named `IqdbScore` which can be used to assess how similar the image is to the submitted one. E621Client will by default not return posts that have been deleted. However, if you'd like to include them, you can simply pass a boolean to any of the methods associated with querying IQDB.
+You can reverse search an image on e621 by either a locally stored image, a stream or a URL. In addition it is also possible to use another post as reference for the reverse search query (uses the image attached to the post). Reverse searching will return a collection of posts of which the images are similar to the submitted image/post. The returned posts have an additional property named `IqdbScore` which can be used to assess how similar the image is to the submitted one. E621Client will by default not return posts that have been deleted. However, if you'd like to include them, you can simply pass a boolean to any of the methods associated with querying IQDB.
 
 In case you're using the URL method, note that e621 will download images only from domains whitelisted by them. Which domains are on the whitelist is unknown. You should test if the domains of the URLs you are planning to use are whitelisted or not.
 
@@ -501,6 +501,12 @@ _Reverse image searching using a file, also returning deleted posts_
 
 ```csharp
 var results = await e621Client.QueryIqdbByFileAsync("/my/path", false);
+```
+
+_Reverse search the image of a post_
+
+```csharp
+var results = await e621Client.QueryIqdbByPostIdAsync(546281);
 ```
 
 _Reverse image searching using a URL_
