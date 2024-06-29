@@ -1,4 +1,5 @@
 ﻿using Flurl.Http;
+using Flurl.Http.Newtonsoft;
 using Noppes.E621.Extensions;
 using System;
 using System.IO;
@@ -34,6 +35,7 @@ namespace Noppes.E621
         }
 
         private readonly string _baseUrlRegistrableDomain;
+        private readonly string _userAgent;
         private readonly IFlurlClient _flurlClient;
         private readonly E621RequestHandler _requestHandler;
 
@@ -42,11 +44,16 @@ namespace Noppes.E621
             Imageboard = imageboard;
             (_baseUrlRegistrableDomain, BaseUrl) = imageboard.AsBaseUrl();
 
-            var clientFactory = new E621HttpClientFactory(maximumConnections);
+            var httpClientHandler = new E621ClientHandler(maximumConnections);
+            var httpClient = new HttpClient(httpClientHandler);
 
-            _flurlClient = new FlurlClient(BaseUrl)
-                .Configure(options => options.HttpClientFactory = clientFactory)
-                .WithHeader("User-Agent", userAgent.ToString());
+            _flurlClient = new FlurlClient(httpClient, BaseUrl)
+                .WithSettings(settings =>
+                {
+                    settings.JsonSerializer = new NewtonsoftJsonSerializer();
+                });
+
+            _userAgent = userAgent.ToString();
 
             _requestHandler = new E621RequestHandler(requestInterval);
         }
@@ -80,7 +87,8 @@ namespace Noppes.E621
         {
             try
             {
-                var request = _flurlClient.Request(urlSegment);
+                var request = _flurlClient.Request(urlSegment)
+                    .WithHeader("User-Agent", _userAgent);
 
                 return await _requestHandler.ExecuteAsync(() => func(request), interval, delayAfterRequest)
                     .ConfigureAwait(false);

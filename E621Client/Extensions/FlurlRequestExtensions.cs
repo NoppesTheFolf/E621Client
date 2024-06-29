@@ -102,5 +102,8 @@ namespace Noppes.E621.Extensions
 
             return deserializeContent(response, content);
         }
+
+        public static IFlurlRequest AllowHttpStatus(this IFlurlRequest request, params HttpStatusCode[] statusCodes) =>
+            request.AllowHttpStatus(statusCodes.Cast<int>().ToArray());
     }
 }

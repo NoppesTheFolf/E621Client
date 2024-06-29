@@ -19,10 +19,7 @@ namespace Noppes.E621
 
         public string? LocationUrl { get; }
 
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        public E621UserAgentPart(string productName, string productVersion, string username,
-            string platform, string? locationUrl = null)
+        public E621UserAgentPart(string productName, string productVersion, string username, string platform, string? locationUrl = null)
         {
             ProductName = Guard.Argument(productName, nameof(productName)).NotNull().NotWhiteSpace();
             ProductVersion = Guard.Argument(productVersion, nameof(productVersion)).NotNull().NotWhiteSpace();
@@ -32,7 +29,7 @@ namespace Noppes.E621
             if (locationUrl == null)
                 return;
 
-            Uri locationUri = new Uri(locationUrl, UriKind.Absolute);
+            var locationUri = new Uri(locationUrl, UriKind.Absolute);
             Guard.Argument(locationUri, nameof(locationUrl)).Http();
 
             LocationUrl = locationUrl;
