@@ -95,7 +95,7 @@ namespace Noppes.E621
         /// Whether or not to include tags that have no posts associated with them.
         /// </param>
         /// <param name="hasWiki">Whether or not to include tags that have a page at e621's wiki.</param>
-        public Task<ICollection<Tag>> GetTagsByNames(IEnumerable<string> names, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool hideEmpty = true, bool? hasWiki = null);
+        public Task<ICollection<Tag>> GetTagsByNamesAsync(IEnumerable<string> names, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool hideEmpty = true, bool? hasWiki = null);
 
         /// <summary>
         /// <para>Retrieves a collection of tags using a query and the other given parameters.</para>
@@ -119,6 +119,6 @@ namespace Noppes.E621
         /// Whether or not to include tags that have no posts associated with them.
         /// </param>
         /// <param name="hasWiki">Whether or not to include tags that have a page at e621's wiki.</param>
-        public Task<ICollection<Tag>> GetTagsByNames(string query, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool? hideEmpty = null, bool? hasWiki = null);
+        public Task<ICollection<Tag>> GetTagsByNamesAsync(string query, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool? hideEmpty = null, bool? hasWiki = null);
     }
 }

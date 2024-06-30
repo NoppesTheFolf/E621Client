@@ -22,7 +22,7 @@ namespace Noppes.E621
             if (string.IsNullOrWhiteSpace(name))
                 return await Task.FromResult<Tag?>(null).ConfigureAwait(false);
 
-            return (await GetTagsByNames(new[] { name }, hideEmpty: false).ConfigureAwait(false)).FirstOrDefault();
+            return (await GetTagsByNamesAsync(new[] { name }, hideEmpty: false).ConfigureAwait(false)).FirstOrDefault();
         }
 
         #region Tags without filter
@@ -44,7 +44,7 @@ namespace Noppes.E621
         #region Tags filter by name
 
         /// <inheritdoc/>
-        public Task<ICollection<Tag>> GetTagsByNames(IEnumerable<string> names, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool hideEmpty = true, bool? hasWiki = null)
+        public Task<ICollection<Tag>> GetTagsByNamesAsync(IEnumerable<string> names, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool hideEmpty = true, bool? hasWiki = null)
         {
             return GetTagsByNamesAsync(names, page, null, limit, category, order, hideEmpty, hasWiki);
         }
@@ -65,12 +65,12 @@ namespace Noppes.E621
         #region Tags filter with query
 
         /// <inheritdoc/>
-        public Task<ICollection<Tag>> GetTagsByNames(string query, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool? hideEmpty = null, bool? hasWiki = null)
+        public Task<ICollection<Tag>> GetTagsByNamesAsync(string query, int? page = null, int? limit = null, TagCategory? category = null, TagOrder? order = null, bool? hideEmpty = null, bool? hasWiki = null)
         {
-            return GetTagsByNames(query, page, null, limit, category, order, hideEmpty, hasWiki);
+            return GetTagsByNamesAsync(query, page, null, limit, category, order, hideEmpty, hasWiki);
         }
 
-        private Task<ICollection<Tag>> GetTagsByNames(string query, int? id, Position? position, int? limit, TagCategory? category, TagOrder? order, bool? hideEmpty, bool? hasWiki)
+        private Task<ICollection<Tag>> GetTagsByNamesAsync(string query, int? id, Position? position, int? limit, TagCategory? category, TagOrder? order, bool? hideEmpty, bool? hasWiki)
         {
             return GetTagsWithParameterAsync(("search[name_matches]", query), id, position, limit, category, order, hideEmpty, hasWiki);
         }

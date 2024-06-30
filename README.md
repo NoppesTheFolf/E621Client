@@ -282,7 +282,7 @@ var tagNames = new []
     "blep",
     "fur"
 };
-var tags = await e621Client.GetTagsByNames(tagNames);
+var tags = await e621Client.GetTagsByNamesAsync(tagNames);
 ```
 
 ##### Using a search query
@@ -292,7 +292,7 @@ Tags can also be retrieved using a search query on the tag their names using a w
 _Get the first page of tags that start with 'wolf' in the species category_
 
 ```csharp
-var tags = await e621Client.GetTagsByNames("wolf*", category: TagCategory.Species);
+var tags = await e621Client.GetTagsByNamesAsync("wolf*", category: TagCategory.Species);
 ```
 
 ### Pools
