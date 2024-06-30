@@ -388,22 +388,10 @@ await e621Client.RemoveFavoriteAsync(546281);
 
 We can retrieve the posts favorited by either the logged-in user or some other user by using their user ID.
 
-_Retrieving the first page of posts favorited by the logged-in user_
+_Retrieving the fifth page of posts favorited by the logged-in user, retrieving as many posts as possible in a single call_
 
 ```csharp
-var favorites = await e621Client.GetOwnFavoritesAsync();
-```
-
-_Retrieving the fifth page of posts favorited by the logged-in user_
-
-```csharp
-var favorites = await e621Client.GetOwnFavoritesAsync(5);
-```
-
-_Retrieving the first page of posts favorited by the user with ID 11271 (SnowWolf)_
-
-```csharp
-var favorites = await e621Client.GetFavoritesAsync(11271);
+var favorites = await e621Client.GetOwnFavoritesAsync(5, E621Constants.FavoritesMaximumLimit);
 ```
 
 _Retrieving the seventh page of posts favorited by the user with ID 11271 (SnowWolf)_
