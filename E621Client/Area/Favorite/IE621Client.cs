@@ -23,12 +23,15 @@ namespace Noppes.E621
         /// <summary>
         /// Gets the favorites of the user with the provided user ID. Null will be returned in case
         /// there doesn't exist a user with the given user ID. The maximum possible number of
-        /// favorites which can be retrieved in a single call, is defined at <see cref="E621Constants.FavoritesMaximumLimit"/>.
+        /// favorites which can be retrieved in a single call, is defined at <see
+        /// cref="E621Constants.FavoritesMaximumLimit"/>. A <see
+        /// cref="E621ClientForbiddenException"/> might be thrown if the user for which the
+        /// favorites are retrieved has privacy mode enabled.
         /// </summary>
         /// <param name="userId">The ID of the user which favorites should be retrieved.</param>
         /// <param name="page">Pagination, page number.</param>
         /// <param name="limit">The maximum number of posts returned in a single request.</param>
-        /// <returns></returns>
+        /// <exception cref="E621ClientForbiddenException"></exception>
         public Task<ICollection<Post>?> GetFavoritesAsync(int userId, int? page = null, int? limit = null);
 
         /// <summary>
