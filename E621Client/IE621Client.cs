@@ -13,7 +13,7 @@ namespace Noppes.E621
         /// <summary>
         /// The imageboard to which the requests are made.
         /// </summary>
-        [Obsolete]
+        [Obsolete("Imageboard is no longer used, Use the BaseUrl to determine which image board the client is talking to.")]
         public Imageboard Imageboard { get; }
 
         /// <summary>

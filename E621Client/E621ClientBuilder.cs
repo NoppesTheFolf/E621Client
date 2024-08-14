@@ -58,7 +58,7 @@ namespace Noppes.E621
         public E621ClientBuilder WithBaseUrl(Uri baseUrl) => Set(() =>
         {
             if (!baseUrl.IsAbsoluteUri)
-                throw new ArgumentException("The base URL to an image board has to be a absolute URL!", nameof(baseUrl));
+                throw new ArgumentException("The base URL to an image board has to be a absolute URL!", "baseUrl");
             BaseUrl = baseUrl;
         });
 
