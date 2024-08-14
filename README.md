@@ -121,6 +121,21 @@ var e621Client = new E621ClientBuilder()
     .Build();
 ```
 
+We've also added support to use this client for any website that is running the open source [E621ng](https://github.com/e621ng/e621ng) framework and thus is sharing the same API.
+For example ([E926](https://e926.net) or [E6AI](https://e6ai.net)).
+In order to change which image board the client is using you can use the `WithBaseUrl(Uri)` method on the `E621ClientBuilder` like below:
+
+_Example for use with a different E621ng image board_
+
+```csharp
+var e926Client = new E621ClientBuilder()
+    .WithUserAgent("MyApplicationName", "MyApplicationVersion", "MyTwitterUsername", "Twitter")
+    .WithBaseUrl(new Uri("https://e926.net"))
+    .Build();
+```
+
+Since E621 and E926 are officially supported you can also use `E621Constants.E621BaseUrl` or `E621Constants.E926BaseUrl` instead of creating a new `Uri` directly
+
 `IE621Client` instances can be disposed of, but you generally want to treat an `IE621Client` instance as a singleton. It uses a `HttpClient` behind the scenes which gets disposed when you dispose the associated `IE621Client`. You can read more about why that's bad at _[You're using HttpClient wrong and it is destabilizing your software](https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/)_ if you're interested.
 
 ## Authentication
