@@ -69,7 +69,7 @@ namespace Noppes.E621
         /// <summary>
         /// The default imageboard information is retrieved from.
         /// </summary>
-        [Obsolete("The use of Imageboard is no longer supported, use DefaultBaseUrl, E621BaseUrl or E921BaseUrl instead.")]
+        [Obsolete("The use of Imageboard is no longer supported, use DefaultBaseUrl, E621BaseUrl or E926BaseUrl instead.")]
         public static readonly Imageboard DefaultImageboard = Imageboard.E621;
 
         /// <summary>
