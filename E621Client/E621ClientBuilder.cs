@@ -53,13 +53,13 @@ namespace Noppes.E621
         /// <summary>
         /// Sets the image board used to retrieve data from using the base URL of the image board.
         /// </summary>
-        /// <param name="imageboardBaseUrl">The full absolute base URL to use the client on. For example https://e621.net</param>
-        /// <exception cref="ArgumentException">If the given <paramref name="imageboardBaseUrl"/> is not a valid absolute URL.</exception>
-        public E621ClientBuilder WithBaseUrl(Uri imageboardBaseUrl) => Set(() =>
+        /// <param name="baseUrl">The full absolute base URL to use the client on. For example https://e621.net</param>
+        /// <exception cref="ArgumentException">If the given <paramref name="baseUrl"/> is not a valid absolute URL.</exception>
+        public E621ClientBuilder WithBaseUrl(Uri baseUrl) => Set(() =>
         {
-            if (!imageboardBaseUrl.IsAbsoluteUri)
-                throw new ArgumentException("The base URL to an image board has to be a absolute URL!", nameof(imageboardBaseUrl));
-            BaseUrl = imageboardBaseUrl;
+            if (!baseUrl.IsAbsoluteUri)
+                throw new ArgumentException("The base URL to an image board has to be a absolute URL!", nameof(baseUrl));
+            BaseUrl = baseUrl;
         });
 
         /// <summary>

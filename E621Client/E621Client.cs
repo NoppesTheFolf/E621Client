@@ -16,7 +16,7 @@ namespace Noppes.E621
     public partial class E621Client : IE621Client
     {
         /// <inheritdoc/>
-        [Obsolete]
+        [Obsolete("Imageboard is no longer used, Use the BaseUrl to determine which image board the client is talking to.")]
         public Imageboard Imageboard { get; }
 
         /// <inheritdoc/>
@@ -40,7 +40,7 @@ namespace Noppes.E621
         private readonly IFlurlClient _flurlClient;
         private readonly E621RequestHandler _requestHandler;
 
-        [Obsolete]
+        [Obsolete("Do no longer construct E621Client using an Imageboard, call the constructor with Uri instead.")]
         internal E621Client(Imageboard imageboard, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
         {
             Imageboard = imageboard;
