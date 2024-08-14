@@ -63,7 +63,7 @@ namespace Noppes.E621
         internal E621Client(Uri imageboard, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
         {
             BaseUrl = imageboard.AbsoluteUri;
-            _baseUrlRegistrableDomain = imageboard.Host; //TODO test if this gives the correct value.
+            _baseUrlRegistrableDomain = imageboard.Host;
 
             var httpClientHandler = new E621ClientHandler(maximumConnections);
             var httpClient = new HttpClient(httpClientHandler);
