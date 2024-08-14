@@ -69,6 +69,22 @@ namespace Noppes.E621
         /// <summary>
         /// The default imageboard information is retrieved from.
         /// </summary>
+        [Obsolete("The use of Imageboard is no longer supported, use DefaultBaseUrl, E621BaseUrl or E921BaseUrl instead.")]
         public static readonly Imageboard DefaultImageboard = Imageboard.E621;
+
+        /// <summary>
+        /// The URL to the E621 imageboard.
+        /// </summary>
+        public static readonly Uri E621BaseUrl = new Uri("https://e621.net");
+        
+        /// <summary>
+        /// The URL to the E926 imageboard.
+        /// </summary>
+        public static readonly Uri E926BaseUrl = new Uri("https://e926.net");
+        
+        /// <summary>
+        /// The default URL for the imageboard information is retrieved from.
+        /// </summary>
+        public static readonly Uri DefaultBaseUrl = E621BaseUrl;
     }
 }
