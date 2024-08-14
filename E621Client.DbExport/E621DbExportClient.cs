@@ -73,8 +73,10 @@ namespace Noppes.E621.DbExport
 
         internal E621DbExportClient(IE621Client e621Client)
         {
-            if (e621Client.Imageboard == Imageboard.E926)
-                throw new ArgumentException("e926 does not support database exports. You need to use a client configured to use e621.", nameof(e621Client));
+#pragma warning disable CS0612 CS0618 // Type or member is obsolete We still need to actually do this check because older clients might still be using Imageboard.
+            if (e621Client.Imageboard != Imageboard.E621 && !e621Client.BaseUrl.Equals(E621Constants.E621BaseUrl.AbsoluteUri))
+#pragma warning restore CS0612 CS0618 // Type or member is obsolete
+                throw new ArgumentException("Only e621 supports database exports. You need to use a client configured to use e621.", nameof(e621Client));
 
             _e621Client = e621Client;
         }

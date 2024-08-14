@@ -10,7 +10,7 @@ namespace Noppes.E621
     {
         private E621UserAgent? UserAgent { get; set; }
 
-        private Imageboard Imageboard { get; set; } = E621Constants.DefaultImageboard;
+        private Uri BaseUrl { get; set; } = E621Constants.DefaultBaseUrl;
 
         private TimeSpan RequestTimeout { get; set; } = E621Constants.RecommendedRequestTimeout;
 
@@ -42,7 +42,25 @@ namespace Noppes.E621
         /// Sets the imageboard used to retrieve data from. Not specifying an imageboard will make
         /// the client use <see cref="E621Constants.DefaultImageboard"/>.
         /// </summary>
-        public E621ClientBuilder WithBaseUrl(Imageboard imageboard) => Set(() => Imageboard = imageboard);
+        [Obsolete("No longer supported, use the WithBaseUrl(Uri) overload instead.")]
+        public E621ClientBuilder WithBaseUrl(Imageboard imageboard) => Set(() => BaseUrl = imageboard switch
+        {
+            Imageboard.E621 => E621Constants.E621BaseUrl,
+            Imageboard.E926 => E621Constants.E926BaseUrl,
+            _ => E621Constants.DefaultBaseUrl
+        });
+
+        /// <summary>
+        /// Sets the image board used to retrieve data from using the base URL of the image board.
+        /// </summary>
+        /// <param name="imageboardBaseUrl">The full absolute base URL to use the client on. For example https://e621.net</param>
+        /// <exception cref="ArgumentException">If the given <paramref name="imageboardBaseUrl"/> is not a valid absolute URL.</exception>
+        public E621ClientBuilder WithBaseUrl(Uri imageboardBaseUrl) => Set(() =>
+        {
+            if (!imageboardBaseUrl.IsAbsoluteUri)
+                throw new ArgumentException("The base URL to an image board has to be a absolute URL!", nameof(imageboardBaseUrl));
+            BaseUrl = imageboardBaseUrl;
+        });
 
         /// <summary>
         /// Sets the amount of time between each request. This value has to be greater than or equal
@@ -109,7 +127,7 @@ namespace Noppes.E621
             if (UserAgent == null)
                 throw new InvalidOperationException($"The user agent must be specified in order to build the client.");
 
-            IE621Client e621Client = new E621Client(Imageboard, UserAgent, RequestInterval, MaximumConnections)
+            IE621Client e621Client = new E621Client(BaseUrl, UserAgent, RequestInterval, MaximumConnections)
             {
                 Timeout = RequestTimeout
             };

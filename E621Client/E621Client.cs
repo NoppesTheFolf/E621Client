@@ -16,6 +16,7 @@ namespace Noppes.E621
     public partial class E621Client : IE621Client
     {
         /// <inheritdoc/>
+        [Obsolete]
         public Imageboard Imageboard { get; }
 
         /// <inheritdoc/>
@@ -39,10 +40,30 @@ namespace Noppes.E621
         private readonly IFlurlClient _flurlClient;
         private readonly E621RequestHandler _requestHandler;
 
+        [Obsolete]
         internal E621Client(Imageboard imageboard, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
         {
             Imageboard = imageboard;
             (_baseUrlRegistrableDomain, BaseUrl) = imageboard.AsBaseUrl();
+
+            var httpClientHandler = new E621ClientHandler(maximumConnections);
+            var httpClient = new HttpClient(httpClientHandler);
+
+            _flurlClient = new FlurlClient(httpClient, BaseUrl)
+                .WithSettings(settings =>
+                {
+                    settings.JsonSerializer = new NewtonsoftJsonSerializer();
+                });
+
+            _userAgent = userAgent.ToString();
+
+            _requestHandler = new E621RequestHandler(requestInterval);
+        }
+        
+        internal E621Client(Uri imageboard, E621UserAgent userAgent, TimeSpan requestInterval, int maximumConnections)
+        {
+            BaseUrl = imageboard.AbsoluteUri;
+            _baseUrlRegistrableDomain = imageboard.Host; //TODO test if this gives the correct value.
 
             var httpClientHandler = new E621ClientHandler(maximumConnections);
             var httpClient = new HttpClient(httpClientHandler);

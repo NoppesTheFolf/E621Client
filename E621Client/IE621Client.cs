@@ -13,6 +13,7 @@ namespace Noppes.E621
         /// <summary>
         /// The imageboard to which the requests are made.
         /// </summary>
+        [Obsolete]
         public Imageboard Imageboard { get; }
 
         /// <summary>
