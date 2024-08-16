@@ -29,6 +29,7 @@ namespace Noppes.E621
         /// <summary>
         /// Maps the imageboard to a base URL that can be for HTTP clients.
         /// </summary>
+        [Obsolete("No longer supported to create a client with an image board. Use the WithBaseUrl(Uri) in the builder instead.")]
         public static (string registrableDomain, string baseUrl) AsBaseUrl(this Imageboard imageboard)
         {
             return imageboard switch
