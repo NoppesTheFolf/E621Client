@@ -88,13 +88,13 @@ E621Client is available as a NuGet package listed as [Noppes.E621Client](https:/
 _Package Manager Console_
 
 ```
-Install-Package Noppes.E621Client -Version 0.9.0
+Install-Package Noppes.E621Client -Version 0.10.0
 ```
 
 _.NET CLI_
 
 ```
-dotnet add package Noppes.E621Client --version 0.9.0
+dotnet add package Noppes.E621Client --version 0.10.0
 ```
 
 ## Getting started
@@ -446,13 +446,13 @@ E621Client supports downloading and the reading all of these exports except wiki
 _Package Manager Console_
 
 ```
-Install-Package Noppes.E621Client.DbExport -Version 0.9.0
+Install-Package Noppes.E621Client.DbExport -Version 0.10.0
 ```
 
 _.NET CLI_
 
 ```
-dotnet add package Noppes.E621Client.DbExport --version 0.9.0
+dotnet add package Noppes.E621Client.DbExport --version 0.10.0
 ```
 
 After installing the package, you need to get a database export client. You can get one by calling the `GetDbExportClient` method on your `IE621Client` instance, as shown below. 

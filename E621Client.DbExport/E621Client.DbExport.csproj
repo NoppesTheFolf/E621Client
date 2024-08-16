@@ -9,7 +9,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>NoppesTheFolf and contributors</Authors>
-		<Version>0.9.0</Version>
+		<Version>0.10.0</Version>
 		<Description>Extends Noppes.E621Client with the ability to handle database exports.</Description>
 		<PackageProjectUrl>https://github.com/NoppesTheFolf/E621Client</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
@@ -17,8 +17,7 @@
 		<Product>E621Client.DbExport</Product>
 		<PackageIcon>E621Client.png</PackageIcon>
 		<Copyright>Copyright © NoppesTheFolf and contributors 2019-2023</Copyright>
-		<PackageReleaseNotes>- Bump CsvHelper from 30.0.1 to 33.0.1
-- Bump HtmlAgilityPack from 1.11.50 to 1.11.61</PackageReleaseNotes>
+		<PackageReleaseNotes></PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

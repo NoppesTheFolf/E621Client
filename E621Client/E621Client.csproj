@@ -9,7 +9,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>NoppesTheFolf and contributors</Authors>
-		<Version>0.9.0</Version>
+		<Version>0.10.0</Version>
 		<Description>.NET Standard wrapper for the e621 API.</Description>
 		<PackageProjectUrl>https://github.com/NoppesTheFolf/E621Client</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
@@ -17,9 +17,10 @@
 		<Product>E621Client</Product>
 		<PackageIcon>E621Client.png</PackageIcon>
 		<Copyright>Copyright © NoppesTheFolf and contributors 2019-2023</Copyright>
-		<PackageReleaseNotes>- Bump Flurl.Http from 3.2.4 to 4.0.2
-- Support limit parameter on endpoint that allows retrieving favorites
-- Rename GetTagsByNames to GetTagsByNamesAsync</PackageReleaseNotes>
+		<PackageReleaseNotes>- You can now configure the client to talk to any website running e621ng. The "WithBaseUrl" method on the builder now accepts a "Uri".
+- With that change, usage of the "Imageboard" enum to select a website is now deprecated.
+
+Special thanks to GizmoCaritate for contributing the changes above!</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
