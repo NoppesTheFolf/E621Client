@@ -134,6 +134,12 @@ namespace Noppes.E621
         [JsonProperty("is_favorited")]
         public bool IsFavorite { get; set; }
 
+        [JsonProperty("last_noted_at")]
+        public DateTimeOffset? LastNotedAt { get; set; }
+
+        [JsonProperty("duration")]
+        public double? Duration { get; set; }
+
         public IqdbPost AsPost()
         {
             var post = new IqdbPost
@@ -183,11 +189,14 @@ namespace Noppes.E621
                     IsDeleted = IsDeleted
                 },
                 CommentCount = CommentCount,
-                IsFavorite = IsFavorite
+                IsFavorite = IsFavorite,
+                HasNotes = LastNotedAt != null,
+                Duration = Duration
             };
 
-            if (IsDeleted)
-                return post;
+            // Don't ignore image info on deleted posts, we want the width/height and hash
+            //if (IsDeleted)
+            //    return post;
 
 #pragma warning disable CS8601 // Possible null reference assignment. The values will only be null if the post has been deleted.
             post.File = new PostFileImage
