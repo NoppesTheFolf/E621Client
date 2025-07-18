@@ -16,6 +16,7 @@ namespace Noppes.E621
         /// null value will be returned.
         /// </summary>
         /// <param name="url">The url of the image.</param>
+        /// <param name="scoreCutoff">The minimum similarity cutoff for the search. Default 75.</param>
         /// <param name="activeOnly">Whether or not to only return posts which are not deleted.</param>
         public Task<ICollection<IqdbPost>?> QueryIqdbByUrlAsync(string url, int scoreCutoff = 75, bool activeOnly = true);
 
@@ -24,6 +25,7 @@ namespace Noppes.E621
         /// contain valid data, an empty list will be returned.
         /// </summary>
         /// <param name="stream">The stream containing the image data.</param>
+        /// <param name="scoreCutoff">The minimum similarity cutoff for the search. Default 75.</param>
         /// <param name="activeOnly">Whether or not to only return posts which are not deleted.</param>
         public Task<ICollection<IqdbPost>> QueryIqdbByStreamAsync(Stream stream, int scoreCutoff = 75, bool activeOnly = true);
 
@@ -35,6 +37,7 @@ namespace Noppes.E621
         /// However, e621 will simply return no matches in case an invalid file is uploaded.
         /// </summary>
         /// <param name="path">The path where the image is located.</param>
+        /// <param name="scoreCutoff">The minimum similarity cutoff for the search. Default 75.</param>
         /// <param name="activeOnly">Whether or not to only return posts which are not deleted.</param>
         public Task<ICollection<IqdbPost>> QueryIqdbByFileAsync(string path, int scoreCutoff = 75, bool activeOnly = true);
     }

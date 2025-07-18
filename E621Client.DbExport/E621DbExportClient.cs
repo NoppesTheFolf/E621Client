@@ -113,7 +113,7 @@ namespace Noppes.E621.DbExport
                     FileSize = record.FileSize,
                     CommentCount = record.CommentCount,
                     Description = string.IsNullOrWhiteSpace(record.Description) ? null : record.Description,
-                    UpdatedAt = string.IsNullOrWhiteSpace(record.UpdatedAt) ? null : DateTimeOffset.ParseExact(record.UpdatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
+                    UpdatedAt = string.IsNullOrWhiteSpace(record.UpdatedAt) ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.UpdatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
                     ScoreUp = record.ScoreUp,
                     ScoreDown = record.ScoreDown,
                     Score = record.Score,
@@ -187,7 +187,7 @@ namespace Noppes.E621.DbExport
                     Id = record.Id,
                     AntecedentName = record.AntecedentName,
                     ConsequentName = record.ConsequentName,
-                    CreatedAt = string.IsNullOrWhiteSpace(record.CreatedAt) ? null : DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
+                    CreatedAt = string.IsNullOrWhiteSpace(record.CreatedAt) ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
                     Status = status
                 };
             });
@@ -206,7 +206,7 @@ namespace Noppes.E621.DbExport
                     Id = record.Id,
                     AntecedentName = record.AntecedentName,
                     ConsequentName = record.ConsequentName,
-                    CreatedAt = string.IsNullOrWhiteSpace(record.CreatedAt) ? null : DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
+                    CreatedAt = string.IsNullOrWhiteSpace(record.CreatedAt) ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
                     Status = status
                 };
             });

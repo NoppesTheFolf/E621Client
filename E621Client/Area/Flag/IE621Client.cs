@@ -17,7 +17,8 @@ namespace Noppes.E621
         /// <summary>
         /// Retrieves flags for one or more posts, with their descriptions
         /// </summary>
-        /// <param name="postId">The IDs of one or more posts to check.</param>
+        /// <param name="postIds">The IDs of one or more posts to check.</param>
+        /// <param name="limit">Optional flag limit, default 300 (max 320). This is not the post limit!</param>
         public Task<IList<Flag>?> GetFlagsAsync(IEnumerable<int> postIds, int limit = 320);
     }
 }
