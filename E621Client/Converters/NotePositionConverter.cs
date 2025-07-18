@@ -7,9 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using Newtonsoft.Json.Converters;
-using Noppes.E621.Converters;
-
-namespace Noppes.E621
+namespace Noppes.E621.Converters
 {
     // Custom converter for Rectangle
     public class NotePositionConverter : JsonConverter<Note>
