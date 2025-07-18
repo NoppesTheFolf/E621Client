@@ -16,6 +16,8 @@ namespace Noppes.E621
 
         private const string MultipartFileName = "file";
 
+        private const string MultipartIqdbScoreCutoffName = "score_cutoff";
+
         // It seems like e621 doesn't use the same rules for the IQDB area of the API than they do
         // for the rest. That in turn causes 429 responses to be thrown. Waiting two seconds after
         // an IQDB query seems to prevent 429 responses.
@@ -23,27 +25,29 @@ namespace Noppes.E621
         private const int IqdbRequestDelay = 2000;
 
         /// <inheritdoc/>
-        public Task<ICollection<IqdbPost>?> QueryIqdbByUrlAsync(string url, bool activeOnly = true)
+        public Task<ICollection<IqdbPost>?> QueryIqdbByUrlAsync(string url, int scoreCutoff = 75, bool activeOnly = true)
         {
             return QueryIqdbAsync(content =>
             {
+                content.AddString(MultipartIqdbScoreCutoffName, scoreCutoff.ToString());
                 content.AddString(MultipartUrlName, url);
             }, activeOnly, HttpStatusCode.InternalServerError);
         }
 
         /// <inheritdoc/>
-        public Task<ICollection<IqdbPost>> QueryIqdbByStreamAsync(Stream stream, bool activeOnly = true)
+        public Task<ICollection<IqdbPost>> QueryIqdbByStreamAsync(Stream stream, int scoreCutoff = 75, bool activeOnly = true)
         {
 #pragma warning disable 8619 // Nullability of reference types in value doesn't match target type. Null values will only be returned in case defaultStatusCodes are provided.
             return QueryIqdbAsync(content =>
             {
+                content.AddString(MultipartIqdbScoreCutoffName, scoreCutoff.ToString());
                 content.AddFile(MultipartFileName, stream, "image");
             }, activeOnly);
 #pragma warning restore 8619 // Nullability of reference types in value doesn't match target type.
         }
 
         /// <inheritdoc/>
-        public Task<ICollection<IqdbPost>> QueryIqdbByFileAsync(string path, bool activeOnly = true)
+        public Task<ICollection<IqdbPost>> QueryIqdbByFileAsync(string path, int scoreCutoff = 75, bool activeOnly = true)
         {
             if (!File.Exists(path))
                 throw new ArgumentException($"There doesn't exist a file at `{path}`.");
@@ -51,6 +55,7 @@ namespace Noppes.E621
 #pragma warning disable 8619 // Nullability of reference types in value doesn't match target type. Null values will only be returned in case defaultStatusCodes are provided.
             return QueryIqdbAsync(content =>
             {
+                content.AddString(MultipartIqdbScoreCutoffName, scoreCutoff.ToString());
                 content.AddFile(MultipartFileName, path);
             }, activeOnly);
 #pragma warning restore 8619 // Nullability of reference types in value doesn't match target type.
