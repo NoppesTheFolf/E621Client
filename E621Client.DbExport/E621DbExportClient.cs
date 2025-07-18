@@ -177,13 +177,19 @@ namespace Noppes.E621.DbExport
         /// <inheritdoc/>
         public IAsyncEnumerable<DbExportTagImplication> ReadStreamAsTagImplicationsDbExportAsync(Stream stream)
         {
-            return ReadStreamAsDbExportAsync<DbExportTagImplicationRaw, DbExportTagImplication>(stream, record => new DbExportTagImplication
+            return ReadStreamAsDbExportAsync<DbExportTagImplicationRaw, DbExportTagImplication>(stream, record =>
             {
-                Id = record.Id,
-                AntecedentName = record.AntecedentName,
-                ConsequentName = record.ConsequentName,
-                CreatedAt = string.IsNullOrWhiteSpace(record.CreatedAt) ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
-                Status = Enum.Parse<TagImplicationStatus>(record.Status.Pascalize())
+                if (!Enum.TryParse<TagStatus>(record.Status.Pascalize(), out var status))
+                    status = TagStatus.Other;
+
+                return new DbExportTagImplication
+                {
+                    Id = record.Id,
+                    AntecedentName = record.AntecedentName,
+                    ConsequentName = record.ConsequentName,
+                    CreatedAt = string.IsNullOrWhiteSpace(record.CreatedAt) ? (DateTimeOffset?)null : DateTimeOffset.ParseExact(record.CreatedAt, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal),
+                    Status = status
+                };
             });
         }
 
@@ -192,8 +198,8 @@ namespace Noppes.E621.DbExport
         {
             return ReadStreamAsDbExportAsync<DbExportTagAliasRaw, DbExportTagAlias>(stream, record =>
             {
-                if (!Enum.TryParse<TagAliasStatus>(record.Status.Pascalize(), out var status))
-                    status = TagAliasStatus.Other;
+                if (!Enum.TryParse<TagStatus>(record.Status.Pascalize(), out var status))
+                    status = TagStatus.Other;
 
                 return new DbExportTagAlias
                 {

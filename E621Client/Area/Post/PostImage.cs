@@ -25,12 +25,12 @@ namespace Noppes.E621
         /// The location of the image.
         /// </summary>
         [JsonProperty(UrlProperty), JsonConverter(typeof(UriConverter))]
-        public Uri Location { get; set; } = null!;
-
+        public Uri? Location { get; set; } = null;
+		
         /// <summary>
         /// The image its file extension.
         /// </summary>
         [JsonIgnore]
-        public string? FileExtension => Location.OriginalString.GetPathExtensionWithoutDot();
+        public virtual string? FileExtension => Location?.OriginalString.GetPathExtensionWithoutDot();
     }
 }

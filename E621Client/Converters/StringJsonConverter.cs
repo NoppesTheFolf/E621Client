@@ -12,6 +12,8 @@ namespace Noppes.E621.Converters
     {
         public sealed override T ReadJson(JsonReader reader, Type objectType, T existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
+            if (reader.Value == null)
+                return ReadString(String.Empty, objectType, existingValue, hasExistingValue, serializer);
             if (!(reader.Value is string value))
                 throw new InvalidOperationException($"Value from {reader.GetType().Name} must be a string.");
 

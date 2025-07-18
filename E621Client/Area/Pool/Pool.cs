@@ -76,6 +76,6 @@ namespace Noppes.E621
         /// therefore this is an ordered collection.
         /// </summary>
         [JsonProperty("post_ids")]
-        public IList<int> PostIds { get; set; } = null!;
+        public HashSet<int> PostIds { get; set; } = null!;
     }
 }

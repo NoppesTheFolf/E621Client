@@ -11,12 +11,12 @@ namespace Noppes.E621
     public partial class E621Client
     {
         /// <inheritdoc/>
-        public Task<ICollection<Post>> GetPostsAsync(int id, Position position, int? limit = null, string? tags = null) => GetPostsAsync(tags, limit, id, position);
+        public Task<IList<Post>> GetPostsAsync(int id, Position position, int? limit = null, string? tags = null) => GetPostsAsync(tags, limit, id, position);
 
         /// <inheritdoc/>
-        public Task<ICollection<Post>> GetPostsAsync(string? tags = null, int? page = null, int? limit = null) => GetPostsAsync(tags, limit, page, null);
+        public Task<IList<Post>> GetPostsAsync(string? tags = null, int? page = null, int? limit = null) => GetPostsAsync(tags, limit, page, null);
 
-        private Task<ICollection<Post>> GetPostsAsync(string? tags, int? limit, int? page, Position? position)
+        private Task<IList<Post>> GetPostsAsync(string? tags, int? limit, int? page, Position? position)
         {
             Guard.Argument(limit, nameof(limit)).InRange(1, E621Constants.PostsMaximumLimit);
 
@@ -35,7 +35,7 @@ namespace Noppes.E621
                     })
                     .SetPagination(page, position)
                     .AuthenticatedIfPossible(this)
-                    .GetJsonAsync(token => token["posts"].ToObject<ICollection<Post>>()));
+                    .GetJsonAsync(token => token["posts"].ToObject<IList<Post>>()));
         }
 
         /// <inheritdoc/>

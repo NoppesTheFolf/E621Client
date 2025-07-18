@@ -145,5 +145,17 @@ namespace Noppes.E621
         /// </summary>
         [JsonProperty("is_favorited")]
         public bool IsFavorite { get; set; }
+
+        /// <summary>
+        /// Whether the post has notes associated with it.
+        /// </summary>
+        [JsonProperty("has_notes")]
+        public bool? HasNotes { get; set; }
+
+        /// <summary>
+        /// The duration of the post, if it is a video, or null otherwise
+        /// </summary>
+        [JsonProperty("duration")]
+        public double? Duration { get; set; }
     }
 }
