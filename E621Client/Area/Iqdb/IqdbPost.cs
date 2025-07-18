@@ -191,8 +191,8 @@ namespace Noppes.E621
                 CommentCount = CommentCount,
                 IsFavorite = IsFavorite,
                 HasNotes = LastNotedAt != null,
-                Duration = Duration
-            };
+                Duration = Duration != null ? TimeSpan.FromSeconds((float)Duration) : null
+        };
 
             // Don't ignore image info on deleted posts, we want the width/height and hash
             //if (IsDeleted)
