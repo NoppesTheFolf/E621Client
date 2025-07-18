@@ -31,6 +31,6 @@ namespace Noppes.E621.DbExport
         /// <summary>
         /// Status of the tag implication.
         /// </summary>
-        public TagImplicationStatus Status { get; set; }
+        public TagStatus Status { get; set; }
     }
 }
