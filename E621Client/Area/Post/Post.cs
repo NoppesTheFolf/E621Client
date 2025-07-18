@@ -155,7 +155,7 @@ namespace Noppes.E621
         /// <summary>
         /// The duration of the post, if it is a video, or null otherwise
         /// </summary>
-        [JsonProperty("duration")]
-        public double? Duration { get; set; }
+        [JsonProperty("duration"), JsonConverter(typeof(DurationConverter))]
+        public TimeSpan? Duration { get; set; }
     }
 }
