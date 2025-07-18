@@ -35,7 +35,7 @@ namespace Noppes.E621
         /// <param name="position">Relative position to the given post ID.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public Task<ICollection<Post>> GetPostsAsync(int id, Position position, int? limit = null, string? tags = null);
+        public Task<IList<Post>> GetPostsAsync(int id, Position position, int? limit = null, string? tags = null);
 
         /// <summary>
         /// Retrieves a collection of posts based on the given parameters.
@@ -60,7 +60,7 @@ namespace Noppes.E621
         /// <param name="page">Pagination, number of the page.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public Task<ICollection<Post>> GetPostsAsync(string? tags = null, int? page = null, int? limit = null);
+        public Task<IList<Post>> GetPostsAsync(string? tags = null, int? page = null, int? limit = null);
 
         /// <summary>
         /// Retrieves the post with the given ID. A null value will be returned if there doesn't
