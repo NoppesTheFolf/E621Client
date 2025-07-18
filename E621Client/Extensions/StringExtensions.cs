@@ -10,12 +10,12 @@ namespace Noppes.E621.Extensions
     {
         public static string GetPathExtensionWithoutDot(this string value)
         {
-            string? extensionWithDot = Path.GetExtension(value);
+            string? extension = Path.GetExtension(value).ToLower();
 
-            if (extensionWithDot == null)
+            if (extension == null)
                 throw new ArgumentException($"{nameof(value)} is not a path with an extension.", nameof(value));
 
-            return extensionWithDot.Substring(1, extensionWithDot.Length - 1);
+            return extension.Substring(1, extension.Length - 1);
         }
     }
 }
