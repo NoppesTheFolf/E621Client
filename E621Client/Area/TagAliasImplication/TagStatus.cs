@@ -3,7 +3,7 @@
     /// <summary>
     /// The status of a tag alias.
     /// </summary>
-    public enum TagAliasStatus
+    public enum TagStatus
     {
         Approved = 1,
         Active = 2,
