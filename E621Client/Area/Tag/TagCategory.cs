@@ -29,6 +29,11 @@
         /// </summary>
         Species = 5,
         /// <summary>
+        /// Tags in the invalid category are not allowed on any posts. This can for example be
+        /// because they describe things that are too common or unspecific (e.g. colors).
+        /// </summary>
+        Invalid = 6,
+        /// <summary>
         /// Tags in the meta category are used to give information about the technical side of the
         /// post's file, the post itself, or things relating to e621's own handling of a post.
         /// </summary>
