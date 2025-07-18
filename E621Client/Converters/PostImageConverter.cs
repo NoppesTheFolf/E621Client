@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Noppes.E621.Converters
 {
@@ -10,15 +12,39 @@ namespace Noppes.E621.Converters
     /// </summary>
     internal class PostImageConverter<TPostImage> : JsonConverter<TPostImage?> where TPostImage : PostImage
     {
-        public override void WriteJson(JsonWriter writer, TPostImage? value, JsonSerializer serializer) => throw new NotImplementedException();
+        public override void WriteJson(JsonWriter writer, TPostImage? value, JsonSerializer serializer)
+        {
+            if (value == null) writer.WriteNull();
+            else
+            {
+                JToken t = JToken.FromObject(value);
+
+                JObject o = (JObject)t;
+                //o.AddFirst(new JProperty(PostImage.UrlProperty, value.Location.ToString()));
+
+                o.WriteTo(writer);
+            }
+        }
 
         public override TPostImage? ReadJson(JsonReader reader, Type objectType, TPostImage? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             JToken token = JToken.Load(reader);
 
-            return token.Value<string?>(PostImage.UrlProperty) == null
+            //if (token.Count() == 0) return default;
+
+            /*return token.Value<string?>(PostImage.UrlProperty) == null
                 ? default
-                : token.ToObject<TPostImage>();
+                : TokenToPostImage(token, existingValue);
+            */
+
+            // Don't ignore image info on deleted posts, we want the width/height and hash
+            return TokenToPostImage(token, existingValue);
+        }
+
+        public TPostImage TokenToPostImage(JToken token, TPostImage? existingValue)
+        {
+            //string? s = token.Value<string?>(PostImage.UrlProperty);
+            return token.ToObject<TPostImage>()!;
         }
     }
 }
