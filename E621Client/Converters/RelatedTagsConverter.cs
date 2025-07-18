@@ -12,7 +12,7 @@ namespace Noppes.E621.Converters
     {
         private const string EmptyArray = "[]";
 
-        protected override ICollection<RelatedTag> ReadString(string value, Type objectType, ICollection<RelatedTag> existingValue, bool hasExistingValue, JsonSerializer serializer)
+        protected override ICollection<RelatedTag> ReadString(string value, Type objectType, ICollection<RelatedTag>? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             if (value == EmptyArray || string.IsNullOrWhiteSpace(value))
                 return new List<RelatedTag>();
@@ -38,9 +38,9 @@ namespace Noppes.E621.Converters
                 .ToList();
         }
 
-        protected override string AsString(ICollection<RelatedTag> value)
+        protected override string AsString(ICollection<RelatedTag>? value)
         {
-            return value.Count == 0 ? EmptyArray : string.Join(' ', value.Select(v => $"{v.Name} {v.Weight}"));
+            return value == null || value.Count == 0 ? EmptyArray : string.Join(' ', value.Select(v => $"{v.Name} {v.Weight}"));
         }
     }
 }
