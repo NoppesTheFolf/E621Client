@@ -8,7 +8,7 @@ namespace Noppes.E621
     {
         public static Exception FromException(Exception exception)
         {
-            if (!(exception is FlurlHttpException httpException))
+            if (exception is not FlurlHttpException httpException)
                 return exception;
 
             if (httpException.Call.Response == null)
