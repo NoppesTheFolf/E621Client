@@ -22,10 +22,7 @@ namespace Noppes.E621.Converters
             if (reader.TokenType == JsonToken.Null) return null;
 
             if (reader.TokenType == JsonToken.Float || reader.TokenType == JsonToken.Integer)
-            {
-                double totalSeconds = Convert.ToDouble(reader.Value);
-                return TimeSpan.FromSeconds(totalSeconds);
-            }
+                return TimeSpan.FromSeconds(Convert.ToDouble(reader.Value));
 
             throw new JsonSerializationException($"Unexpected token {reader.TokenType} when parsing TimeSpan.");
         }
