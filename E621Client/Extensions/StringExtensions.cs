@@ -12,7 +12,7 @@ namespace Noppes.E621.Extensions
         {
             string? extension = Path.GetExtension(value).ToLower();
 
-            if (extension == null)
+            if (string.IsNullOrEmpty(extension))
                 throw new ArgumentException($"{nameof(value)} is not a path with an extension.", nameof(value));
 
             return extension.Substring(1, extension.Length - 1);
