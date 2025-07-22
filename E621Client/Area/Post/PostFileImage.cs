@@ -28,6 +28,6 @@ namespace Noppes.E621
         /// The image's file extension.
         /// </summary>
         [JsonIgnore]
-        public override string? FileExtension => Location == null ? DatabaseExtension : Location.OriginalString.GetPathExtensionWithoutDot();
+        public override string? FileExtension => Location == null ? DatabaseExtension : Location.OriginalString.GetPathExtensionWithoutDot(DatabaseExtension);
     }
 }
