@@ -12,7 +12,7 @@ namespace Noppes.E621.Converters
     // Custom converter for Rectangle
     public class NotePositionConverter : JsonConverter<Note>
     {
-        public override Note? ReadJson(JsonReader reader, Type objectType, Note? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override Note ReadJson(JsonReader reader, Type objectType, Note? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             JObject token = JObject.Load(reader);
             var note = new Note();
@@ -21,7 +21,7 @@ namespace Noppes.E621.Converters
             int y = token["y"]!.Value<int>();
             int width = token["width"]!.Value<int>();
             int height = token["height"]!.Value<int>();
-            note.Position = new(x, y, width, height);
+            note.Position = new Rectangle(x, y, width, height);
             return note;
         }
 
