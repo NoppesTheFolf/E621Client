@@ -191,7 +191,7 @@ namespace Noppes.E621
                 CommentCount = CommentCount,
                 IsFavorite = IsFavorite,
                 HasNotes = LastNotedAt != null,
-                Duration = Duration != null ? TimeSpan.FromSeconds(Duration) : null
+                Duration = Duration != null ? TimeSpan.FromSeconds((float)Duration) : null
         };
 
             if (IsDeleted)
