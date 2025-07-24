@@ -21,7 +21,7 @@ namespace Noppes.E621.Converters
             int y = token["y"]!.Value<int>();
             int width = token["width"]!.Value<int>();
             int height = token["height"]!.Value<int>();
-            note.Position = new Rectangle(x, y, width, height);
+            note.Position = new NotePosition(x, y, width, height);
             return note;
         }
 

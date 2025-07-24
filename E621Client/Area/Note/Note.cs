@@ -68,6 +68,6 @@ namespace Noppes.E621
         /// The position of the note on the image, in pixels.
         /// </summary>
         [JsonIgnore]
-        public Rectangle Position { get; set; }
+        public NotePosition Position { get; set; }
     }
 }
