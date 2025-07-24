@@ -134,7 +134,7 @@ namespace Noppes.E621
         [JsonProperty("is_favorited")]
         public bool IsFavorite { get; set; }
 
-        [JsonProperty("last_noted_at")]
+        [JsonProperty("last_noted_at"), JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset? LastNotedAt { get; set; }
 
         [JsonProperty("duration")]
