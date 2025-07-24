@@ -4,10 +4,8 @@ using System;
 namespace Noppes.E621.Converters
 {
     /// <summary>
-    /// Converts duration (float) to/from TimeSpan
-    /// from a single JSON value as a string.
+    /// Converts duration (float) to/from TimeSpan.
     /// </summary>
-    /// <typeparam name="T">Type to convert to and from.</typeparam>
     internal class DurationConverter : JsonConverter<TimeSpan?>
     {
         public override void WriteJson(JsonWriter writer, TimeSpan? value, JsonSerializer serializer)
