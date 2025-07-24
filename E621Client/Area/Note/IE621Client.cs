@@ -13,7 +13,7 @@ namespace Noppes.E621
         /// </summary>
         /// <param name="postId">The ID of a post to check.</param>
 		/// <param name="activeOnly">Whether to fetch only active notes.</param>
-        public Task<ICollection<Note>?> GetNotesAsync(int postId, bool activeOnly = true);
+        public Task<ICollection<Note>?> GetNotesAsync(int postId, bool? isActive = null);
 
         /// <summary>
         /// Retrieves flags for one or more posts, with their descriptions
@@ -21,6 +21,6 @@ namespace Noppes.E621
         /// <param name="postIds">The IDs of one or more posts to check.</param>
         /// <param name="activeOnly">Whether to fetch only active notes.</param>
         /// <param name="limit">Optional note limit, default 300 (max 320). This is not the post limit!</param>
-        public Task<ICollection<Note>?> GetNotesAsync(IEnumerable<int> postIds, bool activeOnly = true, int limit = 320);
+        public Task<ICollection<Note>?> GetNotesAsync(IEnumerable<int> postIds, bool? isActive = null, int limit = 320);
     }
 }
