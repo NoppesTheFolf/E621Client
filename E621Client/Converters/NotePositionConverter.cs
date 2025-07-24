@@ -27,7 +27,8 @@ namespace Noppes.E621.Converters
 
         public override void WriteJson(JsonWriter writer, Note? value, JsonSerializer serializer)
         {
-            if (value == null) writer.WriteNull();
+            if (value == null)
+                writer.WriteNull();
             else
             {
                 var dateConverter = new IsoDateTimeConverter();
