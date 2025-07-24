@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using YamlDotNet.Core.Tokens;
 using Newtonsoft.Json.Converters;
 namespace Noppes.E621.Converters
 {
