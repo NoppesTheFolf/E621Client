@@ -194,8 +194,7 @@ namespace Noppes.E621
                 Duration = Duration != null ? TimeSpan.FromSeconds((float)Duration) : (TimeSpan?)null
         };
 
-            if (IsDeleted)
-                return post;
+            // Don't ignore result on deleted posts, we still want the metadata
 
 #pragma warning disable CS8601 // Possible null reference assignment. The values will only be null if the post has been deleted.
             post.File = new PostFileImage
