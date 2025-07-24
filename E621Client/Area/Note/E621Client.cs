@@ -14,8 +14,8 @@ namespace Noppes.E621
 {
     public partial class E621Client
     {
-        public Task<ICollection<Note>?> GetNotesAsync(int postId, bool activeOnly = true) => GetNotesAsync(new int[] { postId }, activeOnly);
-        public Task<ICollection<Note>?> GetNotesAsync(IEnumerable<int> postIds, bool activeOnly = true, int limit = 320)
+        public Task<ICollection<Note>?> GetNotesAsync(int postId, bool? isActive = null) => GetNotesAsync(new int[] { postId }, isActive);
+        public Task<ICollection<Note>?> GetNotesAsync(IEnumerable<int> postIds, bool? isActive = null, int limit = 320)
         {
             Guard.Argument(limit, nameof(limit)).InRange(1, E621Constants.PostsMaximumLimit);
 
@@ -27,7 +27,7 @@ namespace Noppes.E621
                     request
                     .AuthenticatedIfPossible(this)
                     .SetQueryParam("limit", limit)
-                    .SetQueryParam("search[is_active]", activeOnly.ToString().ToLower())
+                    .SetQueryParam("search[is_active]", activeOnly?.ToString().ToLower() ?? null)
                     .SetQueryParam("search[post_id]", string.Join(',', postIds))
                     .GetJsonAsync(token => token.ToObject<ICollection<Note>>()));
 #pragma warning restore CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
