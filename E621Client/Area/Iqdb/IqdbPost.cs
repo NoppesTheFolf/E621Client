@@ -194,7 +194,8 @@ namespace Noppes.E621
                 Duration = Duration != null ? TimeSpan.FromSeconds((float)Duration) : null
         };
 
-            // Don't ignore image info on deleted posts, we want the width/height and hash
+            if (IsDeleted)
+                return post;
 
 #pragma warning disable CS8601 // Possible null reference assignment. The values will only be null if the post has been deleted.
             post.File = new PostFileImage
