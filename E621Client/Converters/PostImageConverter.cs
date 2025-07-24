@@ -20,7 +20,6 @@ namespace Noppes.E621.Converters
                 JToken t = JToken.FromObject(value);
 
                 JObject o = (JObject)t;
-                //o.AddFirst(new JProperty(PostImage.UrlProperty, value.Location.ToString()));
 
                 o.WriteTo(writer);
             }
@@ -30,20 +29,12 @@ namespace Noppes.E621.Converters
         {
             JToken token = JToken.Load(reader);
 
-            //if (token.Count() == 0) return default;
-
-            /*return token.Value<string?>(PostImage.UrlProperty) == null
-                ? default
-                : TokenToPostImage(token, existingValue);
-            */
-
             // Don't ignore image info on deleted posts, we want the width/height and hash
             return TokenToPostImage(token, existingValue);
         }
 
         public TPostImage TokenToPostImage(JToken token, TPostImage? existingValue)
         {
-            //string? s = token.Value<string?>(PostImage.UrlProperty);
             return token.ToObject<TPostImage>()!;
         }
     }
