@@ -138,7 +138,7 @@ namespace Noppes.E621
         public DateTimeOffset? LastNotedAt { get; set; }
 
         [JsonProperty("duration")]
-        public double? Duration { get; set; }
+        public float? Duration { get; set; }
 
         public IqdbPost AsPost()
         {
@@ -191,7 +191,7 @@ namespace Noppes.E621
                 CommentCount = CommentCount,
                 IsFavorite = IsFavorite,
                 HasNotes = LastNotedAt != null,
-                Duration = Duration != null ? TimeSpan.FromSeconds((float)Duration) : null
+                Duration = Duration != null ? TimeSpan.FromSeconds(Duration) : null
         };
 
             if (IsDeleted)
