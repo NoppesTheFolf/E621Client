@@ -14,8 +14,8 @@ namespace Noppes.E621
 {
     public partial class E621Client
     {
-        public Task<IList<Note>?> GetNotesAsync(int postId, bool activeOnly = true) => GetNotesAsync(new int[] { postId }, activeOnly);
-        public Task<IList<Note>?> GetNotesAsync(IEnumerable<int> postIds, bool activeOnly = true, int limit = 320)
+        public Task<ICollection<Note>?> GetNotesAsync(int postId, bool activeOnly = true) => GetNotesAsync(new int[] { postId }, activeOnly);
+        public Task<ICollection<Note>?> GetNotesAsync(IEnumerable<int> postIds, bool activeOnly = true, int limit = 320)
         {
             Guard.Argument(limit, nameof(limit)).InRange(1, E621Constants.PostsMaximumLimit);
 
@@ -29,7 +29,7 @@ namespace Noppes.E621
                     .SetQueryParam("limit", limit)
                     .SetQueryParam("search[is_active]", activeOnly.ToString().ToLower())
                     .SetQueryParam("search[post_id]", string.Join(',', postIds))
-                    .GetJsonAsync(token => token.ToObject<IList<Note>>()));
+                    .GetJsonAsync(token => token.ToObject<ICollection<Note>>()));
 #pragma warning restore CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
