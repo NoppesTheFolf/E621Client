@@ -8,7 +8,7 @@ namespace Noppes.E621.Converters
     /// </summary>
     internal class UriConverter : StringJsonConverter<Uri?>
     {
-        protected override Uri? ReadString(string value, Type objectType, Uri? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        protected override Uri? ReadString(string? value, Type objectType, Uri? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             return string.IsNullOrWhiteSpace(value) ? null : new Uri(value, UriKind.RelativeOrAbsolute);
         }

@@ -19,7 +19,7 @@ namespace Noppes.E621.Converters
             Separator = separator;
         }
 
-        protected override ICollection<T> ReadString(string value, Type objectType, ICollection<T> existingValue, bool hasExistingValue, JsonSerializer serializer)
+        protected override ICollection<T> ReadString(string? value, Type objectType, ICollection<T> existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             if (string.IsNullOrWhiteSpace(value))
                 return new List<T>();

@@ -10,8 +10,8 @@ namespace Noppes.E621.Converters
     /// </summary>
     internal class PoolNameJsonConverter : StringJsonConverter<string>
     {
-        protected override string ReadString(string value, Type objectType, string? existingValue, bool hasExistingValue, JsonSerializer serializer) =>
-            value.Replace('_', ' ');
+        protected override string ReadString(string? value, Type objectType, string? existingValue, bool hasExistingValue, JsonSerializer serializer) =>
+            value?.Replace('_', ' ') ?? String.Empty;
 
         protected override string AsString(string? value) =>
             value?.Replace(' ', '_') ?? String.Empty;

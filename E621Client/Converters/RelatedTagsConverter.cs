@@ -12,7 +12,7 @@ namespace Noppes.E621.Converters
     {
         private const string EmptyArray = "[]";
 
-        protected override ICollection<RelatedTag> ReadString(string value, Type objectType, ICollection<RelatedTag>? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        protected override ICollection<RelatedTag> ReadString(string? value, Type objectType, ICollection<RelatedTag>? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             if (value == EmptyArray || string.IsNullOrWhiteSpace(value))
                 return new List<RelatedTag>();
