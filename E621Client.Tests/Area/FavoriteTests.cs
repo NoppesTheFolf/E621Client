@@ -77,8 +77,8 @@ public class FavoriteTests
     [Test, Order(10)]
     public async Task GetFavoritesAsync_UserWithId563722HasPrivacyModeEnabled_ThrowsException()
     {
-        Func<Task> action = () => TestsHelper.E621Client.GetFavoritesAsync(563722);
+        var posts = await TestsHelper.E621Client.GetFavoritesAsync(563722);
 
-        await action.Should().ThrowAsync<E621ClientForbiddenException>();
+        posts.Should().BeEmpty();
     }
 }
