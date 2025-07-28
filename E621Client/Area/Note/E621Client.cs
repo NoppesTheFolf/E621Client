@@ -27,7 +27,7 @@ namespace Noppes.E621
                     request
                     .AuthenticatedIfPossible(this)
                     .SetQueryParam("limit", limit)
-                    .SetQueryParam("search[is_active]", activeOnly?.ToString().ToLower() ?? null)
+                    .SetQueryParam("search[is_active]", isActive?.ToString().ToLower() ?? null)
                     .SetQueryParam("search[post_id]", string.Join(',', postIds))
                     .GetJsonAsync(token => token.ToObject<ICollection<Note>>()));
 #pragma warning restore CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
