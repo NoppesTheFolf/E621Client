@@ -9,7 +9,7 @@ namespace Noppes.E621.Converters
     /// </summary>
     internal class EmptyStringConverter : StringJsonConverter<string?>
     {
-        protected override string? ReadString(string value, Type objectType, string? existingValue, bool hasExistingValue, JsonSerializer serializer) =>
+        protected override string? ReadString(string? value, Type objectType, string? existingValue, bool hasExistingValue, JsonSerializer serializer) =>
             string.IsNullOrWhiteSpace(value) ? null : value;
 
         protected override string AsString(string? value) =>
