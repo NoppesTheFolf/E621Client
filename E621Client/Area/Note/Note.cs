@@ -7,7 +7,6 @@ using System.Drawing;
 
 namespace Noppes.E621
 {
-    [JsonConverter(typeof(NotePositionConverter))]
     public class Note
     {
         /// <summary>
@@ -65,9 +64,27 @@ namespace Noppes.E621
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// The position of the note on the image, in pixels.
+        /// The X position of the note on the image, in pixels.
         /// </summary>
-        [JsonIgnore]
-        public NotePosition Position { get; set; }
+        [JsonProperty("x")]
+        public int X { get; set; }
+
+        /// <summary>
+        /// The Y position of the note on the image, in pixels.
+        /// </summary>
+        [JsonProperty("y")]
+        public int Y { get; set; }
+
+        /// <summary>
+        /// The width of the note, in pixels.
+        /// </summary>
+        [JsonProperty("width")]
+        public int Width { get; set; }
+
+        /// <summary>
+        /// The height of the note, in pixels.
+        /// </summary>
+        [JsonProperty("height")]
+        public int Height { get; set; }
     }
 }
