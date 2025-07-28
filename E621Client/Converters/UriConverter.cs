@@ -17,6 +17,5 @@ namespace Noppes.E621.Converters
         {
             return value?.OriginalString ?? String.Empty;
         }
-        }
     }
 }
