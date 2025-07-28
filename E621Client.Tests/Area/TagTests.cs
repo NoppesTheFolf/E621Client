@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Noppes.E621.Tests.Area;
 
@@ -23,16 +23,16 @@ public class TagTests
 
     private static void AssertTag(Tag? tag)
     {
-        tag.Should().NotBeNull();
-        tag!.Id.Should().Be(813847);
-        tag.Name.Should().Be("noppes");
-        tag.Count.Should().BeGreaterThan(0);
-        tag.RelatedTags.Should().BeEmpty();
-        tag.RelatedTagsUpdatedAt.ToUniversalTime().Should().Be(new DateTimeOffset(new DateOnly(2020, 5, 20), new TimeOnly(18, 24, 31, 74), TimeSpan.Zero));
-        tag.Category.Should().Be(TagCategory.Character);
-        tag.IsCategoryLocked.Should().Be(false);
-        tag.CreatedAt.ToUniversalTime().Should().Be(new DateTimeOffset(new DateOnly(2020, 5, 20), new TimeOnly(18, 24, 31, 111), TimeSpan.Zero));
-        tag.UpdatedAt.ToUniversalTime().Should().Be(new DateTimeOffset(new DateOnly(2020, 5, 20), new TimeOnly(18, 24, 46, 561), TimeSpan.Zero));
+        tag.ShouldNotBeNull();
+        tag.Id.ShouldBe(813847);
+        tag.Name.ShouldBe("noppes");
+        tag.Count.ShouldBeGreaterThan(0);
+        tag.RelatedTags.ShouldBeEmpty();
+        tag.RelatedTagsUpdatedAt.ToUniversalTime().ShouldBe(new DateTimeOffset(new DateOnly(2020, 5, 20), new TimeOnly(18, 24, 31, 74), TimeSpan.Zero));
+        tag.Category.ShouldBe(TagCategory.Character);
+        tag.IsCategoryLocked.ShouldBe(false);
+        tag.CreatedAt.ToUniversalTime().ShouldBe(new DateTimeOffset(new DateOnly(2020, 5, 20), new TimeOnly(18, 24, 31, 111), TimeSpan.Zero));
+        tag.UpdatedAt.ToUniversalTime().ShouldBe(new DateTimeOffset(new DateOnly(2020, 5, 20), new TimeOnly(18, 24, 46, 561), TimeSpan.Zero));
     }
 
     [Test]
@@ -40,7 +40,7 @@ public class TagTests
     {
         var tag = await TestsHelper.E621Client.GetTagAsync(int.MaxValue);
 
-        tag.Should().BeNull();
+        tag.ShouldBeNull();
     }
 
     [Test]
@@ -48,6 +48,6 @@ public class TagTests
     {
         var tag = await TestsHelper.E621Client.GetTagAsync("abcxyz");
 
-        tag.Should().BeNull();
+        tag.ShouldBeNull();
     }
 }

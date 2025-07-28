@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Noppes.E621.Tests.Area;
 
@@ -23,32 +23,32 @@ public class PostTests
 
     private static void AssertPost(Post? post)
     {
-        post.Should().NotBeNull();
-        post!.FavoriteCount.Should().BeGreaterThan(500);
-        post.CreatedAt.ToUniversalTime().Should().Be(new DateTimeOffset(new DateOnly(2023, 6, 16), new TimeOnly(14, 32, 29, 860), TimeSpan.Zero));
-        post.Flags.IsDeleted.Should().BeFalse();
-        post.Rating.Should().Be(PostRating.Explicit);
-        post.Description.Should().NotBeNullOrWhiteSpace();
-        post.Tags.Character.Should().Contain("noppes");
+        post.ShouldNotBeNull();
+        post!.FavoriteCount.ShouldBeGreaterThan(500);
+        post.CreatedAt.ToUniversalTime().ShouldBe(new DateTimeOffset(new DateOnly(2023, 6, 16), new TimeOnly(14, 32, 29, 860), TimeSpan.Zero));
+        post.Flags.IsDeleted.ShouldBeFalse();
+        post.Rating.ShouldBe(PostRating.Explicit);
+        post.Description.ShouldNotBeNullOrWhiteSpace();
+        post.Tags.Character.ShouldContain("noppes");
 
-        post.File.Should().NotBeNull();
-        post.File!.Width.Should().Be(1754);
-        post.File.Height.Should().Be(2048);
-        post.File.FileExtension.Should().Be("jpg");
-        post.File.Size.Should().Be(218804);
-        post.File.Md5.Should().Be("d964e4f896f07ef694720902fcbb072b");
-        post.File.Location!.AbsoluteUri.Should().Be("https://static1.e621.net/data/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
+        post.File.ShouldNotBeNull();
+        post.File!.Width.ShouldBe(1754);
+        post.File.Height.ShouldBe(2048);
+        post.File.FileExtension.ShouldBe("jpg");
+        post.File.Size.ShouldBe(218804);
+        post.File.Md5.ShouldBe("d964e4f896f07ef694720902fcbb072b");
+        post.File.Location!.AbsoluteUri.ShouldBe("https://static1.e621.net/data/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
 
-        post.Preview.Should().NotBeNull();
-        post.Preview!.Width.Should().Be(256);
-        post.Preview.Height.Should().Be(299);
-        post.Preview.Location!.AbsoluteUri.Should().Be("https://static1.e621.net/data/preview/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
+        post.Preview.ShouldNotBeNull();
+        post.Preview!.Width.ShouldBe(256);
+        post.Preview.Height.ShouldBe(299);
+        post.Preview.Location!.AbsoluteUri.ShouldBe("https://static1.e621.net/data/preview/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
 
-        post.Sample.Should().NotBeNull();
-        post.Sample!.Has.Should().BeTrue();
-        post.Sample.Width.Should().Be(850);
-        post.Sample.Height.Should().Be(992);
-        post.Sample.Location!.AbsoluteUri.Should().Be("https://static1.e621.net/data/sample/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
+        post.Sample.ShouldNotBeNull();
+        post.Sample!.Has.ShouldBeTrue();
+        post.Sample.Width.ShouldBe(850);
+        post.Sample.Height.ShouldBe(992);
+        post.Sample.Location!.AbsoluteUri.ShouldBe("https://static1.e621.net/data/sample/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class PostTests
     {
         var post = await TestsHelper.E621Client.GetPostAsync(int.MaxValue);
 
-        post.Should().BeNull();
+        post.ShouldBeNull();
     }
 
     [Test]
@@ -64,6 +64,6 @@ public class PostTests
     {
         var post = await TestsHelper.E621Client.GetPostAsync("daaacec348b8edfea72dcdafc9f9a67d"); // "noppes" = daaacec348b8edfea72dcdafc9f9a67d
 
-        post.Should().BeNull();
+        post.ShouldBeNull();
     }
 }

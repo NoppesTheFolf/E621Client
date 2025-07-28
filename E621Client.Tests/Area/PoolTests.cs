@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Noppes.E621.Tests.Area;
 
@@ -10,11 +10,11 @@ public class PoolTests
     {
         var pool = await TestsHelper.E621Client.GetPoolAsync(4458);
 
-        pool.Should().NotBeNull();
-        pool!.Id.Should().Be(4458);
-        pool.Name.Should().Be("Weekend – by Zeta-Haru");
-        pool.CreatedAt.ToUniversalTime().Should().Be(new DateTimeOffset(new DateOnly(2014, 7, 30), new TimeOnly(9, 25, 2, 262), TimeSpan.Zero));
-        pool.PostIds.Should().Contain(514723);
+        pool.ShouldNotBeNull();
+        pool.Id.ShouldBe(4458);
+        pool.Name.ShouldBe("Weekend – by Zeta-Haru");
+        pool.CreatedAt.ToUniversalTime().ShouldBe(new DateTimeOffset(new DateOnly(2014, 7, 30), new TimeOnly(9, 25, 2, 262), TimeSpan.Zero));
+        pool.PostIds.ShouldContain(514723);
     }
 
     [Test]
@@ -22,6 +22,6 @@ public class PoolTests
     {
         var pool = await TestsHelper.E621Client.GetPoolAsync(int.MaxValue);
 
-        pool.Should().BeNull();
+        pool.ShouldBeNull();
     }
 }
