@@ -11,12 +11,6 @@ namespace Noppes.E621
     public partial interface IE621Client : IDisposable
     {
         /// <summary>
-        /// The imageboard to which the requests are made.
-        /// </summary>
-        [Obsolete("Imageboard is no longer used, Use the BaseUrl to determine which image board the client is talking to.")]
-        public Imageboard Imageboard { get; }
-
-        /// <summary>
         /// The base URL that is used to create requests with.
         /// </summary>
         public string BaseUrl { get; }

@@ -39,18 +39,6 @@ namespace Noppes.E621
             Set(() => UserAgent = new E621UserAgent(productName, productVersion, username, platform, location));
 
         /// <summary>
-        /// Sets the imageboard used to retrieve data from. Not specifying an imageboard will make
-        /// the client use <see cref="E621Constants.DefaultImageboard"/>.
-        /// </summary>
-        [Obsolete("No longer supported, use the WithBaseUrl(Uri) overload instead.")]
-        public E621ClientBuilder WithBaseUrl(Imageboard imageboard) => Set(() => BaseUrl = imageboard switch
-        {
-            Imageboard.E621 => E621Constants.E621BaseUrl,
-            Imageboard.E926 => E621Constants.E926BaseUrl,
-            _ => E621Constants.DefaultBaseUrl
-        });
-
-        /// <summary>
         /// Sets the image board used to retrieve data from using the base URL of the image board.
         /// </summary>
         /// <param name="baseUrl">The full absolute base URL to use the client on. For example https://e621.net</param>
