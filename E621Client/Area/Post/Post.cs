@@ -34,7 +34,7 @@ namespace Noppes.E621
         /// post. This property might be null in case authorization is required to be allowed to
         /// view the post or in case the post has been deleted.
         /// </summary>
-        [JsonProperty("file"), JsonConverter(typeof(PostImageConverter<PostFileImage>))]
+        [JsonProperty("file")]
         public PostFileImage? File { get; set; }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Noppes.E621
         /// compressed. This property might be null in case authorization is required to be allowed
         /// to view the post or in case the post has been deleted.
         /// </summary>
-        [JsonProperty("preview"), JsonConverter(typeof(PostImageConverter<PostImage>))]
+        [JsonProperty("preview")]
         public PostImage? Preview { get; set; }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Noppes.E621
         /// and generally smaller than the source file. This property might be null in case
         /// authorization is required to be allowed to view the post or in case the post has been deleted.
         /// </summary>
-        [JsonProperty("sample"), JsonConverter(typeof(PostImageConverter<PostSampleImage>))]
+        [JsonProperty("sample")]
         public PostSampleImage? Sample { get; set; }
 
         /// <summary>
