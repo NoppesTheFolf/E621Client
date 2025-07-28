@@ -37,18 +37,18 @@ public class PostTests
         post.File.FileExtension.Should().Be("jpg");
         post.File.Size.Should().Be(218804);
         post.File.Md5.Should().Be("d964e4f896f07ef694720902fcbb072b");
-        post.File.Location.AbsoluteUri.Should().Be("https://static1.e621.net/data/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
+        post.File.Location!.AbsoluteUri.Should().Be("https://static1.e621.net/data/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
 
         post.Preview.Should().NotBeNull();
-        post.Preview!.Width.Should().Be(128);
-        post.Preview.Height.Should().Be(150);
-        post.Preview.Location.AbsoluteUri.Should().Be("https://static1.e621.net/data/preview/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
+        post.Preview!.Width.Should().Be(256);
+        post.Preview.Height.Should().Be(299);
+        post.Preview.Location!.AbsoluteUri.Should().Be("https://static1.e621.net/data/preview/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
 
         post.Sample.Should().NotBeNull();
         post.Sample!.Has.Should().BeTrue();
         post.Sample.Width.Should().Be(850);
         post.Sample.Height.Should().Be(992);
-        post.Sample.Location.AbsoluteUri.Should().Be("https://static1.e621.net/data/sample/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
+        post.Sample.Location!.AbsoluteUri.Should().Be("https://static1.e621.net/data/sample/d9/64/d964e4f896f07ef694720902fcbb072b.jpg");
     }
 
     [Test]
