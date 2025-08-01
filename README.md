@@ -12,7 +12,6 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
 
 - [E621Client](#e621client)
   - [Table of Contents](#table-of-contents)
-  - [Completeness](#completeness)
   - [Installation](#installation)
   - [Getting started](#getting-started)
   - [Authentication](#authentication)
@@ -44,6 +43,10 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
     - [Artists](#artists)
       - [Retrieving an artist](#retrieving-an-artist)
       - [Retrieving artists](#retrieving-artists)
+    - [Post flags](#post-flags)
+      - [Retrieving post flags](#retrieving-post-flags)
+    - [Notes](#notes)
+      - [Retrieving notes](#retrieving-notes)
     - [Database exports](#database-exports)
     - [IQDB (Reverse image searching)](#iqdb-reverse-image-searching)
     - [Additional](#additional)
@@ -52,49 +55,14 @@ E621Client is an unofficial .NET Standard 2.1 library for interacting with the [
   - [Report a bug](#report-a-bug)
   - [Contributing](#contributing)
 
-## Completeness
-
-This project is far from a complete wrapper around the e621 API. A table can be seen below to give you a quick idea of how complete this library is. I might never implement most of the API because I'd never use those endpoints myself. However, feel free to implement those areas yourself if you need them! Just make sure the check out [how to contribute](#contributing) first.
-
-_Legend_
-
-| Symbol             | Meaning               |
-| ------------------ | --------------------- |
-| :x:                | Not implemented       |
-| :heavy_minus_sign: | Partially implemented |
-| :heavy_check_mark: | Fully implemented     |
-
-_Cover per API area_
-
-| Area             | Complete           | Comment                                                     |
-| ---------------- | ------------------ | ----------------------------------------------------------- |
-| Authentication   | :heavy_check_mark: |                                                             |
-| Posts            | :heavy_minus_sign: | Only the retrieval of posts                                 |
-| Tags             | :heavy_minus_sign: | Only the retrieval of tags                                  |
-| Tag aliases      | :x:                |                                                             |
-| Tag implications | :x:                |                                                             |
-| Notes            | :x:                |                                                             |
-| Pools            | :heavy_minus_sign: | Only the retrieval of pools                                 |
-| Users            | :heavy_minus_sign: | Only the retrieval of a user by name                        |
-| Favorites        | :heavy_check_mark: |                                                             |
-| Artists          | :heavy_minus_sign: | Only the retrieval of artists, not documented by e621       |
-| IQDB             | :heavy_check_mark: | Not yet documented by e621 at the moment of writing         |
-| DB export        | :heavy_minus_sign: | All except wiki pages                                       |
-
 ## Installation
 
-E621Client is available as a NuGet package listed as [Noppes.E621Client](https://www.nuget.org/packages/Noppes.E621Client). You can easily install it using either the Package Manager Console or the .NET CLI.
-
-_Package Manager Console_
-
-```
-Install-Package Noppes.E621Client -Version 0.10.0
-```
+E621Client is available as a NuGet package listed as [Noppes.E621Client](https://www.nuget.org/packages/Noppes.E621Client).
 
 _.NET CLI_
 
 ```
-dotnet add package Noppes.E621Client --version 0.10.0
+dotnet add package Noppes.E621Client --version 0.11.0
 ```
 
 ## Getting started
@@ -437,6 +405,26 @@ _Retrieve a list of artists that contain the the name "wagner"_
 var wagners = await e621Client.GetArtistsAsync(name: "wagner")
 ```
 
+### Post flags
+
+#### Retrieving post flags
+
+_Retrieve post flags for post with ID 2776401_
+
+```csharp
+var postFlags = await e621Client.GetPostFlagsAsync(postIds: [2776401]);
+```
+
+### Notes
+
+#### Retrieving notes
+
+_Retrieve notes for post with ID 5746029_
+
+```csharp
+var notes = await e621Client.GetNotesAsync(postIds: [5746029]);
+```
+
 ### Database exports
 
 e621 provides exports of posts, pools, tags, tag aliases, tag implications and wiki pages.
@@ -446,13 +434,13 @@ E621Client supports downloading and the reading all of these exports except wiki
 _Package Manager Console_
 
 ```
-Install-Package Noppes.E621Client.DbExport -Version 0.10.0
+Install-Package Noppes.E621Client.DbExport -Version 0.11.0
 ```
 
 _.NET CLI_
 
 ```
-dotnet add package Noppes.E621Client.DbExport --version 0.10.0
+dotnet add package Noppes.E621Client.DbExport --version 0.11.0
 ```
 
 After installing the package, you need to get a database export client. You can get one by calling the `GetDbExportClient` method on your `IE621Client` instance, as shown below. 

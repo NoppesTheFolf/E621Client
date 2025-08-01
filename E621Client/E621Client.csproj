@@ -9,18 +9,22 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>NoppesTheFolf and contributors</Authors>
-		<Version>0.10.0</Version>
+		<Version>0.11.0</Version>
 		<Description>.NET Standard wrapper for the e621 API.</Description>
 		<PackageProjectUrl>https://github.com/NoppesTheFolf/E621Client</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Product>E621Client</Product>
 		<PackageIcon>E621Client.png</PackageIcon>
-		<Copyright>Copyright © NoppesTheFolf and contributors 2019-2023</Copyright>
-		<PackageReleaseNotes>- You can now configure the client to talk to any website running e621ng. The "WithBaseUrl" method on the builder now accepts a "Uri".
-- With that change, usage of the "Imageboard" enum to select a website is now deprecated.
+		<Copyright>Copyright © NoppesTheFolf and contributors 2019-2025</Copyright>
+		<PackageReleaseNotes>- Support has been added for retrieving post flags and notes.
+- TagAliasStatus and TagImplicationStatus have been merged into TagStatus. Careful if you're relying on the underlying integer values of these previous enums.
+- Fix LastNotedAt and Duration fields missing from IQDB posts.
+- Removed the ImageBoard enum that was made obsolete in the release before this one.
+- NuGet dependencies have been upgraded to their latest versions.
+- The limit parameter of all endpoints calls is now set to the maximum by default.
 
-Special thanks to GizmoCaritate for contributing the changes above!</PackageReleaseNotes>
+Thanks Jdbye for your contributions in this release!</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
