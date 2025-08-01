@@ -2,14 +2,10 @@
 using Newtonsoft.Json.Converters;
 using Noppes.E621.Converters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Noppes.E621
 {
-    public class Flag
+    public class PostFlag
     {
         /// <summary>
         /// The ID of the flag
