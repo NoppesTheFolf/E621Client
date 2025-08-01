@@ -10,7 +10,7 @@ namespace Noppes.E621
     public partial class E621Client
     {
         /// <inheritdoc />
-        public Task<ICollection<PostFlag>> GetPostFlagsAsync(IEnumerable<int> postIds, int limit = E621Constants.PostFlagsMaximumLimit)
+        public Task<ICollection<PostFlag>> GetPostFlagsAsync(IEnumerable<int>? postIds = null, int limit = E621Constants.PostFlagsMaximumLimit)
         {
             Guard.Argument(limit, nameof(limit)).InRange(1, E621Constants.PostFlagsMaximumLimit);
 
@@ -22,7 +22,7 @@ namespace Noppes.E621
                     request
                     .AuthenticatedIfPossible(this)
                     .SetQueryParam("limit", limit)
-                    .SetQueryParam("search[post_id]", string.Join(',', postIds))
+                    .SetQueryParam("search[post_id]", postIds == null ? null : string.Join(',', postIds))
                     .GetJsonAsync(token =>
                     {
                         // e621 API weirdness. e621 will sends back a regular array [ ... ] if post IDs exist, else { "post_flags": [] }

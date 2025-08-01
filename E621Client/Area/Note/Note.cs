@@ -2,8 +2,6 @@
 using Newtonsoft.Json.Converters;
 using Noppes.E621.Converters;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 
 namespace Noppes.E621
 {
@@ -22,10 +20,10 @@ namespace Noppes.E621
         public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
-        /// The last time the flag was updated. Null in case the flag has never been updated before.
+        /// The last time the flag was updated. Equal to the creation date if the note has never been updated before.
         /// </summary>
         [JsonProperty("updated_at"), JsonConverter(typeof(IsoDateTimeConverter))]
-        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
 
         /// <summary>
         /// The version of the note

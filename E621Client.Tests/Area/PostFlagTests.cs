@@ -6,7 +6,15 @@ namespace Noppes.E621.Tests.Area;
 public class PostFlagTests
 {
     [Test]
-    public async Task GetFlagsAsync_PostWithId2776401_ReturnsExpected()
+    public async Task GetPostFlagsAsync_NoParameters_ReturnsExpected()
+    {
+        var postFlags = await TestsHelper.E621Client.GetPostFlagsAsync();
+
+        postFlags.Count.ShouldBe(E621Constants.PostFlagsMaximumLimit);
+    }
+
+    [Test]
+    public async Task GetPostFlagsAsync_PostWithId2776401_ReturnsExpected()
     {
         var postFlags = await TestsHelper.E621Client.GetPostFlagsAsync([2776401], 1);
 
@@ -20,13 +28,13 @@ public class PostFlagTests
         postFlag.Reason.ShouldBe("takedown #15214: Artist requested removal");
         postFlag.CreatorId.ShouldBe(360277);
         postFlag.IsResolved.ShouldBe(false);
-        postFlag.UpdatedAt!.Value.ToUniversalTime().ShouldBe(new DateTimeOffset(new DateOnly(2022, 4, 21), new TimeOnly(16, 35, 33, 916), TimeSpan.Zero));
+        postFlag.UpdatedAt.ShouldBe(postFlag.CreatedAt);
         postFlag.IsDeletion.ShouldBe(true);
         postFlag.Type.ShouldBe("deletion");
     }
 
     [Test]
-    public async Task GetFlagsAsync_PostWithNonExistentId_ReturnsEmpty()
+    public async Task GetPostFlagsAsync_PostWithNonExistentId_ReturnsEmpty()
     {
         var postFlags = await TestsHelper.E621Client.GetPostFlagsAsync([int.MaxValue]);
 

@@ -10,7 +10,9 @@ namespace Noppes.E621
         /// Retrieves flags for one or more posts.
         /// </summary>
         /// <param name="postIds">The IDs of the posts to retrieve the flags for.</param>
-        /// <param name="limit">The maximum number of post flags to retrieve in a single call. Maximum defined at <see cref="E621Constants.PostFlagsMaximumLimit"/>.</param>
-        public Task<ICollection<PostFlag>> GetPostFlagsAsync(IEnumerable<int> postIds, int limit = E621Constants.PostFlagsMaximumLimit);
+        /// <param name="limit">
+        /// The maximum number of post flags to retrieve in a single call. Maximum defined at <see cref="E621Constants.PostFlagsMaximumLimit"/>.
+        /// </param>
+        public Task<ICollection<PostFlag>> GetPostFlagsAsync(IEnumerable<int>? postIds = null, int limit = E621Constants.PostFlagsMaximumLimit);
     }
 }

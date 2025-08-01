@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Noppes.E621
@@ -9,18 +7,13 @@ namespace Noppes.E621
     public partial interface IE621Client
     {
         /// <summary>
-        /// Retrieves flags for one or more posts, with their descriptions
+        /// Retrieves notes using the given parameters.
         /// </summary>
-        /// <param name="postId">The ID of a post to check.</param>
-		/// <param name="activeOnly">Whether to fetch only active notes.</param>
-        public Task<ICollection<Note>?> GetNotesAsync(int postId, bool? isActive = null);
-
-        /// <summary>
-        /// Retrieves flags for one or more posts, with their descriptions
-        /// </summary>
-        /// <param name="postIds">The IDs of one or more posts to check.</param>
-        /// <param name="activeOnly">Whether to fetch only active notes.</param>
-        /// <param name="limit">Optional note limit, default 300 (max 320). This is not the post limit!</param>
-        public Task<ICollection<Note>?> GetNotesAsync(IEnumerable<int> postIds, bool? isActive = null, int limit = 320);
+        /// <param name="postIds">The IDs of the posts for which to retrieve notes.</param>
+        /// <param name="isActive">Whether to fetch only active notes.</param>
+        /// <param name="limit">
+        /// The maximum number of notes to retrieve in a single call. Maximum defined at <see cref="E621Constants.NotesMaximumLimit"/>.
+        /// </param>
+        public Task<ICollection<Note>> GetNotesAsync(IEnumerable<int>? postIds, bool? isActive = null, int limit = E621Constants.NotesMaximumLimit);
     }
 }
