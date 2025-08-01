@@ -12,20 +12,20 @@ namespace Noppes.E621
     {
         /// <inheritdoc/>
         public Task<ICollection<Artist>> GetArtistsAsync(int page = 1, string? name = null, string? url = null, string? creatorName = null,
-            bool? isActive = null, bool? isBanned = null, bool? hasTag = null, ArtistOrder order = ArtistOrder.CreatedAt, int? limit = null)
+            bool? isActive = null, bool? isBanned = null, bool? hasTag = null, ArtistOrder order = ArtistOrder.CreatedAt, int limit = E621Constants.ArtistsMaximumLimit)
         {
             return GetArtistsAsync(name, url, creatorName, isActive, isBanned, hasTag, order, limit, page, null);
         }
 
         /// <inheritdoc/>
         public Task<ICollection<Artist>> GetArtistsAsync(int id, Position position, string? name = null, string? url = null, string? creatorName = null,
-            bool? isActive = null, bool? isBanned = null, bool? hasTag = null, ArtistOrder order = ArtistOrder.CreatedAt, int? limit = null)
+            bool? isActive = null, bool? isBanned = null, bool? hasTag = null, ArtistOrder order = ArtistOrder.CreatedAt, int limit = E621Constants.ArtistsMaximumLimit)
         {
             return GetArtistsAsync(name, url, creatorName, isActive, isBanned, hasTag, order, limit, id, position);
         }
 
         private Task<ICollection<Artist>> GetArtistsAsync(string? name, string? url, string? creatorName,
-            bool? isActive, bool? isBanned, bool? hasTag, ArtistOrder? order, int? limit, int? page, Position? position)
+            bool? isActive, bool? isBanned, bool? hasTag, ArtistOrder? order, int limit, int? page, Position? position)
         {
             Guard.Argument(limit, nameof(limit)).InRange(1, E621Constants.PoolsMaximumLimit);
             Page.Validate(page, nameof(page), E621Constants.PoolsMaximumPage, position);

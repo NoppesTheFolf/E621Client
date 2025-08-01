@@ -83,7 +83,7 @@ namespace Noppes.E621
             bool? isActive = null,
             bool? isDeleted = null,
             PoolCategory? category = null,
-            int? limit = null
+            int limit = E621Constants.PoolsMaximumLimit
         );
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Noppes.E621
             bool? isDeleted = null,
             PoolCategory? category = null,
             PoolOrder order = PoolOrder.UpdatedAt,
-            int? limit = null
+            int limit = E621Constants.PoolsMaximumLimit
         );
     }
 }

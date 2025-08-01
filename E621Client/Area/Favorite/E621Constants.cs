@@ -6,6 +6,6 @@
         /// <summary>
         /// The maximum possible number of favorites retrieved in a single call to <see cref="IE621Client.GetFavoritesAsync"/> or <see cref="IE621Client.GetOwnFavoritesAsync"/>.
         /// </summary>
-        public static readonly int FavoritesMaximumLimit = 320;
+        public const int FavoritesMaximumLimit = 320;
     }
 }

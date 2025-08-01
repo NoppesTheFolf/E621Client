@@ -34,7 +34,7 @@ namespace Noppes.E621
             bool? isBanned = null,
             bool? hasTag = null,
             ArtistOrder order = ArtistOrder.CreatedAt,
-            int? limit = null
+            int limit = E621Constants.ArtistsMaximumLimit
         );
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Noppes.E621
             bool? isBanned = null,
             bool? hasTag = null,
             ArtistOrder order = ArtistOrder.CreatedAt,
-            int? limit = null
+            int limit = E621Constants.ArtistsMaximumLimit
         );
 
         /// <summary>

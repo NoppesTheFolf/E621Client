@@ -30,7 +30,7 @@ namespace Noppes.E621
         /// <param name="userId">The ID of the user which favorites should be retrieved.</param>
         /// <param name="page">Pagination, page number.</param>
         /// <param name="limit">The maximum number of posts returned in a single request.</param>
-        public Task<ICollection<Post>?> GetFavoritesAsync(int userId, int? page = null, int? limit = null);
+        public Task<ICollection<Post>?> GetFavoritesAsync(int userId, int? page = null, int limit = E621Constants.FavoritesMaximumLimit);
 
         /// <summary>
         /// Gets the currently logged-in user's favorited posts. The maximum possible number of
@@ -38,6 +38,6 @@ namespace Noppes.E621
         /// </summary>
         /// <param name="page">Pagination, page number.</param>
         /// <param name="limit">The maximum number of posts returned in a single request.</param>
-        public Task<ICollection<Post>> GetOwnFavoritesAsync(int? page = null, int? limit = null);
+        public Task<ICollection<Post>> GetOwnFavoritesAsync(int? page = null, int limit = E621Constants.FavoritesMaximumLimit);
     }
 }

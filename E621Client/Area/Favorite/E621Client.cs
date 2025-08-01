@@ -37,16 +37,16 @@ namespace Noppes.E621
         }
 
         /// <inheritdoc/>
-        public Task<ICollection<Post>?> GetFavoritesAsync(int userId, int? page = null, int? limit = null) => InternalGetFavoritesAsync(userId, page, limit);
+        public Task<ICollection<Post>?> GetFavoritesAsync(int userId, int? page = null, int limit = E621Constants.FavoritesMaximumLimit) => InternalGetFavoritesAsync(userId, page, limit);
 
         /// <inheritdoc/>
-        public Task<ICollection<Post>> GetOwnFavoritesAsync(int? page = null, int? limit = null)
+        public Task<ICollection<Post>> GetOwnFavoritesAsync(int? page = null, int limit = E621Constants.FavoritesMaximumLimit)
         {
             // A logged-in user will always exist and will therefore always have a list of favorites.
             return InternalGetFavoritesAsync(null, page, limit)!;
         }
 
-        private Task<ICollection<Post>?> InternalGetFavoritesAsync(int? userId, int? page, int? limit)
+        private Task<ICollection<Post>?> InternalGetFavoritesAsync(int? userId, int? page, int limit)
         {
             Guard.Argument(userId, nameof(userId)).Positive();
             Guard.Argument(page, nameof(page)).Positive();

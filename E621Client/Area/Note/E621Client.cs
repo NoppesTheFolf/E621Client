@@ -1,6 +1,5 @@
 ﻿using Dawn;
 using Flurl.Http;
-using Newtonsoft.Json.Linq;
 using Noppes.E621.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,13 +26,10 @@ namespace Noppes.E621
                     .GetJsonAsync(token =>
                     {
                         // e621 API weirdness. e621 will sends back a regular array [ ... ] if post IDs exist, else { "notes": [] }
-                        if (token.Type != JTokenType.Array)
-                        {
-                            var containerProperty = token["notes"];
-                            token = containerProperty ?? token;
-                        }
+                        var notesToken = token.SelectToken("notes");
+                        notesToken ??= token;
 
-                        return token.ToObject<ICollection<Note>>();
+                        return notesToken.ToObject<ICollection<Note>>()!;
                     }));
 #pragma warning restore CS8621 // Nullability of reference types in return type doesn't match the target delegate (possibly because of nullability attributes).
 #pragma warning restore CS8602 // Dereference of a possibly null reference.

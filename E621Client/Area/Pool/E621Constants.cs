@@ -6,11 +6,11 @@
         /// <summary>
         /// The maximum number of pools which can be retrieved in a single call to <see cref="IE621Client.GetPoolsAsync"/>.
         /// </summary>
-        public static readonly int PoolsMaximumLimit = 320;
+        public const int PoolsMaximumLimit = 320;
 
         /// <summary>
         /// The maximum allowed page number when making a call to <see cref="IE621Client.GetPoolsAsync"/>.
         /// </summary>
-        public static readonly int PoolsMaximumPage = 750;
+        public const int PoolsMaximumPage = 750;
     }
 }

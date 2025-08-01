@@ -7,11 +7,11 @@
         /// The maximum number of tags which can be retrieved in a single call to one of the
         /// GetTagsAsync overloads.
         /// </summary>
-        public static readonly int TagsMaximumLimit = 320;
+        public const int TagsMaximumLimit = 320;
 
         /// <summary>
         /// The maximum allowed page number when making a call one of the GetTagsAsync overloads.
         /// </summary>
-        public static readonly int TagsMaximumPage = 750;
+        public const int TagsMaximumPage = 750;
     }
 }

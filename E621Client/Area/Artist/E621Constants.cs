@@ -6,11 +6,11 @@
         /// <summary>
         /// The maximum number of artists which can be retrieved in a single call to <see cref="IE621Client.GetArtistsAsync"/>.
         /// </summary>
-        public static readonly int ArtistsMaximumLimit = 320;
+        public const int ArtistsMaximumLimit = 320;
 
         /// <summary>
         /// The maximum allowed page number when making a call to <see cref="IE621Client.GetArtistsAsync"/>.
         /// </summary>
-        public static readonly int ArtistsMaximumPage = 750;
+        public const int ArtistsMaximumPage = 750;
     }
 }
