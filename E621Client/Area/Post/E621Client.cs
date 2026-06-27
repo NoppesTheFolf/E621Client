@@ -21,17 +21,12 @@ namespace Noppes.E621
             Guard.Argument(limit, nameof(limit)).InRange(1, E621Constants.PostsMaximumLimit);
 
             Page.Validate(page, nameof(page), E621Constants.PostsMaximumPage, position);
-
-            var splitTags = TagHelper.ParseSearchString(tags);
-
-            if (splitTags.Length > E621Constants.PostsMaximumTagSearchCount)
-                throw new ArgumentException($"Only {E621Constants.PostsMaximumTagSearchCount} tags can be searched for at once. You provided {splitTags.Length} tags.");
-
+            
             return RequestAsync("/posts.json", request =>
                     request.SetQueryParams(new
                     {
                         limit,
-                        tags = splitTags.Length == 0 ? null : string.Join(' ', splitTags)
+                        tags
                     })
                     .SetPagination(page, position)
                     .AuthenticatedIfPossible(this)
