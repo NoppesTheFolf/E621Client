@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Noppes.E621.DbExport
+namespace Noppes.E621
 {
     /// <summary>
     /// Represents a post sourced from a database export.

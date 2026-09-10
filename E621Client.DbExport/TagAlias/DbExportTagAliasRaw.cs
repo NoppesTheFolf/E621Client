@@ -1,6 +1,6 @@
 ﻿using CsvHelper.Configuration.Attributes;
 
-namespace Noppes.E621.DbExport
+namespace Noppes.E621
 {
     internal class DbExportTagAliasRaw
     {

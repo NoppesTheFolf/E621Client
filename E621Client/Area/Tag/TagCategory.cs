@@ -15,6 +15,11 @@
         /// </summary>
         Artist = 1,
         /// <summary>
+        /// Tags in the contributor category identify people who contributed to the creation of a
+        /// post without being the artist, such as modelers, commissioners or voice actors.
+        /// </summary>
+        Contributor = 2,
+        /// <summary>
         /// Tags in the copyright category are used for any post which contains a program or series
         /// a copyrighted character or other element was first featured in
         /// </summary>

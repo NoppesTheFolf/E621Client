@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Noppes.E621.DbExport
+namespace Noppes.E621
 {
     /// <summary>
     /// Provides methods to read the <see cref="Stream"/> of a database export in the format of the

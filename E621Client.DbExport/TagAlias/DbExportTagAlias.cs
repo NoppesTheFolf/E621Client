@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Noppes.E621.DbExport
+namespace Noppes.E621
 {
     /// <summary>
     /// Represents a tag alias sourced from a database export.
