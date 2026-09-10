@@ -10,11 +10,6 @@ namespace Noppes.E621
         /// <summary>
         /// Retrieves a collection of posts based on the given parameters.
         /// <para>
-        /// You can choose which posts to show and hide by filtering on tags. The maximum number of
-        /// tags that can be used, is defined at <see cref="E621Constants.PostsMaximumTagSearchCount"/>. Exceeding
-        /// this limit, will cause an exception to be thrown.
-        /// </para>
-        /// <para>
         /// Be aware that there is a limit on the number of posts which can be retrieved with a
         /// single call. This limit is defined at <see cref="E621Constants.PostsMaximumLimit"/>. Exceeding this
         /// limit, will cause an exception to be thrown.
@@ -39,11 +34,6 @@ namespace Noppes.E621
 
         /// <summary>
         /// Retrieves a collection of posts based on the given parameters.
-        /// <para>
-        /// You can choose which posts to show and hide by filtering on tags. The maximum number of
-        /// tags that can be used, is defined at <see cref="E621Constants.PostsMaximumTagSearchCount"/>. Exceeding
-        /// this limit, will cause an exception to be thrown.
-        /// </para>
         /// <para>
         /// Be aware that there is a limit on the number of posts which can be retrieved with a
         /// single call. This limit is defined at <see cref="E621Constants.PostsMaximumLimit"/>. Exceeding this

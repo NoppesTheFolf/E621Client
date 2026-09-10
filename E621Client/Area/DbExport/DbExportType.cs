@@ -9,51 +9,51 @@ namespace Noppes.E621
         /// <summary>
         /// A database export of artists.
         /// </summary>
-        public static readonly string Artist = "artists";
+        public const string Artist = "artists";
 
         /// <summary>
         /// A database export of bulk update requests.
         /// </summary>
-        public static readonly string BulkUpdateRequest = "bulk_update_requests";
+        public const string BulkUpdateRequest = "bulk_update_requests";
 
         /// <summary>
         /// A database export of pools.
         /// </summary>
-        public static readonly string Pool = "pools";
+        public const string Pool = "pools";
 
         /// <summary>
         /// A database export of posts.
         /// </summary>
-        public static readonly string Post = "posts";
+        public const string Post = "posts";
 
         /// <summary>
         /// A database export of post replacements.
         /// </summary>
-        public static readonly string PostReplacement = "post_replacements";
+        public const string PostReplacement = "post_replacements";
 
         /// <summary>
         /// A database export of post versions.
         /// </summary>
-        public static readonly string PostVersion = "post_versions";
+        public const string PostVersion = "post_versions";
 
         /// <summary>
         /// A database export of tags.
         /// </summary>
-        public static readonly string Tag = "tags";
+        public const string Tag = "tags";
 
         /// <summary>
         /// A database export of tag aliases.
         /// </summary>
-        public static readonly string TagAlias = "tag_aliases";
+        public const string TagAlias = "tag_aliases";
 
         /// <summary>
         /// A database export of tag implications.
         /// </summary>
-        public static readonly string TagImplication = "tag_implications";
+        public const string TagImplication = "tag_implications";
 
         /// <summary>
         /// A database export of wiki pages.
         /// </summary>
-        public static readonly string WikiPage = "wiki_pages";
+        public const string WikiPage = "wiki_pages";
     }
 }

@@ -7,7 +7,7 @@ public class DbExportTests
 {
     private const int SampleSize = 1000;
 
-    [Test]
+    [Test, Order(1)]
     public async Task GetDbExportsAsync_NoParameters_ReturnsAllExports()
     {
         var exports = await TestsHelper.E621Client.GetDbExportsAsync();
@@ -37,7 +37,7 @@ public class DbExportTests
         }
     }
 
-    [Test]
+    [Test, Order(2)]
     public async Task ReadStreamAsPostsDbExportAsync_DbExportPosts_ReturnsExpected()
     {
         await using var stream = await GetExportStreamAsync(DbExportType.Post);
@@ -62,7 +62,7 @@ public class DbExportTests
         }
     }
 
-    [Test]
+    [Test, Order(3)]
     public async Task ReadStreamAsPoolsDbExportAsync_DbExportPools_ReturnsExpected()
     {
         await using var stream = await GetExportStreamAsync(DbExportType.Pool);
@@ -81,7 +81,7 @@ public class DbExportTests
         }
     }
 
-    [Test]
+    [Test, Order(4)]
     public async Task ReadStreamAsTagsDbExportAsync_DbExportTags_ReturnsExpected()
     {
         await using var stream = await GetExportStreamAsync(DbExportType.Tag);
@@ -98,7 +98,7 @@ public class DbExportTests
         }
     }
 
-    [Test]
+    [Test, Order(5)]
     public async Task ReadStreamAsTagImplicationsDbExportAsync_DbExportTagImplications_ReturnsExpected()
     {
         await using var stream = await GetExportStreamAsync(DbExportType.TagImplication);
@@ -115,7 +115,7 @@ public class DbExportTests
         }
     }
 
-    [Test]
+    [Test, Order(6)]
     public async Task ReadStreamAsTagAliasesDbExportAsync_DbExportTagAliases_ReturnsExpected()
     {
         await using var stream = await GetExportStreamAsync(DbExportType.TagAlias);

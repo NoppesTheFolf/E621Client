@@ -12,10 +12,5 @@
         /// The maximum allowed page number when making a call to <see cref="IE621Client.GetPostsAsync"/>.
         /// </summary>
         public const int PostsMaximumPage = 750;
-
-        /// <summary>
-        /// The maximum number of tags which can be searched for in a single call to <see cref="IE621Client.GetPostsAsync"/>.
-        /// </summary>
-        public const int PostsMaximumTagSearchCount = 40;
     }
 }

@@ -1,5 +1,4 @@
 using CsvHelper;
-using Humanizer;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -152,7 +151,7 @@ namespace Noppes.E621
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
             };
         }
-
+        
         private static async IAsyncEnumerable<TProcessed> ReadStreamAsDbExportAsync<TRaw, TProcessed>(Stream stream, Func<TRaw, TProcessed> map)
         {
             using var streamReader = new StreamReader(stream);
