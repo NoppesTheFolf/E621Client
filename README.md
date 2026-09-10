@@ -427,9 +427,9 @@ var notes = await e621Client.GetNotesAsync(postIds: [5746029]);
 
 ### Database exports
 
-e621 provides exports of posts, pools, tags, tag aliases, tag implications and wiki pages.
+e621 provides exports of artists, bulk update requests, pools, post replacements, posts, post versions, tags, tag aliases, tag implications and wiki pages.
 
-E621Client supports downloading and the reading all of these exports except wiki pages. Due to this functionality being unlikely to be used in combination with it introducing a few dependencies, it has its own separate package: [Noppes.E621Client.DbExport](https://www.nuget.org/packages/Noppes.E621Client.DbExport).
+E621Client can download all of these exports, but reading them is only supported for posts, pools, tags, tag aliases and tag implications. Because reading these exports requires an additional CSV parsing dependency (CsvHelper), it has its own separate package: [Noppes.E621Client.DbExport](https://www.nuget.org/packages/Noppes.E621Client.DbExport).
 
 _Package Manager Console_
 
@@ -443,25 +443,24 @@ _.NET CLI_
 dotnet add package Noppes.E621Client.DbExport --version 0.11.0
 ```
 
-After installing the package, you need to get a database export client. You can get one by calling the `GetDbExportClient` method on your `IE621Client` instance, as shown below. 
+Reading a database export consists of three steps: getting the list of available exports, downloading the desired export as a stream, and reading that stream.
 
-_Get a database export client_
-
-```csharp
-var dbExportClient = e621Client.GetDbExportClient();
-```
-
-The next step you want to take whenever you want to retrieve a database export, is get a list of all the database exports available on e621. This can be done using the `GetDbExportsAsync` method on your database export client. This list can also be [viewed on e621](https://e621.net/db_export/).
+To get a list of all the database exports available on e621, use the `GetDbExportsAsync` method. This list can also be [viewed on e621](https://e621.net/db_export/).
 
 _Get a list of all the available database exports_
 
 ```csharp
-var exports = await dbExportClient.GetDbExportsAsync();
+var exports = await e621Client.GetDbExportsAsync();
 ```
 
-Now that you have a list of all the database exports available on e621, it is time to choose which one you'd like to download and read. The retrieved exports contain a handy extension method named `Latest`. With this method, you can get the latest database export of a given type (posts, pools, tags, etc.).
+Now that you have a list of all the database exports available on e621, choose the one you'd like to download by comparing its `Name` against one of the values in `DbExportType` (posts, pools, tags, etc.).
 
-After selecting the desired database export, you need to get the data as a stream using the `GetDbExportStreamAsync` method. This stream, depending on what export you're downloading, can then be read using one of the following methods on your database export client:
+
+```csharp
+var export = exports.Single(x => x.Name == DbExportType.Post);
+```
+
+After selecting the desired database export, you need to get the data as a stream using the `GetDbExportStreamAsync` method. This stream, depending on what export you're downloading, can then be read using one of the following methods on the `DbExportReader` class:
 
 Posts: `ReadStreamAsPostsDbExportAsync`\
 Pools: `ReadStreamAsPoolsDbExportAsync`\
@@ -469,14 +468,11 @@ Tags: `ReadStreamAsTagsDbExportAsync`\
 Tag implications: `ReadStreamAsTagImplicationsDbExportAsync`\
 Tag aliases: `ReadStreamAsTagAliasesDbExportAsync`
 
-The code below shows a concrete example of how the use the interface described above.
-
 _Print the IDs of the posts in the latest post database export to the console_
 
 ```csharp
-var export = exports.Latest(DbExportType.Post);
-await using var stream = await dbExportClient.GetDbExportStreamAsync(export);
-await foreach (var post in dbExportClient.ReadStreamAsPostsDbExportAsync(stream))
+await using var stream = await e621Client.GetDbExportStreamAsync(export);
+await foreach (var post in DbExportReader.ReadStreamAsPostsDbExportAsync(stream))
   Console.WriteLine(post.Id);
 ```
 
