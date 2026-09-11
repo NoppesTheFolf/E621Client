@@ -4,6 +4,9 @@ using Noppes.E621.Extensions;
 
 namespace Noppes.E621
 {
+    /// <summary>
+    /// Represents the original file of a post.
+    /// </summary>
     public class PostFileImage : PostImage
     {
         /// <summary>

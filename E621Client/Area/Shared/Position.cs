@@ -7,7 +7,13 @@ namespace Noppes.E621
     /// </summary>
     public enum Position
     {
+        /// <summary>
+        /// Retrieve entities positioned before the given ID.
+        /// </summary>
         Before,
+        /// <summary>
+        /// Retrieve entities positioned after the given ID.
+        /// </summary>
         After
     }
 

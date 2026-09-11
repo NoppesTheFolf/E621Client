@@ -67,6 +67,9 @@ namespace Noppes.E621
         [JsonProperty("updated_at"), JsonConverter(typeof(IsoDateTimeConverter))]
         public DateTimeOffset UpdatedAt { get; set; }
 
+        /// <summary>
+        /// Creates a new tag with an empty related tags collection.
+        /// </summary>
         public Tag()
         {
             RelatedTags = new List<RelatedTag>();

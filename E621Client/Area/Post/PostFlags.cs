@@ -2,6 +2,9 @@
 
 namespace Noppes.E621
 {
+    /// <summary>
+    /// Represents the flags of a post.
+    /// </summary>
     public class PostFlags
     {
         /// <summary>

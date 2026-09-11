@@ -5,6 +5,9 @@ using System;
 
 namespace Noppes.E621
 {
+    /// <summary>
+    /// Represents a note attached to a post at a specific position and size.
+    /// </summary>
     public class Note
     {
         /// <summary>

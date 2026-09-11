@@ -5,6 +5,9 @@ using System;
 
 namespace Noppes.E621
 {
+    /// <summary>
+    /// Represents an image belonging to a post.
+    /// </summary>
     public class PostImage
     {
         internal const string UrlProperty = "url";

@@ -2,6 +2,10 @@
 
 namespace Noppes.E621
 {
+    /// <summary>
+    /// Represents the sample version of a post's image, which is a scaled down version used for
+    /// display purposes.
+    /// </summary>
     public class PostSampleImage : PostImage
     {
         /// <summary>

@@ -61,7 +61,7 @@ namespace Noppes.E621
 
                 return request.GetJsonAsync(token =>
                 {
-                    return token.SelectToken("post").ToObject<Post>();
+                    return token.SelectToken("post")!.ToObject<Post>();
                 }, true, HttpStatusCode.NotFound);
             });
         }

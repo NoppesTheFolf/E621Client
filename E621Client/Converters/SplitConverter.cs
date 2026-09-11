@@ -19,7 +19,7 @@ namespace Noppes.E621.Converters
             Separator = separator;
         }
 
-        protected override ICollection<T> ReadString(string? value, Type objectType, ICollection<T> existingValue, bool hasExistingValue, JsonSerializer serializer)
+        protected override ICollection<T> ReadString(string? value, Type objectType, ICollection<T>? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             if (string.IsNullOrWhiteSpace(value))
                 return new List<T>();
@@ -36,7 +36,7 @@ namespace Noppes.E621.Converters
             return (T)Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
         }
 
-        protected override string AsString(ICollection<T> value)
+        protected override string AsString(ICollection<T>? value)
         {
             throw new NotImplementedException();
         }

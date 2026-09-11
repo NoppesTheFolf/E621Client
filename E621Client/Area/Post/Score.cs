@@ -2,6 +2,9 @@
 
 namespace Noppes.E621
 {
+    /// <summary>
+    /// Represents the score of a post, based on the number of upvotes and downvotes.
+    /// </summary>
     public class Score
     {
         /// <summary>

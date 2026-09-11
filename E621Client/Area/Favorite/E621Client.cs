@@ -68,7 +68,7 @@ namespace Noppes.E621
                 // NotFound: Future proofing in case e621 replaces the 200 OK page with an appropriate 404 Not Found JSON response
                 return request.GetJsonAsync(token =>
                 {
-                    return token.SelectToken("posts").ToObject<ICollection<Post>>();
+                    return token.SelectToken("posts")!.ToObject<ICollection<Post>>();
                 }, true, HttpStatusCode.NotFound);
             });
         }

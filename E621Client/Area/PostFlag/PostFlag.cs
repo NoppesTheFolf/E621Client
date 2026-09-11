@@ -5,6 +5,9 @@ using System;
 
 namespace Noppes.E621
 {
+    /// <summary>
+    /// Represents a flag or deletion applied to a post.
+    /// </summary>
     public class PostFlag
     {
         /// <summary>

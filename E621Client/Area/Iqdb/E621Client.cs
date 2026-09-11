@@ -90,7 +90,7 @@ namespace Noppes.E621
                             return Array.Empty<IqdbPost>();
 
                         var result = token
-                            .Select(t => t.ToObject<IqdbPost>());
+                            .Select(t => t.ToObject<IqdbPost>()!);
 
                         if (activeOnly)
                             result = result.Where(p => !p.Flags.IsDeleted);

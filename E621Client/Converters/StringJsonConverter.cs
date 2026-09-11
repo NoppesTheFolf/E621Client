@@ -10,7 +10,7 @@ namespace Noppes.E621.Converters
     /// <typeparam name="T">Type to convert to and from.</typeparam>
     internal abstract class StringJsonConverter<T> : JsonConverter<T>
     {
-        public sealed override T ReadJson(JsonReader reader, Type objectType, T existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public sealed override T ReadJson(JsonReader reader, Type objectType, T? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             if (reader.Value != null && !(reader.Value is string))
                 throw new InvalidOperationException($"Value from {reader.GetType().Name} must be a string.");
@@ -18,15 +18,15 @@ namespace Noppes.E621.Converters
             return ReadString((string?)reader.Value, objectType, existingValue, hasExistingValue, serializer);
         }
 
-        protected abstract T ReadString(string? value, Type objectType, T existingValue, bool hasExistingValue, JsonSerializer serializer);
+        protected abstract T ReadString(string? value, Type objectType, T? existingValue, bool hasExistingValue, JsonSerializer serializer);
 
-        public sealed override void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)
+        public sealed override void WriteJson(JsonWriter writer, T? value, JsonSerializer serializer)
         {
             var valueAsString = AsString(value);
 
             serializer.Serialize(writer, valueAsString);
         }
 
-        protected abstract string AsString(T value);
+        protected abstract string AsString(T? value);
     }
 }
