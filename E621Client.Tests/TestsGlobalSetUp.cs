@@ -8,7 +8,10 @@ public class TestsGlobalSetUp
     [OneTimeSetUp]
     public async Task OneTimeSetUp()
     {
-        var configuration = new ConfigurationBuilder().AddUserSecrets<TestsGlobalSetUp>().Build();
+        var configuration = new ConfigurationBuilder()
+            .AddEnvironmentVariables()
+            .AddUserSecrets<TestsGlobalSetUp>()
+            .Build();
         var options = configuration.GetRequiredSection(E621Options.SectionName).Get<E621Options>()!;
 
         TestsHelper.E621Client = new E621ClientBuilder()
