@@ -9,15 +9,17 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>NoppesTheFolf and contributors</Authors>
-		<Version>0.11.0</Version>
+		<Version>0.12.0</Version>
 		<Description>Extends Noppes.E621Client with the ability to handle database exports.</Description>
 		<PackageProjectUrl>https://github.com/NoppesTheFolf/E621Client</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/NoppesTheFolf/E621Client</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Product>E621Client.DbExport</Product>
 		<PackageIcon>E621Client.png</PackageIcon>
-		<Copyright>Copyright © NoppesTheFolf and contributors 2019-2023</Copyright>
-		<PackageReleaseNotes>- NuGet dependencies have been upgraded to their latest versions.</PackageReleaseNotes>
+		<Copyright>Copyright © NoppesTheFolf and contributors</Copyright>
+		<PackageReleaseNotes>- e621 introduced a breaking change to their database exports, so this package had to be updated as a result. See https://github.com/NoppesTheFolf/E621Client#database-exports for how database exports now work.
+- The Humanizer.Core dependency has been removed.
+- NuGet dependencies have been upgraded to their latest versions.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

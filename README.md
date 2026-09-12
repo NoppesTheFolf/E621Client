@@ -62,7 +62,7 @@ E621Client is available as a NuGet package listed as [Noppes.E621Client](https:/
 _.NET CLI_
 
 ```
-dotnet add package Noppes.E621Client --version 0.11.0
+dotnet add package Noppes.E621Client --version 0.12.0
 ```
 
 ## Getting started
@@ -431,16 +431,10 @@ e621 provides exports of artists, bulk update requests, pools, post replacements
 
 E621Client can download all of these exports, but reading them is only supported for posts, pools, tags, tag aliases and tag implications. Because reading these exports requires an additional CSV parsing dependency (CsvHelper), it has its own separate package: [Noppes.E621Client.DbExport](https://www.nuget.org/packages/Noppes.E621Client.DbExport).
 
-_Package Manager Console_
-
-```
-Install-Package Noppes.E621Client.DbExport -Version 0.11.0
-```
-
 _.NET CLI_
 
 ```
-dotnet add package Noppes.E621Client.DbExport --version 0.11.0
+dotnet add package Noppes.E621Client.DbExport --version 0.12.0
 ```
 
 Reading a database export consists of three steps: getting the list of available exports, downloading the desired export as a stream, and reading that stream.
